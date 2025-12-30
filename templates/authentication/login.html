@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --medium-gray: #E8E8E8;
+        --dark-gray: #333333;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--light-gray);
+        min-height: 100vh;
+        padding: 30px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .login-container {
+        width: 100%;
+        max-width: 450px;
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .login-header {
+        background-color: var(--navy);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+    
+    .login-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+    }
+    
+    .login-header p {
+        font-size: 14px;
+        color: #ccc;
+        margin: 0;
+    }
+    
+    .login-content {
+        padding: 40px 30px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        display: block;
+        color: var(--navy);
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--medium-gray);
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: var(--navy);
+        box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+    }
+    
+    .form-error {
+        color: var(--red);
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        margin-right: 8px;
+        accent-color: var(--red);
+    }
+    
+    .checkbox-group label {
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--dark-gray);
+        flex: 1;
+    }
+    
+    .forgot-password {
+        text-align: right;
+    }
+    
+    .forgot-password a {
+        color: var(--red);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .forgot-password a:hover {
+        color: #a01729;
+    }
+    
+    .btn-login {
+        width: 100%;
+        padding: 14px;
+        background-color: var(--red);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 15px;
+    }
+    
+    .btn-login:hover {
+        background-color: #a01729;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(196, 30, 58, 0.3);
+    }
+    
+    .btn-login:active {
+        transform: translateY(0);
+    }
+    
+    .signup-link {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid var(--medium-gray);
+    }
+    
+    .signup-link p {
+        font-size: 14px;
+        color: var(--dark-gray);
+        margin: 0;
+    }
+    
+    .signup-link a {
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 700;
+        transition: color 0.3s ease;
+    }
+    
+    .signup-link a:hover {
+        color: var(--red);
+    }
+    
+    .alert {
+        padding: 12px 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .alert-error {
+        background-color: rgba(196, 30, 58, 0.1);
+        border: 1px solid var(--red);
+        color: var(--red);
+    }
+    
+    .alert-success {
+        background-color: rgba(34, 197, 94, 0.1);
+        border: 1px solid #22c55e;
+        color: #22c55e;
+    }
+    
+    @media (max-width: 600px) {
+        .login-header {
+            padding: 30px 20px;
+        }
+        
+        .login-header h1 {
+            font-size: 24px;
+        }
+        
+        .login-content {
+            padding: 30px 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Login to your P2P Solutions account</p>
+        </div>
+        
+        <div class="login-content">
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="id_email" class="form-label">Email Address</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="id_email" 
+                        class="form-input" 
+                        placeholder="you@example.com"
+                        required
+                        autofocus
+                    >
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <span class="form-error">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="id_password" 
+                        class="form-input" 
+                        placeholder="Enter your password"
+                        required
+                    >
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <span class="form-error">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Remember Me & Forgot Password -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <div class="checkbox-group" style="margin-bottom: 0;">
+                        <input 
+                            type="checkbox" 
+                            name="remember_me" 
+                            id="id_remember_me"
+                        >
+                        <label for="id_remember_me">Remember Me</label>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="{% url 'authentication:forgot-password' %}">Forgot Password?</a>
+                    </div>
+                </div>
+                
+                <!-- Non-field Errors -->
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-error">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <!-- Login Button -->
+                <button type="submit" class="btn-login">
+                    Sign In
+                </button>
+                
+                <!-- Signup Link -->
+                <div class="signup-link">
+                    <p>Don't have an account? <a href="{% url 'authentication:register' %}">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

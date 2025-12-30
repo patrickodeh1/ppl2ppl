@@ -1,0 +1,450 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --medium-gray: #E8E8E8;
+        --dark-gray: #333333;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--light-gray);
+        min-height: 100vh;
+        padding: 30px 20px;
+    }
+    
+    .register-container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .register-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    
+    .register-header {
+        background-color: var(--navy);
+        color: white;
+        padding: 40px 30px;
+    }
+    
+    .register-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+    }
+    
+    .register-header p {
+        font-size: 16px;
+        color: #ccc;
+        margin: 0;
+    }
+    
+    .register-content {
+        padding: 40px 30px;
+    }
+    
+    .form-section {
+        margin-bottom: 35px;
+    }
+    
+    .form-section h2 {
+        font-size: 18px;
+        color: var(--navy);
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--red);
+        display: inline-block;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-label {
+        display: block;
+        color: var(--navy);
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--medium-gray);
+        border-radius: 6px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: var(--navy);
+        box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+    }
+    
+    .form-error {
+        color: var(--red);
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+    
+    .form-help {
+        color: #666;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+    
+    .form-help ul {
+        margin: 8px 0 0 20px;
+        padding: 0;
+    }
+    
+    .form-help li {
+        margin: 3px 0;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .form-row-full {
+        grid-column: 1 / -1;
+    }
+    
+    .form-section-box {
+        background-color: var(--light-gray);
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 15px;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .checkbox-group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: var(--red);
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    
+    .checkbox-group label {
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--dark-gray);
+        line-height: 1.5;
+    }
+    
+    .checkbox-group a {
+        color: var(--red);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .checkbox-group a:hover {
+        text-decoration: underline;
+    }
+    
+    .alert {
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .alert-error {
+        background-color: rgba(196, 30, 58, 0.1);
+        border: 1px solid var(--red);
+        color: var(--red);
+    }
+    
+    .form-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn {
+        flex: 1;
+        padding: 14px 30px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .btn-primary {
+        background-color: var(--red);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #a01729;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(196, 30, 58, 0.3);
+    }
+    
+    .btn-outline {
+        border: 2px solid var(--navy);
+        color: var(--navy);
+        background-color: transparent;
+    }
+    
+    .btn-outline:hover {
+        background-color: var(--navy);
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .register-header {
+            padding: 30px 20px;
+        }
+        
+        .register-header h1 {
+            font-size: 24px;
+        }
+        
+        .register-content {
+            padding: 30px 20px;
+        }
+        
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        
+        .form-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <h1>Create Your Account</h1>
+            <p>Join P2P Solutions and start mobilizing your community</p>
+        </div>
+        
+        <div class="register-content">
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h2>Personal Information</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_first_name" class="form-label">First Name *</label>
+                            <input type="text" name="first_name" id="id_first_name" class="form-input" required>
+                            {% if form.first_name.errors %}
+                                {% for error in form.first_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_last_name" class="form-label">Last Name *</label>
+                            <input type="text" name="last_name" id="id_last_name" class="form-input" required>
+                            {% if form.last_name.errors %}
+                                {% for error in form.last_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_email" class="form-label">Email Address *</label>
+                        <input type="email" name="email" id="id_email" class="form-input" required>
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_date_of_birth" class="form-label">Date of Birth *</label>
+                        <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input" required>
+                        <span class="form-help">You must be 18 years or older</span>
+                        {% if form.date_of_birth.errors %}
+                            {% for error in form.date_of_birth.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Contact Information Section -->
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="id_phone_number" class="form-label">Phone Number *</label>
+                        <input type="tel" name="phone_number" id="id_phone_number" class="form-input" placeholder="+12025551234" required>
+                        <span class="form-help">Include country code (e.g., +1 for US)</span>
+                        {% if form.phone_number.errors %}
+                            {% for error in form.phone_number.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Address Information Section -->
+                <div class="form-section">
+                    <h2>Address Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="id_city" class="form-label">City *</label>
+                        <input type="text" name="city" id="id_city" class="form-input" required>
+                        {% if form.city.errors %}
+                            {% for error in form.city.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_state_region" class="form-label">State/Region *</label>
+                            <input type="text" name="state_region" id="id_state_region" class="form-input" required>
+                            {% if form.state_region.errors %}
+                                {% for error in form.state_region.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_zip_postal_code" class="form-label">Zip/Postal Code</label>
+                            <input type="text" name="zip_postal_code" id="id_zip_postal_code" class="form-input">
+                            {% if form.zip_postal_code.errors %}
+                                {% for error in form.zip_postal_code.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group form-row-full">
+                            <label for="id_address_line_1" class="form-label">Address Line 1</label>
+                            <input type="text" name="address_line_1" id="id_address_line_1" class="form-input">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-row-full">
+                            <label for="id_address_line_2" class="form-label">Address Line 2</label>
+                            <input type="text" name="address_line_2" id="id_address_line_2" class="form-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Section -->
+                <div class="form-section">
+                    <h2>Security</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_password" class="form-label">Password *</label>
+                            <input type="password" name="password" id="id_password" class="form-input" required>
+                            <span class="form-help">Password must include:
+                                <ul>
+                                    <li>At least 8 characters</li>
+                                    <li>At least one uppercase letter (A-Z)</li>
+                                    <li>At least one lowercase letter (a-z)</li>
+                                    <li>At least one number (0-9)</li>
+                                </ul>
+                            </span>
+                            {% if form.password.errors %}
+                                {% for error in form.password.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_confirm_password" class="form-label">Confirm Password *</label>
+                            <input type="password" name="confirm_password" id="id_confirm_password" class="form-input" required>
+                            {% if form.confirm_password.errors %}
+                                {% for error in form.confirm_password.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Photo Section -->
+                <div class="form-section">
+                    <h2>Profile Photo</h2>
+                    
+                    <div class="form-group">
+                        <label for="id_profile_photo" class="form-label">Profile Photo</label>
+                        <input type="file" name="profile_photo" id="id_profile_photo" class="form-input" accept="image/*">
+                        <span class="form-help">Max 5MB. Supported formats: JPG, PNG, GIF</span>
+                        {% if form.profile_photo.errors %}
+                            {% for error in form.profile_photo.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Terms and Conditions -->
+                <div class="form-section-box">
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="terms_accepted" id="id_terms_accepted" required>
+                        <label for="id_terms_accepted">
+                            I accept the <a href="#">Terms & Conditions</a> and understand that my data will be processed in accordance with our privacy policy.
+                        </label>
+                    </div>
+                    {% if form.terms_accepted.errors %}
+                        {% for error in form.terms_accepted.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
+                    {% endif %}
+                </div>
+                
+                <!-- Form Errors -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-error">
+                        {% for error in form.non_field_errors %}{{ error }}<br>{% endfor %}
+                    </div>
+                {% endif %}
+                
+                <!-- Submit Buttons -->
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        Create Account
+                    </button>
+                    <a href="{% url 'authentication:login' %}" class="btn btn-outline">
+                        Already have an account? Login
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
