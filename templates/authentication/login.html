@@ -201,6 +201,37 @@
         color: #22c55e;
     }
     
+    .toast-message {
+        animation: slideIn 0.3s ease-in-out;
+        position: relative;
+    }
+    
+    .toast-message.fade-out {
+        animation: slideOut 0.3s ease-in-out forwards;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    }
+    
     @media (max-width: 600px) {
         .login-header {
             padding: 30px 20px;
@@ -229,7 +260,7 @@
             <!-- Messages -->
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %} toast-message" id="toast-{{ forloop.counter }}">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -312,4 +343,19 @@
         </div>
     </div>
 </div>
+
+<script>
+// Auto-dismiss toast messages after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const toastMessages = document.querySelectorAll('.toast-message');
+    toastMessages.forEach(function(toast) {
+        setTimeout(function() {
+            toast.classList.add('fade-out');
+            setTimeout(function() {
+                toast.remove();
+            }, 300); // Remove after animation completes
+        }, 5000); // 5 second delay before starting fade out
+    });
+});
+</script>
 {% endblock %}

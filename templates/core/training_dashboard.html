@@ -1,0 +1,508 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Training Dashboard - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --medium-gray: #E8E8E8;
+        --dark-gray: #333333;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+    }
+    
+    .navbar {
+        background-color: var(--navy);
+        padding: 15px 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-brand {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    
+    .navbar-menu {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+    }
+    
+    .navbar-menu a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .navbar-menu a:hover {
+        color: var(--red);
+    }
+    
+    .navbar-menu a.active {
+        color: var(--red);
+        border-bottom: 2px solid var(--red);
+        padding-bottom: 5px;
+    }
+    
+    .navbar-user {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .navbar-user .user-name {
+        color: white;
+        font-size: 14px;
+    }
+    
+    .navbar-logout {
+        background-color: var(--red);
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .navbar-logout:hover {
+        background-color: #a01729;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .dashboard-header {
+        margin-bottom: 40px;
+    }
+    
+    .dashboard-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 10px;
+    }
+    
+    .dashboard-header p {
+        font-size: 16px;
+        color: #666;
+    }
+    
+    .progress-section {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    .progress-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--navy);
+        margin-bottom: 15px;
+    }
+    
+    .progress-bar-container {
+        background-color: var(--medium-gray);
+        height: 10px;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    
+    .progress-bar-fill {
+        background-color: var(--red);
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+    
+    .course-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .course-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transform: translateY(-4px);
+    }
+    
+    .course-header {
+        background: linear-gradient(135deg, var(--navy) 0%, #004d7a 100%);
+        color: white;
+        padding: 25px;
+        position: relative;
+    }
+    
+    .course-status-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .badge-locked {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+    
+    .badge-in-progress {
+        background-color: var(--red);
+        color: white;
+    }
+    
+    .badge-completed {
+        background-color: #22c55e;
+        color: white;
+    }
+    
+    .course-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    
+    .course-description {
+        font-size: 13px;
+        color: #ddd;
+        margin-bottom: 15px;
+    }
+    
+    .course-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #ccc;
+    }
+    
+    .course-content {
+        padding: 20px 25px;
+    }
+    
+    .course-modules {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 15px;
+    }
+    
+    .course-footer {
+        display: flex;
+        gap: 10px;
+        padding: 0 25px 20px 25px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex: 1;
+        text-align: center;
+    }
+    
+    .btn-primary {
+        background-color: var(--red);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #a01729;
+    }
+    
+    .btn-secondary {
+        background-color: var(--medium-gray);
+        color: var(--navy);
+        border: 1px solid #ccc;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #d0d0d0;
+    }
+    
+    .btn-disabled {
+        background-color: #ccc;
+        color: #999;
+        cursor: not-allowed;
+    }
+    
+    .alert {
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .alert-warning {
+        background-color: rgba(196, 30, 58, 0.1);
+        border: 1px solid var(--red);
+        color: var(--red);
+    }
+    
+    .alert-success {
+        background-color: rgba(34, 197, 94, 0.1);
+        border: 1px solid #22c55e;
+        color: #22c55e;
+    }
+    
+    .toast-message {
+        animation: slideIn 0.3s ease-in-out;
+        position: relative;
+    }
+    
+    .toast-message.fade-out {
+        animation: slideOut 0.3s ease-in-out forwards;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    }
+    
+    .certification-info {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+        border-left: 4px solid var(--red);
+    }
+    
+    .certification-info h3 {
+        color: var(--navy);
+        margin-bottom: 10px;
+    }
+    
+    .certification-info p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        .navbar-menu {
+            gap: 15px;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 24px;
+        }
+        
+        .courses-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .course-footer {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="navbar-content">
+        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
+        <ul class="navbar-menu">
+            <li><a href="{% url 'core:training-dashboard' %}" class="active">Training</a></li>
+            {% if user.certification_status %}
+                <li><a href="{% url 'core:office-schedule' %}">Schedule</a></li>
+                <li><a href="{% url 'core:employee-directory' %}">Directory</a></li>
+            {% endif %}
+            <li><a href="{% url 'core:user-profile' %}">Profile</a></li>
+        </ul>
+        <div class="navbar-user">
+            <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+            <form method="post" action="{% url 'authentication:logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="navbar-logout">Logout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="dashboard-header">
+        <h1>Training Dashboard</h1>
+        <p>Welcome back! Continue your training journey to become certified.</p>
+    </div>
+    
+    <!-- Messages Toast -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-success{% endif %} toast-message" id="toast-{{ forloop.counter }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <!-- Overall Progress -->
+    <div class="progress-section">
+        <div class="progress-title">Overall Training Progress</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: {{ overall_progress }}%;"></div>
+        </div>
+        <div class="progress-text">{{ completed_modules }} of {{ total_modules }} modules completed ({{ overall_progress }}%)</div>
+    </div>
+    
+    {% if not user.certification_status %}
+        <!-- Certification Info -->
+        <div class="certification-info">
+            <h3>🔒 Schedule Access Locked</h3>
+            <p>Complete all training modules and pass the assessment with 85% or higher to unlock access to office schedules and location details.</p>
+        </div>
+    {% else %}
+        <!-- Certified Info -->
+        <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #22c55e; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);">
+            <h3 style="color: #22c55e; margin-bottom: 5px;">✓ You are Certified!</h3>
+            <p style="color: #666; font-size: 14px;">Certified on: <strong>{{ user.certified_at|date:"M d, Y" }}</strong></p>
+        </div>
+    {% endif %}
+    
+    <!-- Training Courses -->
+    <h2 style="font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 25px;">Training Modules</h2>
+    
+    <div class="courses-grid">
+        {% for course in courses %}
+        <div class="course-card">
+            <div class="course-header">
+                <span class="course-status-badge {% if course.status == 'Locked' %}badge-locked{% elif course.status == 'In Progress' %}badge-in-progress{% else %}badge-completed{% endif %}">
+                    {% if course.status == 'Locked' %}🔒 Locked{% elif course.status == 'In Progress' %}⏳ In Progress{% else %}✓ Completed{% endif %}
+                </span>
+                <div class="course-title">{{ course.title }}</div>
+                <div class="course-description">{{ course.description|truncatewords:15 }}</div>
+                <div class="course-meta">
+                    <span>{{ course.content_type }}</span>
+                    <span>~{{ course.estimated_time }} min</span>
+                </div>
+            </div>
+            
+            <div class="course-content">
+                <div class="course-modules">
+                    <strong>Progress:</strong> {{ course.progress }}%
+                </div>
+            </div>
+            
+            <div class="course-footer">
+                {% if course.status == 'Locked' %}
+                    <button class="btn btn-disabled" disabled>
+                        Complete Previous Module
+                    </button>
+                {% elif course.status == 'In Progress' %}
+                    <a href="{% url 'core:module-view' course.id %}" class="btn btn-primary">
+                        Continue Learning
+                    </a>
+                {% else %}
+                    <a href="{% url 'core:module-view' course.id %}" class="btn btn-secondary">
+                        Review Module
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Assessment Section -->
+    {% if all_modules_completed and not user.certification_status %}
+    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); text-align: center;">
+        <h2 style="color: var(--navy); margin-bottom: 15px; font-size: 22px;">Ready to Test Your Knowledge?</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 14px;">You've completed all training modules. Take the assessment to become certified and unlock schedule access.</p>
+        <a href="{% url 'core:assessment-list' %}" class="btn btn-primary" style="max-width: 200px; margin: 0 auto;">
+            Take Assessment
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+// Auto-dismiss toast messages after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    const toastMessages = document.querySelectorAll('.toast-message');
+    toastMessages.forEach(function(toast) {
+        setTimeout(function() {
+            toast.classList.add('fade-out');
+            setTimeout(function() {
+                toast.remove();
+            }, 300); // Remove after animation completes
+        }, 5000); // 5 second delay before starting fade out
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,388 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Assessments - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --medium-gray: #E8E8E8;
+        --dark-gray: #333333;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+    }
+    
+    .navbar {
+        background-color: var(--navy);
+        padding: 15px 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-brand {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    
+    .navbar-menu {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+    }
+    
+    .navbar-menu a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .navbar-menu a:hover {
+        color: var(--red);
+    }
+    
+    .navbar-logout {
+        background-color: var(--red);
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .navbar-logout:hover {
+        background-color: #a01729;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .page-header {
+        margin-bottom: 40px;
+    }
+    
+    .page-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 10px;
+    }
+    
+    .page-header p {
+        font-size: 16px;
+        color: #666;
+    }
+    
+    .assessment-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+    }
+    
+    .assessment-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .assessment-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        transform: translateY(-4px);
+    }
+    
+    .assessment-header {
+        background: linear-gradient(135deg, var(--navy) 0%, #004d7a 100%);
+        color: white;
+        padding: 30px 25px;
+    }
+    
+    .assessment-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+    
+    .assessment-description {
+        font-size: 13px;
+        color: #ddd;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+    
+    .assessment-stats {
+        display: flex;
+        gap: 20px;
+        font-size: 12px;
+        color: #ccc;
+    }
+    
+    .assessment-content {
+        padding: 25px;
+    }
+    
+    .assessment-requirement {
+        background-color: rgba(196, 30, 58, 0.1);
+        border-left: 3px solid var(--red);
+        padding: 12px 15px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        font-size: 13px;
+        color: #333;
+    }
+    
+    .assessment-requirement strong {
+        color: var(--red);
+    }
+    
+    .attempt-info {
+        background-color: var(--light-gray);
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+    
+    .attempt-info p {
+        margin: 5px 0;
+        color: #666;
+    }
+    
+    .attempt-info strong {
+        color: var(--navy);
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .btn-primary {
+        background-color: var(--red);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #a01729;
+    }
+    
+    .btn-secondary {
+        background-color: var(--medium-gray);
+        color: var(--navy);
+        border: 1px solid #ccc;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #d0d0d0;
+    }
+    
+    .btn-disabled {
+        background-color: #ccc;
+        color: #999;
+        cursor: not-allowed;
+    }
+    
+    .alert {
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+    
+    .alert-info {
+        background-color: rgba(0, 51, 102, 0.1);
+        border: 1px solid var(--navy);
+        color: var(--navy);
+    }
+    
+    .alert-warning {
+        background-color: rgba(196, 30, 58, 0.1);
+        border: 1px solid var(--red);
+        color: var(--red);
+    }
+    
+    .alert-success {
+        background-color: rgba(34, 197, 94, 0.1);
+        border: 1px solid #22c55e;
+        color: #22c55e;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .badge-passed {
+        background-color: rgba(34, 197, 94, 0.2);
+        color: #22c55e;
+    }
+    
+    .badge-pending {
+        background-color: rgba(196, 30, 58, 0.2);
+        color: var(--red);
+    }
+    
+    .score-display {
+        text-align: center;
+        padding: 15px;
+        background-color: var(--light-gray);
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+    
+    .score-display p {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    
+    .score-display .score {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+    
+    @media (max-width: 768px) {
+        .assessment-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .page-header h1 {
+            font-size: 24px;
+        }
+        
+        .btn {
+            padding: 10px 16px;
+            font-size: 13px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="navbar-content">
+        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
+        <ul class="navbar-menu">
+            <li><a href="{% url 'core:training-dashboard' %}">Training</a></li>
+            {% if user.certification_status %}
+                <li><a href="{% url 'core:office-schedule' %}">Schedule</a></li>
+            {% endif %}
+        </ul>
+        <div style="flex: 1;"></div>
+        <form method="post" action="{% url 'authentication:logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="navbar-logout">Logout</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Assessment & Certification</h1>
+        <p>Test your knowledge and become certified to unlock schedule access.</p>
+    </div>
+    
+    {% if not all_modules_completed %}
+        <div class="alert alert-warning">
+            ⚠️ You must complete all training modules before taking the assessment. 
+            <a href="{% url 'core:training-dashboard' %}" style="font-weight: 700;">Continue Training</a>
+        </div>
+    {% endif %}
+    
+    <div class="assessment-grid">
+        {% for assessment in assessments %}
+        <div class="assessment-card">
+            <div class="assessment-header">
+                <div class="assessment-title">{{ assessment.title }}</div>
+                <div class="assessment-description">{{ assessment.description|truncatewords:15 }}</div>
+                <div class="assessment-stats">
+                    <span>📋 {{ assessment.questions_count }} questions</span>
+                    <span>⏱️ Timed</span>
+                </div>
+            </div>
+            
+            <div class="assessment-content">
+                <div class="assessment-requirement">
+                    <strong>Passing Score:</strong> 85% or higher
+                </div>
+                
+                {% if user.certification_status %}
+                    <div style="background-color: rgba(34, 197, 94, 0.1); border: 1px solid #22c55e; padding: 12px; border-radius: 4px; margin-bottom: 15px;">
+                        <p style="color: #22c55e; font-size: 13px;">✓ <strong>You are already certified!</strong></p>
+                        <p style="color: #666; font-size: 12px; margin-top: 5px;">Certified on: {{ user.certified_at|date:"M d, Y" }}</p>
+                    </div>
+                    <button class="btn btn-secondary" disabled>Retake Quiz</button>
+                {% else %}
+                    {% if last_attempt %}
+                        <div class="attempt-info">
+                            <p><strong>Last Attempt:</strong> {{ last_attempt.completed_at|date:"M d, Y" }}</p>
+                            <p><strong>Score:</strong> {{ last_attempt.score_percentage }}%</p>
+                            {% if last_attempt.cooldown_remaining %}
+                                <p><strong>⏳ You can retake in:</strong> {{ last_attempt.cooldown_remaining }}</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                    {% if all_modules_completed %}
+                        <a href="{% url 'core:take-assessment' assessment.id %}" class="btn btn-primary">
+                            Start Assessment
+                        </a>
+                    {% else %}
+                        <button class="btn btn-disabled" disabled>
+                            Complete Training First
+                        </button>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

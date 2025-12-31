@@ -153,7 +153,7 @@ class LoginView(FormView):
     
     template_name = 'authentication/login.html'
     form_class = UserLoginForm
-    success_url = reverse_lazy('home')  # Change to your home page URL name
+    success_url = reverse_lazy('core:training-dashboard')  # Redirect to training dashboard
     
     def form_valid(self, form):
         """Process valid login form."""

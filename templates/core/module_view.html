@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --medium-gray: #E8E8E8;
+        --dark-gray: #333333;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+    }
+    
+    .navbar {
+        background-color: var(--navy);
+        padding: 15px 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-brand {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    
+    .navbar-menu {
+        display: flex;
+        gap: 30px;
+        list-style: none;
+    }
+    
+    .navbar-menu a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    
+    .navbar-menu a:hover {
+        color: var(--red);
+    }
+    
+    .navbar-logout {
+        background-color: var(--red);
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .navbar-logout:hover {
+        background-color: #a01729;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .course-header {
+        background: linear-gradient(135deg, var(--navy) 0%, #004d7a 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .course-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .course-header p {
+        font-size: 15px;
+        color: #ddd;
+        margin-bottom: 15px;
+    }
+    
+    .course-meta {
+        display: flex;
+        gap: 30px;
+        font-size: 14px;
+        color: #ccc;
+    }
+    
+    .breadcrumb {
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+    
+    .breadcrumb a {
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .breadcrumb a:hover {
+        color: var(--red);
+    }
+    
+    .breadcrumb span {
+        color: #999;
+        margin: 0 8px;
+    }
+    
+    .content-card {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+    }
+    
+    .content-card h2 {
+        color: var(--navy);
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .content-card p {
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 15px;
+        font-size: 15px;
+    }
+    
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 6px;
+    }
+    
+    .pdf-viewer {
+        width: 100%;
+        height: 600px;
+        border: 1px solid var(--medium-gray);
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    
+    .progress-bar-container {
+        background-color: var(--medium-gray);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+    
+    .progress-bar-fill {
+        background-color: var(--red);
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 25px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background-color: var(--red);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #a01729;
+    }
+    
+    .btn-secondary {
+        background-color: var(--medium-gray);
+        color: var(--navy);
+        border: 1px solid #ccc;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #d0d0d0;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .alert {
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .alert-info {
+        background-color: rgba(0, 51, 102, 0.1);
+        border: 1px solid var(--navy);
+        color: var(--navy);
+    }
+    
+    @media (max-width: 768px) {
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .course-header {
+            padding: 25px;
+        }
+        
+        .course-header h1 {
+            font-size: 22px;
+        }
+        
+        .content-card {
+            padding: 25px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="navbar-content">
+        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
+        <div style="flex: 1;"></div>
+        <form method="post" action="{% url 'authentication:logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="navbar-logout">Logout</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="{% url 'core:training-dashboard' %}">Training</a>
+        <span>/</span>
+        <a href="{% url 'core:course-detail' course.id %}">{{ course.title }}</a>
+    </div>
+    
+    <!-- Course Header -->
+    <div class="course-header">
+        <h1>{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
+        <div class="course-meta">
+            <span>📚 Content Type: {{ course.content_type }}</span>
+            <span>⏱️ Est. Time: {{ course.estimated_time }} minutes</span>
+        </div>
+    </div>
+    
+    <!-- Content -->
+    <div class="content-card">
+        <!-- Progress -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: {{ progress }}%;"></div>
+        </div>
+        <div class="progress-text">Progress: {{ progress }}%</div>
+        
+        <!-- Content Display Based on Type -->
+        {% if course.content_type == 'Video' %}
+            <h2>Watch the Video</h2>
+            <div class="alert alert-info">
+                ⚠️ You must watch at least 90% of the video to mark this module as complete.
+            </div>
+            <div class="video-container">
+                <iframe src="{{ course.content_url }}" allowfullscreen></iframe>
+            </div>
+            <p>Video Progress: <strong id="video-progress">0%</strong></p>
+        
+        {% elif course.content_type == 'PDF' %}
+            <h2>View the PDF</h2>
+            <div class="alert alert-info">
+                ⚠️ Please scroll to the bottom of the document to mark this module as complete.
+            </div>
+            <iframe class="pdf-viewer" src="{{ course.content_url }}" type="application/pdf"></iframe>
+        
+        {% elif course.content_type == 'Text' %}
+            <h2>{{ course.title }}</h2>
+            <div class="alert alert-info">
+                ⚠️ Please scroll to the bottom of the content to mark this module as complete.
+            </div>
+            {{ course.content_text|safe }}
+        
+        {% else %}
+            <h2>Mixed Content</h2>
+            <p>This module contains multiple content types. Please complete all sections below.</p>
+        {% endif %}
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <a href="{% url 'core:training-dashboard' %}" class="btn btn-secondary">Back to Training</a>
+        
+        {% if can_mark_complete %}
+            <form method="post" action="{% url 'core:mark-module-complete' course.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Mark as Complete</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

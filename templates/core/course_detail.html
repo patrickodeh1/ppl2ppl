@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Course Details - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --medium-gray: #E8E8E8;
+        --dark-gray: #333333;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+    }
+    
+    .navbar {
+        background-color: var(--navy);
+        padding: 15px 30px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-brand {
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+    
+    .navbar-logout {
+        background-color: var(--red);
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .navbar-logout:hover {
+        background-color: #a01729;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .breadcrumb {
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+    
+    .breadcrumb a {
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .breadcrumb a:hover {
+        color: var(--red);
+    }
+    
+    .breadcrumb span {
+        color: #999;
+        margin: 0 8px;
+    }
+    
+    .course-header {
+        background: linear-gradient(135deg, var(--navy) 0%, #004d7a 100%);
+        color: white;
+        padding: 50px;
+        border-radius: 8px;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .course-header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+    
+    .course-header p {
+        font-size: 16px;
+        color: #ddd;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+    
+    .course-stats {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        font-size: 14px;
+        color: #ccc;
+    }
+    
+    .course-stats div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .modules-section {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    .section-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 30px;
+    }
+    
+    .module-item {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        border: 1px solid var(--medium-gray);
+        border-radius: 6px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .module-item:hover {
+        border-color: var(--red);
+        background-color: rgba(196, 30, 58, 0.02);
+    }
+    
+    .module-item.locked {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    
+    .module-status {
+        font-size: 24px;
+        margin-right: 20px;
+    }
+    
+    .module-info {
+        flex: 1;
+    }
+    
+    .module-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--navy);
+        margin-bottom: 5px;
+    }
+    
+    .module-description {
+        font-size: 13px;
+        color: #666;
+    }
+    
+    .module-duration {
+        font-size: 13px;
+        color: #999;
+        margin-top: 5px;
+    }
+    
+    .module-action {
+        margin-left: 20px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background-color: var(--red);
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #a01729;
+    }
+    
+    .btn-secondary {
+        background-color: var(--medium-gray);
+        color: var(--navy);
+        border: 1px solid #ccc;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #d0d0d0;
+    }
+    
+    .btn-disabled {
+        background-color: #ccc;
+        color: #999;
+        cursor: not-allowed;
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+    
+    .back-link:hover {
+        color: var(--red);
+    }
+    
+    @media (max-width: 768px) {
+        .course-header {
+            padding: 30px;
+        }
+        
+        .course-header h1 {
+            font-size: 24px;
+        }
+        
+        .course-stats {
+            gap: 20px;
+        }
+        
+        .modules-section {
+            padding: 25px;
+        }
+        
+        .module-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .module-action {
+            margin-left: 0;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .module-action .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="navbar-content">
+        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
+        <div style="flex: 1;"></div>
+        <form method="post" action="{% url 'authentication:logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="navbar-logout">Logout</button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="{% url 'core:training-dashboard' %}">Training</a>
+        <span>/</span>
+        <span>{{ course.title }}</span>
+    </div>
+    
+    <!-- Course Header -->
+    <div class="course-header">
+        <h1>{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
+        <div class="course-stats">
+            <div>
+                <span>📚</span>
+                <span>{{ modules.count }} modules</span>
+            </div>
+            <div>
+                <span>⏱️</span>
+                <span>~{{ total_duration }} minutes total</span>
+            </div>
+            <div>
+                <span>✓</span>
+                <span>{{ completed_modules }} completed</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modules Section -->
+    <div class="modules-section">
+        <h2 class="section-title">Course Modules</h2>
+        
+        {% for module in modules %}
+        <div class="module-item {% if module.is_locked %}locked{% endif %}">
+            <div class="module-status">
+                {% if module.is_locked %}
+                    🔒
+                {% elif module.is_completed %}
+                    ✓
+                {% else %}
+                    ⏳
+                {% endif %}
+            </div>
+            
+            <div class="module-info">
+                <div class="module-title">{{ module.title }}</div>
+                <div class="module-description">{{ module.description|truncatewords:20 }}</div>
+                <div class="module-duration">
+                    <strong>Content:</strong> {{ module.content_type }} | 
+                    <strong>Duration:</strong> ~{{ module.estimated_time }} minutes
+                </div>
+            </div>
+            
+            <div class="module-action">
+                {% if module.is_locked %}
+                    <button class="btn btn-disabled" disabled>Locked</button>
+                {% elif module.is_completed %}
+                    <a href="{% url 'core:module-view' module.id %}" class="btn btn-secondary">Review</a>
+                {% else %}
+                    <a href="{% url 'core:module-view' module.id %}" class="btn btn-primary">Continue</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Back Button -->
+    <div style="margin-top: 30px;">
+        <a href="{% url 'core:training-dashboard' %}" class="back-link">← Back to Training</a>
+    </div>
+</div>
+{% endblock %}
