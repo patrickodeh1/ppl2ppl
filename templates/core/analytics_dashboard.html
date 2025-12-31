@@ -1,0 +1,435 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Analytics Dashboard - P2P Solutions{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    .dashboard-header {
+        background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    
+    .dashboard-header h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+    
+    .dashboard-header p {
+        margin: 0.5rem 0 0 0;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+    
+    .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card-label {
+        color: #6b7280;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .stat-card-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #003366;
+        margin-top: 0.5rem;
+    }
+    
+    .stat-card-subtext {
+        color: #9ca3af;
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+    }
+    
+    .stat-card.primary {
+        border-left: 4px solid #003366;
+    }
+    
+    .stat-card.success {
+        border-left: 4px solid #22c55e;
+    }
+    
+    .stat-card.warning {
+        border-left: 4px solid #f59e0b;
+    }
+    
+    .stat-card.danger {
+        border-left: 4px solid #C41E3A;
+    }
+    
+    .chart-container {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .chart-container h3 {
+        margin-top: 0;
+        color: #1f2937;
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .chart-wrapper {
+        position: relative;
+        height: 400px;
+        margin-bottom: 1rem;
+    }
+    
+    .two-column {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .activity-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+    
+    .activity-table thead {
+        background-color: #f9fafb;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .activity-table th {
+        padding: 1rem;
+        text-align: left;
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .activity-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        color: #4b5563;
+    }
+    
+    .activity-table tbody tr:hover {
+        background-color: #f9fafb;
+    }
+    
+    .user-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #003366;
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        margin-right: 0.5rem;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .badge-success {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .badge-primary {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .badge-warning {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .progress-bar-container {
+        background: #e5e7eb;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 0.5rem;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #003366 0%, #004d99 100%);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    
+    .no-data {
+        text-align: center;
+        color: #9ca3af;
+        padding: 2rem;
+    }
+    
+    .metric-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .metric-row:last-child {
+        border-bottom: none;
+    }
+    
+    .metric-label {
+        color: #6b7280;
+        font-size: 0.9rem;
+    }
+    
+    .metric-value {
+        font-weight: 600;
+        color: #1f2937;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>📊 Analytics Dashboard</h1>
+        <p>Training program metrics and engagement overview</p>
+    </div>
+    
+    <!-- Key Metrics -->
+    <div class="stat-cards">
+        <div class="stat-card primary">
+            <div class="stat-card-label">Total Users</div>
+            <div class="stat-card-value">{{ total_users }}</div>
+        </div>
+        <div class="stat-card primary">
+            <div class="stat-card-label">Active Courses</div>
+            <div class="stat-card-value">{{ total_courses }}</div>
+            <div class="stat-card-subtext">{{ total_modules }} modules total</div>
+        </div>
+        <div class="stat-card success">
+            <div class="stat-card-label">Certified Users</div>
+            <div class="stat-card-value">{{ certified_users }}</div>
+            <div class="stat-card-subtext">
+                {% if total_users > 0 %}
+                    {{ certified_users|floatformat:0 }}% of users
+                {% else %}
+                    No data yet
+                {% endif %}
+            </div>
+        </div>
+        <div class="stat-card warning">
+            <div class="stat-card-label">Assessment Pass Rate</div>
+            <div class="stat-card-value">{{ pass_rate }}%</div>
+            <div class="stat-card-subtext">{{ total_attempts }} total attempts</div>
+        </div>
+    </div>
+    
+    <!-- Charts Section -->
+    <div class="two-column">
+        <!-- Course Completion Distribution -->
+        <div class="chart-container">
+            <h3>📚 Course Completion Status</h3>
+            {% if progress_distribution %}
+                <div class="chart-wrapper">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            {% else %}
+                <div class="no-data">No training progress data yet</div>
+            {% endif %}
+        </div>
+        
+        <!-- Assessment Performance -->
+        <div class="chart-container">
+            <h3>✅ Assessment Pass Rates</h3>
+            {% if total_attempts > 0 %}
+                <div class="metric-row">
+                    <span class="metric-label">Passed</span>
+                    <span class="metric-value">{{ total_attempts|add:passed_attempts|add:0|add:0 }} / {{ total_attempts }}</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: {{ pass_rate }}%"></div>
+                </div>
+                <div style="text-align: right; color: #9ca3af; font-size: 0.85rem; margin-top: 0.5rem;">
+                    {{ pass_rate }}% pass rate
+                </div>
+            {% else %}
+                <div class="no-data">No assessment attempts yet</div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Course Completion Rates -->
+    {% if course_completions %}
+    <div class="chart-container">
+        <h3>🎯 Course Completion Breakdown</h3>
+        <div class="chart-wrapper">
+            <canvas id="courseChart"></canvas>
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Recent Activity -->
+    <div class="chart-container">
+        <h3>🔔 Recent Module Completions</h3>
+        {% if recent_completions %}
+            <table class="activity-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Module</th>
+                        <th>Course</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for completion in recent_completions %}
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center;">
+                                <div class="user-avatar">{{ completion.user.first_name|first }}</div>
+                                {{ completion.user.first_name }} {{ completion.user.last_name }}
+                            </div>
+                        </td>
+                        <td>{{ completion.module.title }}</td>
+                        <td>
+                            <span class="badge badge-primary">{{ completion.module.course.title }}</span>
+                        </td>
+                        <td>
+                            <small style="color: #9ca3af;">
+                                {{ completion.completed_at|date:"M d, Y H:i" }}
+                            </small>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-data">No module completions yet</div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Progress Distribution Chart (Doughnut)
+    {% if progress_distribution %}
+    const progressCtx = document.getElementById('progressChart').getContext('2d');
+    const progressData = {
+        labels: [
+            {% for item in progress_distribution %}
+                '{{ item.status|title }}'{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ],
+        datasets: [{
+            data: [
+                {% for item in progress_distribution %}
+                    {{ item.count }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: [
+                '#ef4444',  // not_started - red
+                '#f59e0b',  // in_progress - amber
+                '#22c55e'   // completed - green
+            ],
+            borderColor: 'white',
+            borderWidth: 2
+        }]
+    };
+    
+    new Chart(progressCtx, {
+        type: 'doughnut',
+        data: progressData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+    {% endif %}
+    
+    // Course Completion Bar Chart
+    {% if course_completions %}
+    const courseCtx = document.getElementById('courseChart').getContext('2d');
+    const courseData = {
+        labels: [
+            {% for completion in course_completions %}
+                '{{ completion.course__title }}'{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Completions',
+            data: [
+                {% for completion in course_completions %}
+                    {{ completion.completed_count }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: '#003366',
+            borderColor: '#004d99',
+            borderWidth: 1,
+            borderRadius: 4
+        }]
+    };
+    
+    new Chart(courseCtx, {
+        type: 'bar',
+        data: courseData,
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    {% endif %}
+</script>
+{% endblock %}

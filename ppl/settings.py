@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'authentication',
     'core',
 ]
@@ -159,6 +160,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Change to SM
 # EMAIL_HOST_USER = ''
 # EMAIL_HOST_PASSWORD = ''
 
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use console backend for development
+# For production, use:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+DEFAULT_FROM_EMAIL = 'noreply@p2psolutions.com'
+
 # Authentication Backend
 AUTHENTICATION_BACKENDS = [
     'authentication.backends.EmailBackend',
@@ -169,4 +181,37 @@ SESSION_COOKIE_AGE = 7200  # 2 hours in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+
+# CKEditor Configuration
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['Image'],
+            ['Format', 'FontSize'],
+            ['Maximize']
+        ],
+        'toolbar': 'Custom',
+        'allowedContent': True,
+    },
+    'basic': {
+        'toolbar': 'Basic',
+        'height': 150,
+        'toolbar_Basic': [
+            ['Bold', 'Italic', 'Underline', 'Strike'],
+            ['BulletedList', 'NumberedList', '-', 'Outdent', 'Indent'],
+            ['Link', 'Unlink'],
+        ],
+        'allowedContent': True,
+    }
+}
+
+CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+
 

@@ -325,8 +325,26 @@
 
 <div class="container">
     <div class="page-header">
-        <h1>Assessment & Certification</h1>
-        <p>Test your knowledge and become certified to unlock schedule access.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div>
+                <h1>Assessment & Certification</h1>
+                <p>Test your knowledge and become certified to unlock schedule access.</p>
+            </div>
+            <a href="{% url 'core:training-dashboard' %}" style="
+                background-color: var(--navy);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 4px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 14px;
+                transition: background-color 0.3s ease;
+                white-space: nowrap;
+                margin-left: 20px;
+            " onmouseover="this.style.backgroundColor='var(--red)'" onmouseout="this.style.backgroundColor='var(--navy)'">
+                ← Back to Training
+            </a>
+        </div>
     </div>
     
     {% if not all_modules_completed %}

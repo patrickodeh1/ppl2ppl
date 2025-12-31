@@ -199,6 +199,11 @@
         color: white;
     }
     
+    .badge-not-started {
+        background-color: #3b82f6;
+        color: white;
+    }
+    
     .badge-in-progress {
         background-color: var(--red);
         color: white;
@@ -356,22 +361,132 @@
     }
     
     @media (max-width: 768px) {
+        .navbar {
+            padding: 12px 15px;
+        }
+        
+        .navbar-content {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .navbar-brand {
+            font-size: 16px;
+            flex: 1 100%;
+        }
+        
         .navbar-menu {
-            gap: 15px;
+            gap: 8px;
+            flex: 1 100%;
+            font-size: 12px;
+        }
+        
+        .navbar-menu a {
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .navbar-user {
+            flex: 1 100%;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        
+        .navbar-logout {
+            padding: 6px 12px;
+            font-size: 11px;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 25px;
         }
         
         .dashboard-header h1 {
             font-size: 24px;
         }
         
+        .dashboard-header p {
+            font-size: 14px;
+        }
+        
         .courses-grid {
             grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .course-card {
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .course-header {
+            padding: 20px;
+        }
+        
+        .course-body {
+            padding: 15px;
         }
         
         .course-footer {
             flex-direction: column;
+            padding: 15px;
+        }
+        
+        .course-button {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+        }
+        
+        .progress-section {
+            padding: 20px;
+        }
+        
+        .progress-title {
+            font-size: 16px;
+        }
+        
+        .container {
+            padding: 20px 15px;
         }
     }
+    
+    @media (max-width: 480px) {
+        .navbar-content {
+            flex-direction: column;
+        }
+        
+        .navbar-menu {
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .navbar-user {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 20px;
+        }
+        
+        .course-status-badge {
+            font-size: 10px;
+            padding: 4px 8px;
+        }
+        
+        .course-difficulty, .course-time {
+            font-size: 12px;
+        }
+        
+        .course-card {
+            margin-bottom: 10px;
+        }
+    }
+
 </style>
 {% endblock %}
 
@@ -382,6 +497,7 @@
         <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
         <ul class="navbar-menu">
             <li><a href="{% url 'core:training-dashboard' %}" class="active">Training</a></li>
+            <li><a href="{% url 'core:search-courses' %}">Search</a></li>
             {% if user.certification_status %}
                 <li><a href="{% url 'core:office-schedule' %}">Schedule</a></li>
                 <li><a href="{% url 'core:employee-directory' %}">Directory</a></li>
@@ -443,8 +559,8 @@
         {% for course in courses %}
         <div class="course-card">
             <div class="course-header">
-                <span class="course-status-badge {% if course.status == 'Locked' %}badge-locked{% elif course.status == 'In Progress' %}badge-in-progress{% else %}badge-completed{% endif %}">
-                    {% if course.status == 'Locked' %}🔒 Locked{% elif course.status == 'In Progress' %}⏳ In Progress{% else %}✓ Completed{% endif %}
+                <span class="course-status-badge {% if course.status == 'Locked' %}badge-locked{% elif course.status == 'In Progress' %}badge-in-progress{% elif course.status == 'Not Started' %}badge-not-started{% else %}badge-completed{% endif %}">
+                    {% if course.status == 'Locked' %}🔒 Locked{% elif course.status == 'In Progress' %}⏳ In Progress{% elif course.status == 'Not Started' %}🆕 Start{% else %}✓ Completed{% endif %}
                 </span>
                 <div class="course-title">{{ course.title }}</div>
                 <div class="course-description">{{ course.description|truncatewords:15 }}</div>
@@ -463,15 +579,19 @@
             <div class="course-footer">
                 {% if course.status == 'Locked' %}
                     <button class="btn btn-disabled" disabled>
-                        Complete Previous Module
+                        Complete Previous Course
                     </button>
+                {% elif course.status == 'Not Started' %}
+                    <a href="{% url 'core:course-detail' course.id %}" class="btn btn-primary">
+                        Start Course
+                    </a>
                 {% elif course.status == 'In Progress' %}
-                    <a href="{% url 'core:module-view' course.id %}" class="btn btn-primary">
+                    <a href="{% url 'core:course-detail' course.id %}" class="btn btn-primary">
                         Continue Learning
                     </a>
                 {% else %}
-                    <a href="{% url 'core:module-view' course.id %}" class="btn btn-secondary">
-                        Review Module
+                    <a href="{% url 'core:course-detail' course.id %}" class="btn btn-secondary">
+                        Review Course
                     </a>
                 {% endif %}
             </div>

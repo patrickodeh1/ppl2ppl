@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Courses - P2P Solutions{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #003366 0%, #004d99 100%); color: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h1 style="margin: 0; font-size: 2rem;">🔍 Search Courses</h1>
+        <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Find training courses with advanced filters</p>
+    </div>
+    
+    <!-- Search & Filters -->
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <form method="get" action="{% url 'core:search-courses' %}">
+            <!-- Search Box -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    📝 Search
+                </label>
+                <input type="text" name="q" value="{{ query }}" placeholder="Search course title or description..." style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem;">
+            </div>
+            
+            <!-- Filters Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                <!-- Difficulty Filter -->
+                <div>
+                    <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                        📊 Difficulty Level
+                    </label>
+                    <select name="difficulty" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+                        <option value="">All Levels</option>
+                        {% for value, label in difficulty_choices %}
+                            <option value="{{ value }}" {% if difficulty == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Content Type Filter -->
+                <div>
+                    <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                        📋 Content Type
+                    </label>
+                    <select name="content_type" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+                        <option value="">All Types</option>
+                        {% for value, label in content_type_choices %}
+                            <option value="{{ value }}" {% if content_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- Status Filter -->
+                <div>
+                    <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                        ✓ My Progress
+                    </label>
+                    <select name="status" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
+                        <option value="">All Courses</option>
+                        {% for value, label in status_choices %}
+                            <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Submit Buttons -->
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" style="background: #003366; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+                    🔍 Search
+                </button>
+                <a href="{% url 'core:search-courses' %}" style="background: #e5e7eb; color: #374151; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; text-decoration: none; cursor: pointer; transition: background 0.2s;">
+                    🔄 Clear Filters
+                </a>
+                <a href="{% url 'core:training-dashboard' %}" style="background: #C41E3A; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; text-decoration: none; cursor: pointer; transition: background 0.2s;">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Active Filters Display -->
+    {% if query or difficulty or content_type or status %}
+    <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+        <strong>🎯 Active Filters:</strong>
+        <div style="margin-top: 0.5rem;">
+            {% if query %}
+                <span style="display: inline-block; background: #e0f2fe; color: #0c4a6e; padding: 0.25rem 0.75rem; border-radius: 20px; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                    Search: <strong>{{ query }}</strong>
+                </span>
+            {% endif %}
+            {% if difficulty %}
+                <span style="display: inline-block; background: #e0f2fe; color: #0c4a6e; padding: 0.25rem 0.75rem; border-radius: 20px; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                    Difficulty: <strong>{{ difficulty|title }}</strong>
+                </span>
+            {% endif %}
+            {% if content_type %}
+                <span style="display: inline-block; background: #e0f2fe; color: #0c4a6e; padding: 0.25rem 0.75rem; border-radius: 20px; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                    Type: <strong>{{ content_type|title }}</strong>
+                </span>
+            {% endif %}
+            {% if status %}
+                <span style="display: inline-block; background: #e0f2fe; color: #0c4a6e; padding: 0.25rem 0.75rem; border-radius: 20px; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                    Status: <strong>{{ status|title }}</strong>
+                </span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <!-- Results -->
+    <div>
+        {% if courses %}
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                {% for course in courses %}
+                <div style="background: white; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s;">
+                    <!-- Card Header -->
+                    <div style="background: linear-gradient(135deg, #003366 0%, #004d99 100%); padding: 1rem; color: white;">
+                        <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700;">{{ course.title }}</h3>
+                    </div>
+                    
+                    <!-- Card Body -->
+                    <div style="padding: 1rem;">
+                        <!-- Description -->
+                        <p style="color: #6b7280; font-size: 0.875rem; margin: 0 0 1rem 0; line-height: 1.5;">
+                            {{ course.description|truncatewords:20 }}
+                        </p>
+                        
+                        <!-- Meta Info -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.875rem;">
+                            <div>
+                                <span style="color: #6b7280;">Difficulty:</span><br>
+                                {% if course.difficulty == 'beginner' %}
+                                    <span style="background: #22c55e; color: white; padding: 2px 8px; border-radius: 12px; font-weight: 600;">🟢 Beginner</span>
+                                {% elif course.difficulty == 'intermediate' %}
+                                    <span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 12px; font-weight: 600;">🟡 Intermediate</span>
+                                {% else %}
+                                    <span style="background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; font-weight: 600;">🔴 Advanced</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <span style="color: #6b7280;">Duration:</span><br>
+                                <span style="font-weight: 600; color: #1f2937;">⏱️ {{ course.estimated_duration_minutes }} min</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Modules -->
+                        <div style="background: #f9fafb; padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.875rem;">
+                            <span style="color: #6b7280;">📚 {{ course.modules.count }} modules</span>
+                        </div>
+                        
+                        <!-- Mandatory Badge -->
+                        {% if course.is_mandatory %}
+                            <div style="background: #fee2e2; border-left: 3px solid #ef4444; padding: 0.75rem; margin-bottom: 1rem; border-radius: 4px; font-size: 0.875rem;">
+                                <span style="color: #7f1d1d; font-weight: 600;">⚠️ Mandatory Course</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Card Footer -->
+                    <div style="border-top: 1px solid #e5e7eb; padding: 1rem; background: #f9fafb;">
+                        <a href="{% url 'core:course-detail' course.id %}" style="display: inline-block; background: #003366; color: white; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; transition: background 0.2s; width: 100%; text-align: center; box-sizing: border-box;">
+                            View Course →
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center; color: #6b7280;">
+                <p>Found <strong>{{ courses.count }}</strong> course(s)</p>
+            </div>
+        
+        {% else %}
+            <!-- No Results -->
+            <div style="background: #f0f9ff; border: 2px dashed #0ea5e9; border-radius: 8px; padding: 3rem; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                <h3 style="color: #0c4a6e; margin: 0 0 0.5rem 0;">No courses found</h3>
+                <p style="color: #0c4a6e; margin: 0;">
+                    Try adjusting your filters or search terms
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="{% url 'core:search-courses' %}" style="display: inline-block; background: #0ea5e9; color: white; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600;">
+                        Clear All Filters
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

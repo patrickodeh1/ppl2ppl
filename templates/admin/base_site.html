@@ -1,0 +1,549 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}P2P Solutions Admin{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+{% endblock %}
+
+{% block dark-mode-vars %}
+<!-- Dark mode disabled - using light theme only -->
+<style>
+    /* Hide theme toggle button */
+    .theme-toggle {
+        display: none !important;
+    }
+</style>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+    :root {
+        --navy: #003366;
+        --red: #C41E3A;
+        --light-gray: #F5F5F5;
+        --dark-gray: #333;
+        --border-gray: #ddd;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: white !important;
+    }
+
+    /* Header Branding */
+    #header {
+        background-color: var(--navy) !important;
+        padding: 15px 20px !important;
+        border-bottom: 3px solid var(--red) !important;
+    }
+
+    #header h1, #header h1 a {
+        color: white !important;
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px;
+    }
+
+    #header a {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    #header a:hover {
+        color: white !important;
+    }
+
+    /* Sidebar Navigation */
+    #sidebar {
+        background-color: var(--navy) !important;
+        padding: 20px 0 !important;
+    }
+
+    #sidebar h2 {
+        color: white !important;
+        font-size: 14px !important;
+        padding: 15px 20px !important;
+        margin: 15px 0 5px 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+
+    #sidebar ul {
+        list-style: none !important;
+    }
+
+    #sidebar li {
+        margin: 0 !important;
+    }
+
+    #sidebar a {
+        display: block;
+        color: rgba(255, 255, 255, 0.8) !important;
+        padding: 12px 20px !important;
+        text-decoration: none !important;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+    }
+
+    #sidebar a:hover {
+        background-color: rgba(196, 30, 58, 0.15) !important;
+        color: white !important;
+        border-left-color: var(--red) !important;
+    }
+
+    #sidebar a.active {
+        background-color: rgba(196, 30, 58, 0.25) !important;
+        color: white !important;
+        border-left-color: var(--red) !important;
+        font-weight: 600;
+    }
+
+    /* Main Content */
+    #main {
+        background-color: white !important;
+    }
+
+    .dashboard {
+        padding: 20px !important;
+    }
+
+    /* Change List Styles */
+    .change-list {
+        background-color: white;
+    }
+
+    #changelist table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #changelist thead {
+        background-color: var(--navy);
+        color: white;
+    }
+
+    #changelist th {
+        padding: 12px 15px !important;
+        text-align: left;
+        font-weight: 600;
+        border: none !important;
+    }
+
+    #changelist td {
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-gray) !important;
+    }
+
+    #changelist tbody tr:hover {
+        background-color: rgba(0, 51, 102, 0.05) !important;
+    }
+
+    #changelist tbody tr.row1:hover {
+        background-color: rgba(0, 51, 102, 0.05) !important;
+    }
+
+    #changelist tbody tr.row2:hover {
+        background-color: rgba(0, 51, 102, 0.05) !important;
+    }
+
+    /* Buttons */
+    .button, input[type="submit"], input[type="button"], input[type="reset"],
+    a.button, .submit-row input, .buttonrow a {
+        background-color: var(--navy) !important;
+        color: white !important;
+        border: 1px solid var(--navy) !important;
+        padding: 8px 16px !important;
+        border-radius: 4px !important;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none !important;
+    }
+
+    .button:hover, input[type="submit"]:hover, input[type="button"]:hover, 
+    input[type="reset"]:hover, a.button:hover {
+        background-color: var(--red) !important;
+        border-color: var(--red) !important;
+    }
+
+    .button:active, input[type="submit"]:active {
+        transform: scale(0.98);
+    }
+
+    .deletelink {
+        color: #ba2121 !important;
+    }
+
+    .deletelink:hover {
+        color: white !important;
+        background-color: #ba2121 !important;
+    }
+
+    /* Form Styles */
+    .form-row {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border-gray);
+        overflow: visible !important;
+    }
+
+    .form-row label {
+        color: var(--navy) !important;
+        font-weight: 600 !important;
+    }
+
+    input[type="text"], input[type="email"], input[type="number"], 
+    input[type="date"], input[type="time"], textarea, select {
+        border: 1px solid var(--border-gray) !important;
+        border-radius: 4px !important;
+        padding: 8px 12px !important;
+        background-color: white !important;
+        z-index: 10;
+        position: relative;
+    }
+
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23C41E3A' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+        background-position: right 0.7rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 3rem;
+        padding-left: 0.5rem;
+        min-height: 38px;
+        line-height: 1.5;
+    }
+
+    select option {
+        background-color: white;
+        color: var(--dark-gray);
+        padding: 8px 12px;
+    }
+
+    /* Ensure dropdowns are always visible */
+    .form-row > div,
+    .form-group {
+        overflow: visible !important;
+    }
+
+    /* Inline editing dropdowns */
+    .inline-related select,
+    .inline-group select {
+        z-index: 100 !important;
+    }
+
+    /* Fix inline form table cells */
+    .inline-related tbody td,
+    .inline-group table td {
+        overflow: visible !important;
+        vertical-align: top !important;
+    }
+
+    /* Inline form row wrapper */
+    .inline-related .dynamic-form,
+    .form-inline {
+        overflow: visible !important;
+    }
+
+    /* Course module inline styles */
+    .inline-group .form-row select {
+        z-index: 1000 !important;
+        position: relative !important;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus,
+    input[type="date"]:focus, input[type="time"]:focus, textarea:focus, select:focus {
+        border-color: var(--red) !important;
+        box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.1) !important;
+        outline: none !important;
+    }
+
+    /* Fieldsets */
+    fieldset {
+        border: 1px solid var(--border-gray) !important;
+        background-color: white;
+        padding: 20px !important;
+        margin: 20px 0 !important;
+        border-radius: 4px !important;
+        position: relative;
+        z-index: 1;
+        overflow: visible !important;
+    }
+
+    fieldset.collapsed {
+        overflow: visible !important;
+    }
+
+    fieldset .form-row {
+        overflow: visible !important;
+    }
+
+    fieldset legend {
+        color: var(--navy) !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
+        padding: 5px 15px !important;
+    }
+
+    /* Info Box */
+    .info {
+        background-color: rgba(0, 51, 102, 0.05);
+        border: 1px solid var(--navy);
+        border-radius: 4px;
+        padding: 12px 15px;
+        margin: 15px 0;
+        color: var(--navy);
+    }
+
+    /* Messages */
+    .messagelist {
+        margin: 0 0 20px 0 !important;
+    }
+
+    .messagelist li {
+        padding: 15px 20px !important;
+        border-radius: 4px !important;
+        border-left: 4px solid var(--navy) !important;
+    }
+
+    .messagelist .success {
+        background-color: rgba(34, 197, 94, 0.1);
+        border-left-color: #22c55e !important;
+    }
+
+    .messagelist .error {
+        background-color: rgba(220, 38, 38, 0.1);
+        border-left-color: #dc2626 !important;
+    }
+
+    .messagelist .warning {
+        background-color: rgba(251, 146, 60, 0.1);
+        border-left-color: #fb923c !important;
+    }
+
+    /* Inline Styles */
+    .inline-group {
+        background-color: white;
+        border: 1px solid var(--border-gray);
+        border-radius: 4px;
+        margin: 20px 0;
+        padding: 20px;
+        overflow: visible !important;
+    }
+
+    .inline-group h2 {
+        color: var(--navy);
+        font-size: 16px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--red);
+    }
+
+    .inline-related table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .inline-related table thead {
+        background-color: var(--navy);
+        color: white;
+    }
+
+    .inline-related table th {
+        padding: 10px !important;
+        font-weight: 600 !important;
+    }
+
+    .inline-related table td {
+        padding: 10px !important;
+        border-bottom: 1px solid var(--border-gray) !important;
+        overflow: visible !important;
+        position: relative;
+    }
+
+    .inline-related table select {
+        z-index: 1000 !important;
+        position: relative !important;
+    }
+
+    /* Pagination */
+    .paginator {
+        background-color: white;
+        padding: 15px 20px;
+        border-top: 1px solid var(--border-gray);
+        margin-top: 20px;
+    }
+
+    .paginator a {
+        color: var(--navy) !important;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid var(--border-gray);
+        border-radius: 3px;
+        margin: 0 3px;
+        transition: all 0.2s;
+    }
+
+    .paginator a:hover {
+        background-color: var(--navy);
+        color: white !important;
+    }
+
+    .paginator .step-links .current {
+        background-color: var(--red);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        margin: 0 3px;
+    }
+
+    /* Filter Styles */
+    #changelist-filter {
+        background-color: white;
+        border: 1px solid var(--border-gray);
+        border-radius: 4px;
+    }
+
+    #changelist-filter h2 {
+        color: var(--navy);
+        background-color: var(--light-gray);
+        padding: 12px 15px;
+        margin: 0 !important;
+        border-bottom: 2px solid var(--red);
+        font-weight: 700;
+    }
+
+    #changelist-filter ul {
+        list-style: none;
+        padding: 10px 0;
+    }
+
+    #changelist-filter li {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #changelist-filter a {
+        display: block;
+        color: var(--navy) !important;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+    }
+
+    #changelist-filter a:hover {
+        background-color: var(--light-gray);
+        border-left-color: var(--red);
+    }
+
+    #changelist-filter a.selected {
+        color: var(--red) !important;
+        border-left-color: var(--red) !important;
+        font-weight: 600;
+    }
+
+    /* Dashboard */
+    .dashboard-modules {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .dashboard-module {
+        background-color: white;
+        border: 1px solid var(--border-gray);
+        border-radius: 4px;
+        padding: 15px;
+        transition: all 0.3s;
+    }
+
+    .dashboard-module:hover {
+        border-color: var(--red);
+        box-shadow: 0 2px 8px rgba(196, 30, 58, 0.15);
+    }
+
+    .dashboard-module h3 {
+        color: var(--navy);
+        margin: 0 0 10px 0;
+        font-size: 16px;
+    }
+
+    .dashboard-module ul {
+        list-style: none;
+    }
+
+    .dashboard-module li {
+        padding: 5px 0;
+    }
+
+    .dashboard-module a {
+        color: var(--navy);
+        text-decoration: none;
+    }
+
+    .dashboard-module a:hover {
+        color: var(--red);
+        text-decoration: underline;
+    }
+
+    /* Global dropdown fix - ensure all selects are visible */
+    select {
+        z-index: 1000 !important;
+    }
+
+    select:focus {
+        z-index: 10000 !important;
+    }
+
+    /* Fix all parent containers that might hide dropdowns */
+    *[style*="overflow: hidden"] select,
+    .form-row select,
+    td select,
+    .inline-group select {
+        z-index: 10000 !important;
+        position: relative !important;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+        #container {
+            display: block;
+        }
+
+        #sidebar {
+            width: 100% !important;
+            position: relative;
+        }
+
+        #main {
+            margin-left: 0 !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <span style="color: white; font-size: 20px;">📊 P2P Solutions</span> <span style="color: #C41E3A; font-size: 16px;">Admin</span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<div style="padding: 10px 20px; color: rgba(255, 255, 255, 0.8); font-size: 13px;">
+    <a href="{% url 'core:training-dashboard' %}" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
+        ← Back to Training Site
+    </a>
+</div>
+{% endblock %}

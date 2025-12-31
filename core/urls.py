@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .search import search_courses
 
 app_name = 'core'
 
@@ -24,4 +25,15 @@ urlpatterns = [
     path('directory/', views.employee_directory, name='employee-directory'),
     path('profile/', views.user_profile_view, name='user-profile'),
     path('profile/<int:user_id>/', views.user_profile_view, name='user-profile-detail'),
+    
+    # API endpoints
+    path('api/module-progress/', views.module_progress_api, name='module-progress-api'),
+    path('analytics/', views.analytics_dashboard, name='analytics-dashboard'),
+    
+    # CSV Import/Export
+    path('import/courses/', views.import_courses, name='import-courses'),
+    path('import/modules/', views.import_modules, name='import-modules'),
+    
+    # Search
+    path('search/', search_courses, name='search-courses'),
 ]

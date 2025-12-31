@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        .header {
+            background-color: #22c55e;
+            color: white;
+            padding: 20px;
+            border-radius: 6px 6px 0 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+        }
+        .score-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #22c55e;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .score-large {
+            font-size: 32px;
+            font-weight: 700;
+            color: #22c55e;
+        }
+        .footer {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            border-radius: 0 0 6px 6px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #C41E3A;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Assessment Passed!</h1>
+        </div>
+        <div class="content">
+            <p>Hi {{ user_name }},</p>
+            
+            <p>Excellent work! You have successfully passed the assessment:</p>
+            
+            <h2 style="color: #003366;">{{ assessment_title }}</h2>
+            
+            <div class="score-box">
+                <p><strong>Your Score:</strong></p>
+                <p class="score-large">{{ score }}%</p>
+                <p>Passing Score: {{ passing_score }}%</p>
+            </div>
+            
+            <p>You've demonstrated a strong understanding of the material. Great job!</p>
+            
+            <a href="http://127.0.0.1:8000/training/" class="button">Continue Learning</a>
+            
+            <p>Keep pushing yourself and continue progressing through your training modules.</p>
+            
+            <p>Best regards,<br>P2P Solutions Training Team</p>
+        </div>
+        <div class="footer">
+            <p>This is an automated message. Please do not reply to this email.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -8,6 +8,29 @@ import re
 from .models import CustomUser, EmailVerificationToken, PasswordResetToken
 
 
+# ============================================================================
+# PASSWORD STRENGTH WIDGET
+# ============================================================================
+
+class PasswordStrengthWidget(forms.PasswordInput):
+    """Custom password widget with strength indicator"""
+    
+    template_name = 'widgets/password_strength_widget.html'
+    
+    def __init__(self, attrs=None):
+        super().__init__(attrs)
+        self.attrs['class'] = 'form-control password-strength-input'
+        self.attrs['data-password-strength'] = 'true'
+    
+    def get_context(self, name, value, attrs):
+        context = super().get_context(name, value, attrs)
+        return context
+
+
+# ============================================================================
+# PASSWORD STRENGTH MIXIN
+# ============================================================================
+
 class PasswordStrengthMixin:
     """Mixin to validate password strength requirements."""
     
@@ -71,8 +94,7 @@ class UserRegistrationForm(forms.ModelForm, PasswordStrengthMixin):
     """Form for user registration."""
     
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
+        widget=PasswordStrengthWidget(attrs={
             'placeholder': 'Password (min 8 chars, uppercase, lowercase, number)',
         }),
         help_text='Minimum 8 characters, must include uppercase, lowercase, and number'

@@ -1,0 +1,341 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block title %}Dashboard - P2P Solutions Admin{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .dashboard-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+    
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .dashboard-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+    }
+
+    .dashboard-card:hover {
+        border-color: #C41E3A;
+        box-shadow: 0 4px 12px rgba(196, 30, 58, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .dashboard-card h3 {
+        color: #003366;
+        margin: 0 0 15px 0;
+        font-size: 16px;
+        font-weight: 700;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #C41E3A;
+    }
+
+    .dashboard-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .dashboard-card li {
+        margin: 8px 0;
+    }
+
+    .dashboard-card a {
+        color: #003366;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .dashboard-card a:hover {
+        color: #C41E3A;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        flex: 1;
+        min-width: 220px;
+    }
+
+    .stat-card h3 {
+        border: none;
+        color: white;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+
+    .stat-number {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 10px 0;
+    }
+
+    .stat-card a {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 8px 16px;
+        background-color: #C41E3A;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.2s;
+    }
+
+    .stat-card a:hover {
+        background-color: #a01830;
+        color: white;
+    }
+
+    /* Navigation Sidebar */
+    .admin-nav-sidebar {
+        position: fixed;
+        right: 20px;
+        top: 150px;
+        width: 280px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        max-height: 80vh;
+        overflow-y: auto;
+        z-index: 100;
+    }
+
+    .admin-nav-sidebar h3 {
+        color: #003366;
+        background-color: #F5F5F5;
+        padding: 15px;
+        margin: 0;
+        border-bottom: 2px solid #C41E3A;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .admin-nav-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .admin-nav-sidebar li {
+        padding: 0;
+        margin: 0;
+    }
+
+    .admin-nav-sidebar a {
+        display: block;
+        padding: 12px 15px;
+        color: #003366;
+        text-decoration: none;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        font-size: 13px;
+    }
+
+    .admin-nav-sidebar a:hover {
+        background-color: #F5F5F5;
+        border-left-color: #C41E3A;
+        color: #C41E3A;
+        padding-left: 18px;
+    }
+
+    .admin-nav-sidebar .nav-section {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .admin-nav-sidebar .nav-section:last-child {
+        border-bottom: none;
+    }
+
+    .admin-nav-sidebar .nav-section-title {
+        padding: 8px 15px;
+        color: #666;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 1200px) {
+        .admin-nav-sidebar {
+            position: relative;
+            right: auto;
+            top: auto;
+            width: 100%;
+            max-height: none;
+            margin: 30px 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 style="color: #003366; margin-bottom: 30px;">🎓 Admin Dashboard</h1>
+
+<!-- Statistics Row -->
+<div class="dashboard-stats">
+    <!-- Training Courses -->
+    <div class="dashboard-card stat-card">
+        <h3>📚 Training Courses</h3>
+        <div class="stat-number" id="course-count">—</div>
+        <a href="{% url 'admin:core_trainingcourse_changelist' %}">Manage Courses</a>
+    </div>
+
+    <!-- Training Modules -->
+    <div class="dashboard-card stat-card">
+        <h3>📖 Training Modules</h3>
+        <div class="stat-number" id="module-count">—</div>
+        <a href="{% url 'admin:core_trainingmodule_changelist' %}">Manage Modules</a>
+    </div>
+
+    <!-- Assessments -->
+    <div class="dashboard-card stat-card">
+        <h3>✅ Assessments</h3>
+        <div class="stat-number" id="assessment-count">—</div>
+        <a href="{% url 'admin:core_assessment_changelist' %}">Manage Assessments</a>
+    </div>
+</div>
+
+<!-- Admin Sections -->
+<div class="dashboard-container">
+    <!-- Analytics Dashboard -->
+    <div class="dashboard-card">
+        <h3>📊 Analytics</h3>
+        <ul>
+            <li><a href="{% url 'core:analytics-dashboard' %}">View Analytics Dashboard</a></li>
+            <li><a href="{% url 'admin:core_usertrainingprogress_changelist' %}">User Progress</a></li>
+            <li><a href="{% url 'admin:core_assessmentattempt_changelist' %}">Assessment Results</a></li>
+            <li><a href="{% url 'admin:core_modulecompletion_changelist' %}">Module Completions</a></li>
+        </ul>
+    </div>
+
+    <!-- Training Management -->
+    <div class="dashboard-card">
+        <h3>📚 Training Management</h3>
+        <ul>
+            <li><a href="{% url 'admin:core_trainingcourse_add' %}">+ Create New Course</a></li>
+            <li><a href="{% url 'admin:core_trainingcourse_changelist' %}">View All Courses</a></li>
+            <li><a href="{% url 'admin:core_trainingmodule_add' %}">+ Create New Module</a></li>
+            <li><a href="{% url 'admin:core_trainingmodule_changelist' %}">View All Modules</a></li>
+            <li><a href="{% url 'admin:core_usertrainingprogress_changelist' %}">Track User Progress</a></li>
+            <li><a href="{% url 'core:import-courses' %}">📥 Import Courses (CSV)</a></li>
+            <li><a href="{% url 'core:import-modules' %}">📥 Import Modules (CSV)</a></li>
+        </ul>
+    </div>
+
+    <!-- Assessment Management -->
+    <div class="dashboard-card">
+        <h3>✅ Assessment Management</h3>
+        <ul>
+            <li><a href="{% url 'admin:core_assessment_add' %}">+ Create New Assessment</a></li>
+            <li><a href="{% url 'admin:core_assessment_changelist' %}">View All Assessments</a></li>
+            <li><a href="{% url 'admin:core_assessmentquestion_changelist' %}">Manage Questions</a></li>
+            <li><a href="{% url 'admin:core_assessmentattempt_changelist' %}">View Attempts</a></li>
+        </ul>
+    </div>
+
+    <!-- Office Management -->
+    <div class="dashboard-card">
+        <h3>🏢 Office Management</h3>
+        <ul>
+            <li><a href="{% url 'admin:core_office_add' %}">+ Add New Office</a></li>
+            <li><a href="{% url 'admin:core_office_changelist' %}">View All Offices</a></li>
+            <li><a href="{% url 'admin:core_officehours_changelist' %}">Manage Office Hours</a></li>
+            <li><a href="{% url 'admin:core_employeedirectory_changelist' %}">Employee Directory</a></li>
+        </ul>
+    </div>
+
+    <!-- User Management -->
+    <div class="dashboard-card">
+        <h3>👤 User Management</h3>
+        <ul>
+            <li><a href="{% url 'admin:core_usercertification_changelist' %}">Certifications</a></li>
+            <li><a href="{% url 'admin:core_modulecompletion_changelist' %}">Module Completions</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Navigation Sidebar -->
+<div class="admin-nav-sidebar">
+    <h3>📍 Quick Links</h3>
+    
+    <div class="nav-section">
+        <div class="nav-section-title">Training</div>
+        <ul>
+            <li><a href="{% url 'core:training-dashboard' %}" target="_blank">📚 Training Dashboard</a></li>
+            <li><a href="{% url 'core:assessment-list' %}" target="_blank">✅ Assessments</a></li>
+            <li><a href="{% url 'core:analytics-dashboard' %}" target="_blank">📊 Analytics</a></li>
+            <li><a href="{% url 'core:search-courses' %}" target="_blank">🔍 Search Courses</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-section-title">Admin Tools</div>
+        <ul>
+            <li><a href="{% url 'core:import-courses' %}" target="_blank">📥 Import Courses</a></li>
+            <li><a href="{% url 'core:import-modules' %}" target="_blank">📥 Import Modules</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-section-title">User Pages</div>
+        <ul>
+            <li><a href="{% url 'core:office-schedule' %}" target="_blank">🏢 Office Schedule</a></li>
+            <li><a href="{% url 'core:employee-directory' %}" target="_blank">👥 Employee Directory</a></li>
+            <li><a href="{% url 'core:user-profile' %}" target="_blank">👤 My Profile</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-section-title">Authentication</div>
+        <ul>
+            <li><a href="{% url 'authentication:login' %}" target="_blank">🔑 Login</a></li>
+            <li><a href="{% url 'authentication:register' %}" target="_blank">📝 Register</a></li>
+            <li><a href="{% url 'authentication:forgot-password' %}" target="_blank">🔐 Reset Password</a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Fetch statistics via AJAX
+    async function loadStats() {
+        try {
+            const response = await fetch('{% url "admin:admin-stats" %}');
+            const data = await response.json();
+            
+            document.getElementById('course-count').textContent = data.courses || 0;
+            document.getElementById('module-count').textContent = data.modules || 0;
+            document.getElementById('user-count').textContent = data.users || 0;
+            document.getElementById('assessment-count').textContent = data.assessments || 0;
+        } catch (error) {
+            console.error('Failed to load stats:', error);
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadStats);
+</script>
+
+{% endblock %}

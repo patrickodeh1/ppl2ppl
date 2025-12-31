@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 from authentication.models import CustomUser
 
 
@@ -20,7 +21,7 @@ class TrainingCourse(models.Model):
     ]
     
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = RichTextField(help_text="Course description with rich text formatting")
     difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES, default='beginner')
     is_active = models.BooleanField(default=True)
     is_mandatory = models.BooleanField(default=True, help_text="Must be completed before certification")
@@ -64,7 +65,7 @@ class TrainingModule(models.Model):
     
     course = models.ForeignKey(TrainingCourse, on_delete=models.CASCADE, related_name='modules')
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = RichTextField(blank=True, help_text="Module description with rich text formatting")
     content_type = models.CharField(max_length=20, choices=CONTENT_TYPE_CHOICES)
     
     # Ordering within course
@@ -191,7 +192,7 @@ class Assessment(models.Model):
     Set passing threshold (85%), randomization options, etc.
     """
     title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    description = RichTextField(blank=True, help_text="Assessment instructions with rich text formatting")
     
     # Passing threshold
     passing_score = models.PositiveIntegerField(

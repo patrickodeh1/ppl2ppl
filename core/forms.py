@@ -263,3 +263,105 @@ class EmployeeDirectoryForm(forms.ModelForm):
             }),
             'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+
+# ============================================================================
+# CSV IMPORT FORMS
+# ============================================================================
+
+import csv
+import io
+
+
+class CourseImportForm(forms.Form):
+    """Form for importing courses from CSV"""
+    csv_file = forms.FileField(
+        label='Upload CSV File',
+        help_text='CSV should have columns: Title, Description, Difficulty, Mandatory, Duration (minutes), Order, Active',
+        widget=forms.FileInput(attrs={
+            'accept': '.csv',
+            'class': 'form-control'
+        })
+    )
+    
+    def clean_csv_file(self):
+        """Validate and parse CSV file"""
+        file = self.cleaned_data['csv_file']
+        
+        if not file.name.endswith('.csv'):
+            raise forms.ValidationError('Please upload a CSV file.')
+        
+        try:
+            decoded_file = file.read().decode('utf-8')
+            reader = csv.DictReader(io.StringIO(decoded_file))
+            
+            if not reader.fieldnames:
+                raise forms.ValidationError('CSV file is empty.')
+            
+            # Required columns
+            required_fields = {'Title', 'Difficulty'}
+            missing_fields = required_fields - set(reader.fieldnames)
+            
+            if missing_fields:
+                raise forms.ValidationError(
+                    f'CSV is missing required columns: {", ".join(missing_fields)}'
+                )
+            
+            self.rows = list(reader)
+            
+            if not self.rows:
+                raise forms.ValidationError('CSV file contains no data rows.')
+            
+        except csv.Error as e:
+            raise forms.ValidationError(f'CSV parsing error: {str(e)}')
+        except Exception as e:
+            raise forms.ValidationError(f'Error reading file: {str(e)}')
+        
+        return file
+
+
+class ModuleImportForm(forms.Form):
+    """Form for importing modules from CSV"""
+    csv_file = forms.FileField(
+        label='Upload CSV File',
+        help_text='CSV should have columns: Course, Title, Content Type, Order, Duration (minutes), Required',
+        widget=forms.FileInput(attrs={
+            'accept': '.csv',
+            'class': 'form-control'
+        })
+    )
+    
+    def clean_csv_file(self):
+        """Validate and parse CSV file"""
+        file = self.cleaned_data['csv_file']
+        
+        if not file.name.endswith('.csv'):
+            raise forms.ValidationError('Please upload a CSV file.')
+        
+        try:
+            decoded_file = file.read().decode('utf-8')
+            reader = csv.DictReader(io.StringIO(decoded_file))
+            
+            if not reader.fieldnames:
+                raise forms.ValidationError('CSV file is empty.')
+            
+            # Required columns
+            required_fields = {'Course', 'Title', 'Content Type', 'Order'}
+            missing_fields = required_fields - set(reader.fieldnames)
+            
+            if missing_fields:
+                raise forms.ValidationError(
+                    f'CSV is missing required columns: {", ".join(missing_fields)}'
+                )
+            
+            self.rows = list(reader)
+            
+            if not self.rows:
+                raise forms.ValidationError('CSV file contains no data rows.')
+            
+        except csv.Error as e:
+            raise forms.ValidationError(f'CSV parsing error: {str(e)}')
+        except Exception as e:
+            raise forms.ValidationError(f'Error reading file: {str(e)}')
+        
+        return file

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Import Courses - P2P Solutions{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8 max-w-2xl">
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #003366 0%, #004d99 100%); color: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h1 style="margin: 0; font-size: 2rem;">📥 Import Courses</h1>
+        <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Bulk upload courses from CSV file</p>
+    </div>
+    
+    <!-- Success Message -->
+    {% if message %}
+    <div style="background: #d1fae5; border-left: 4px solid #22c55e; color: #065f46; padding: 1rem; border-radius: 6px; margin-bottom: 2rem; white-space: pre-line;">
+        {{ message }}
+    </div>
+    {% endif %}
+    
+    <!-- Error Messages -->
+    {% if form.non_field_errors %}
+    <div style="background: #fee2e2; border-left: 4px solid #ef4444; color: #7f1d1d; padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+        {% for error in form.non_field_errors %}
+            <div>❌ {{ error }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% if errors %}
+    <div style="background: #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+        <strong>⚠️ Import Errors:</strong>
+        <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <!-- Form -->
+    <div style="background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- CSV File Upload -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">
+                    {{ form.csv_file.label }}
+                </label>
+                {{ form.csv_file }}
+                {% if form.csv_file.help_text %}
+                <small style="display: block; color: #6b7280; margin-top: 0.5rem;">
+                    {{ form.csv_file.help_text|safe }}
+                </small>
+                {% endif %}
+                {% if form.csv_file.errors %}
+                <div style="color: #dc2626; margin-top: 0.5rem;">
+                    {% for error in form.csv_file.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Submit Button -->
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" style="background: #003366; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
+                    📤 Upload & Import
+                </button>
+                <a href="{% url 'admin:index' %}" style="background: #e5e7eb; color: #374151; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; text-decoration: none; cursor: pointer; transition: background 0.2s;">
+                    ← Back to Admin
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    <!-- CSV Template Help -->
+    <div style="background: #f0f9ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1.5rem; margin-top: 2rem;">
+        <h3 style="color: #0c4a6e; margin-top: 0;">📋 CSV Format Reference</h3>
+        <p style="color: #0c4a6e; margin: 0.5rem 0;">Your CSV file should have these columns (in any order):</p>
+        <table style="width: 100%; margin-top: 1rem; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #bfdbfe; border: 1px solid #93c5fd;">
+                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #93c5fd; color: #0c4a6e;">Column Name</th>
+                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #93c5fd; color: #0c4a6e;">Required</th>
+                    <th style="padding: 0.75rem; text-align: left; border: 1px solid #93c5fd; color: #0c4a6e;">Example Values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Title</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">✓ Yes</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">Python Basics, Advanced Excel</td>
+                </tr>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Description</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">○ No</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">Learn Python fundamentals...</td>
+                </tr>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Difficulty</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">✓ Yes</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">beginner, intermediate, advanced</td>
+                </tr>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Mandatory</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">○ No</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">Yes, No, true, false</td>
+                </tr>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Duration (minutes)</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">○ No</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">60, 120, 90</td>
+                </tr>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Order</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">○ No</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">1, 2, 3</td>
+                </tr>
+                <tr style="border: 1px solid #dbeafe;">
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;"><code>Active</code></td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">○ No</td>
+                    <td style="padding: 0.75rem; border: 1px solid #dbeafe; color: #0c4a6e;">Yes, No, true, false</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
