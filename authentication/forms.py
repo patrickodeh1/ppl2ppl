@@ -180,6 +180,8 @@ class UserRegistrationForm(forms.ModelForm, PasswordStrengthMixin):
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
+        if email:
+            email = email.strip().lower()
         if CustomUser.objects.filter(email=email).exists():
             raise ValidationError('This email address is already registered.')
         return email
