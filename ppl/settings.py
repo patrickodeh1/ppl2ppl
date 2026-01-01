@@ -30,6 +30,9 @@ DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 # Allowed hosts - fetch from environment or default to localhost
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# CSRF Trusted Origins - for form submissions from these domains
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:8000,http://127.0.0.1:3000,http://127.0.0.1:8000').split(',')
+
 
 # Application definition
 
