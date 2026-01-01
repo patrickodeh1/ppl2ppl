@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .search import search_courses
+
 
 app_name = 'core'
 
@@ -34,6 +34,5 @@ urlpatterns = [
     path('import/courses/', views.import_courses, name='import-courses'),
     path('import/modules/', views.import_modules, name='import-modules'),
     
-    # Search
-    path('search/', search_courses, name='search-courses'),
+    # Search (removed)
 ]

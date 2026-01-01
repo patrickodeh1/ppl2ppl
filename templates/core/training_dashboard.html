@@ -497,7 +497,7 @@
         <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
         <ul class="navbar-menu">
             <li><a href="{% url 'core:training-dashboard' %}" class="active">Training</a></li>
-            <li><a href="{% url 'core:search-courses' %}">Search</a></li>
+
             {% if user.certification_status %}
                 <li><a href="{% url 'core:office-schedule' %}">Schedule</a></li>
                 <li><a href="{% url 'core:employee-directory' %}">Directory</a></li>

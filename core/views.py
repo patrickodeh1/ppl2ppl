@@ -195,6 +195,12 @@ def module_view(request, module_id):
     next_module = module_list[current_index + 1] if current_index < len(module_list) - 1 else None
     prev_module = module_list[current_index - 1] if current_index > 0 else None
     
+    # Determine content URL based on content type
+    if module.content_type == 'pdf' and module.pdf_file:
+        content_url = module.pdf_file.url
+    else:
+        content_url = module.video_url
+    
     context = {
         'course': module.course,
         'module': module,
@@ -202,7 +208,7 @@ def module_view(request, module_id):
         'title': module.title,
         'description': module.description,
         'content_type': module.content_type,
-        'content_url': module.video_url,
+        'content_url': content_url,
         'content_text': module.text_content,
         'duration_minutes': module.duration_minutes,
         'progress': 100 if completion.is_completed else 0,

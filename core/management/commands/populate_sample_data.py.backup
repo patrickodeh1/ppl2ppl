@@ -74,13 +74,19 @@ class Command(BaseCommand):
         # ========== CREATE SAMPLE TRAINING MODULES ==========
         self.stdout.write('Creating training modules...')
         
-        # Course 1 modules - Foundations
+        # Course 1 modules - Foundations (Text/PDF)
         TrainingModule.objects.create(
             course=course1,
             title='The Mission and Impact',
             description='Understand the core purpose of professional signature gathering and how it empowers direct democracy.',
-            content_type='pdf',
+            content_type='text',
             order=1,
+            text_content='''Professional signature gathering is a cornerstone of direct democracy. By collecting valid signatures, you help bring important issues to the ballot, giving citizens a direct voice in their government. Your work ensures that the democratic process remains accessible and responsive to the will of the people.
+
+Key Points:
+- Signature gathering empowers communities.
+- It is a legal and ethical responsibility.
+- Your professionalism directly impacts the success of the initiative.''',
             duration_minutes=8,
             is_required=True,
         )
@@ -91,6 +97,7 @@ class Command(BaseCommand):
             description='Learn about the legal importance of the petition document and its critical components.',
             content_type='pdf',
             order=2,
+            pdf_url='/static/sample_pdfs/petition_document_overview.pdf',
             duration_minutes=10,
             is_required=True,
         )
@@ -99,8 +106,19 @@ class Command(BaseCommand):
             course=course1,
             title='Who Can Sign?',
             description='Master voter eligibility rules and required information collection.',
-            content_type='pdf',
+            content_type='text',
             order=3,
+            text_content='''Eligibility Rules:
+- Only registered voters in the relevant jurisdiction may sign.
+- All required fields must be completed legibly.
+- Each signature must be witnessed by the circulator.
+
+Required Information:
+- Printed name
+- Signature
+- Address (must match voter registration)
+- County (if required)
+- Date''',
             duration_minutes=12,
             is_required=True,
         )
@@ -134,13 +152,26 @@ VALIDATION REQUIREMENTS:
         # Course 2 modules - Compliance
         TrainingModule.objects.create(
             course=course2,
-            title='The Golden Rules of Compliance',
+            title='Video 2.1: The Golden Rules of Compliance',
             description='Learn the non-negotiable rules that must be followed to maintain compliance.',
-            content_type='pdf',
+            content_type='video',
             order=1,
+            video_url='https://www.youtube.com/embed/dQw4w9WgXcQ',
             duration_minutes=12,
             is_required=True,
         )
+            # Course 2 modules - Compliance (Text/PDF)
+            TrainingModule.objects.create(
+                course=course2,
+                title='The Golden Rules of Compliance',
+                description='Learn the non-negotiable rules that must be followed to maintain compliance.',
+                content_type='text',
+                order=1,
+                text_content='''\
+    THE GOLDEN RULES OF COMPLIANCE\n\n1. No Payment/Gifts: Never pay or offer anything of value for a signature.\n2. No Falsification: Personally witness every signature. Never sign for someone else.\n3. Accuracy: Start and end dates must be correct.\n\nConsequences for violations include immediate termination and possible legal action.\n''',
+                duration_minutes=12,
+                is_required=True,
+            )
         
         TrainingModule.objects.create(
             course=course2,
@@ -175,23 +206,46 @@ RULE 3: Accuracy of Declaration
         
         TrainingModule.objects.create(
             course=course2,
-            title='Ethical Engagement',
+            title='Video 2.2: Ethical Engagement',
             description='Master ethical engagement and de-escalation techniques.',
-            content_type='pdf',
+            content_type='video',
             order=3,
+            video_url='https://www.youtube.com/embed/9bZkp7q19f0',
             duration_minutes=10,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course2,
+                title='Ethical Engagement',
+                description='Master ethical engagement and de-escalation techniques.',
+                content_type='pdf',
+                order=3,
+                pdf_url='/static/sample_pdfs/ethical_engagement_guide.pdf',
+                duration_minutes=10,
+                is_required=True,
+            )
         
         TrainingModule.objects.create(
             course=course2,
-            title='Avoiding Invalid Signatures',
+            title='Video 2.3: Avoiding Invalid Signatures',
             description='Learn how to catch and prevent the most common invalidation issues.',
-            content_type='pdf',
+            content_type='video',
             order=4,
+            video_url='https://www.youtube.com/embed/5XeFesPBDbE',
             duration_minutes=12,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course2,
+                title='Avoiding Invalid Signatures',
+                description='Learn how to catch and prevent the most common invalidation issues.',
+                content_type='text',
+                order=4,
+                text_content='''\
+    Common Invalidation Issues:\n- Illegible handwriting\n- Incomplete required fields\n- Address mismatch\n- County errors\n\nPrevention Tips:\n- Review each signature immediately\n- Guide the voter through the process\n- Only the signer can correct errors\n''',
+                duration_minutes=12,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course2,
@@ -232,13 +286,25 @@ REQUIRED FIELDS TO CHECK:
         # Course 3 modules - Field Operations
         TrainingModule.objects.create(
             course=course3,
-            title='Preparation - Gear and Paperwork',
+            title='Video 3.1: Preparation - Gear and Paperwork',
             description='Learn what to bring and how to organize your circulator kit.',
-            content_type='pdf',
+            content_type='video',
             order=1,
+            video_url='https://www.youtube.com/embed/dQw4w9WgXcQ',
             duration_minutes=10,
             is_required=True,
         )
+            # Course 3 modules - Field Operations (Text/PDF)
+            TrainingModule.objects.create(
+                course=course3,
+                title='Preparation - Gear and Paperwork',
+                description='Learn what to bring and how to organize your circulator kit.',
+                content_type='pdf',
+                order=1,
+                pdf_url='/static/sample_pdfs/field_gear_checklist.pdf',
+                duration_minutes=10,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course3,
@@ -270,34 +336,70 @@ ORGANIZATION TIPS:
 
         TrainingModule.objects.create(
             course=course3,
-            title='Safety and Professionalism',
+            title='Video 3.2: Safety and Professionalism',
             description='Master public interaction, authority engagement, and professional behavior.',
-            content_type='pdf',
+            content_type='video',
             order=3,
+            video_url='https://www.youtube.com/embed/9bZkp7q19f0',
             duration_minutes=10,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course3,
+                title='Safety and Professionalism',
+                description='Master public interaction, authority engagement, and professional behavior.',
+                content_type='text',
+                order=3,
+                text_content='''\
+    Safety Protocols:\n- Always be aware of your surroundings\n- Keep personal belongings secure\n- Engage with the public respectfully\n- Know how to contact authorities if needed\n\nProfessionalism:\n- Dress appropriately\n- Be polite and clear\n- Represent the campaign with integrity\n''',
+                duration_minutes=10,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course3,
-            title='Setting Up Your Station',
+            title='Video 3.3: Setting Up Your Station',
             description='Learn optimal presentation and station setup for maximum conversions.',
-            content_type='pdf',
+            content_type='video',
             order=4,
+            video_url='https://www.youtube.com/embed/5XeFesPBDbE',
             duration_minutes=8,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course3,
+                title='Setting Up Your Station',
+                description='Learn optimal presentation and station setup for maximum conversions.',
+                content_type='pdf',
+                order=4,
+                pdf_url='/static/sample_pdfs/station_setup_guide.pdf',
+                duration_minutes=8,
+                is_required=True,
+            )
         
         # Course 4 modules - Pitch & Persuasion
         TrainingModule.objects.create(
             course=course4,
-            title='The 15-Second Hook',
+            title='Video 4.1: The 15-Second Hook',
             description='Master the initial contact and transition to the ask.',
-            content_type='pdf',
+            content_type='video',
             order=1,
+            video_url='https://www.youtube.com/embed/dQw4w9WgXcQ',
             duration_minutes=12,
             is_required=True,
         )
+            # Course 4 modules - Pitch & Persuasion (Text/PDF)
+            TrainingModule.objects.create(
+                course=course4,
+                title='The 15-Second Hook',
+                description='Master the initial contact and transition to the ask.',
+                content_type='text',
+                order=1,
+                text_content='''\
+    The 15-Second Hook:\n- Greet the voter\n- Qualify (registered voter?)\n- Explain the process\n- Make the ask confidently\n\nExample: "Hi! Are you a registered voter in [County]? We’re collecting signatures to get important measures on the ballot. Can you help by signing?"\n''',
+                duration_minutes=12,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course4,
@@ -331,13 +433,24 @@ Emphasize that they are NOT voting today, just ensuring the measures are put bef
 
         TrainingModule.objects.create(
             course=course4,
-            title='Handling Objections',
+            title='Video 4.2: Handling Objections',
             description='Learn proven responses to common objections.',
-            content_type='pdf',
+            content_type='video',
             order=3,
+            video_url='https://www.youtube.com/embed/9bZkp7q19f0',
             duration_minutes=12,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course4,
+                title='Handling Objections',
+                description='Learn proven responses to common objections.',
+                content_type='pdf',
+                order=3,
+                pdf_url='/static/sample_pdfs/objection_handling_guide.pdf',
+                duration_minutes=12,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course4,
@@ -370,13 +483,25 @@ Technique: Polite Exit - don't waste valuable time and energy on a hard no
 
         TrainingModule.objects.create(
             course=course4,
-            title='Maximizing Conversion',
+            title='Video 4.3: Maximizing Conversion',
             description='Learn signature psychology and crowd-building techniques.',
-            content_type='pdf',
+            content_type='video',
             order=5,
+            video_url='https://www.youtube.com/embed/5XeFesPBDbE',
             duration_minutes=10,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course4,
+                title='Maximizing Conversion',
+                description='Learn signature psychology and crowd-building techniques.',
+                content_type='text',
+                order=5,
+                text_content='''\
+    Signature Psychology:\n- Social proof: People are more likely to sign if others are signing\n- Consistency: Small commitments lead to bigger ones\n- Reciprocity: Be helpful and positive\n\nBuild a crowd and engage multiple people at once for best results.\n''',
+                duration_minutes=10,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course4,
@@ -411,13 +536,26 @@ PSYCHOLOGICAL PRINCIPLES:
         # Course 5 modules - Quality Control
         TrainingModule.objects.create(
             course=course5,
-            title='The Quality Check Process',
+            title='Video 5.1: The Quality Check Process',
             description='Master the immediate review and correction process.',
-            content_type='pdf',
+            content_type='video',
             order=1,
+            video_url='https://www.youtube.com/embed/dQw4w9WgXcQ',
             duration_minutes=10,
             is_required=True,
         )
+            # Course 5 modules - Quality Control (Text/PDF)
+            TrainingModule.objects.create(
+                course=course5,
+                title='The Quality Check Process',
+                description='Master the immediate review and correction process.',
+                content_type='text',
+                order=1,
+                text_content='''\
+    Quality Check Steps:\n- Review every signature for legibility and completeness\n- Only the signer can correct errors\n- Politely ask for corrections if needed\n- Log your progress daily\n''',
+                duration_minutes=10,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course5,
@@ -456,34 +594,69 @@ CRITICAL REMINDERS:
 
         TrainingModule.objects.create(
             course=course5,
-            title='End-of-Day Wrap-Up',
+            title='Video 5.2: End-of-Day Wrap-Up',
             description='Complete guide to securing and submitting your work.',
-            content_type='pdf',
+            content_type='video',
             order=3,
+            video_url='https://www.youtube.com/embed/9bZkp7q19f0',
             duration_minutes=10,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course5,
+                title='End-of-Day Wrap-Up',
+                description='Complete guide to securing and submitting your work.',
+                content_type='pdf',
+                order=3,
+                pdf_url='/static/sample_pdfs/end_of_day_wrapup.pdf',
+                duration_minutes=10,
+                is_required=True,
+            )
         
         # Course 6 modules - Team Management & Tech
         TrainingModule.objects.create(
             course=course6,
-            title='Using Data and Mapping Technology',
+            title='Video 6.1: Using Data and Mapping Technology',
             description='Learn how to use tools to optimize your routes and performance.',
-            content_type='pdf',
+            content_type='video',
             order=1,
+            video_url='https://www.youtube.com/embed/dQw4w9WgXcQ',
             duration_minutes=12,
             is_required=True,
         )
+            # Course 6 modules - Team Management & Tech (Text/PDF)
+            TrainingModule.objects.create(
+                course=course6,
+                title='Using Data and Mapping Technology',
+                description='Learn how to use tools to optimize your routes and performance.',
+                content_type='pdf',
+                order=1,
+                pdf_url='/static/sample_pdfs/data_mapping_tech.pdf',
+                duration_minutes=12,
+                is_required=True,
+            )
 
         TrainingModule.objects.create(
             course=course6,
-            title='Troubleshooting Common Scenarios',
+            title='Video 6.2: Troubleshooting Common Scenarios',
             description='How to handle lost documents, difficult situations, and emergency procedures.',
-            content_type='pdf',
+            content_type='video',
             order=2,
+            video_url='https://www.youtube.com/embed/9bZkp7q19f0',
             duration_minutes=12,
             is_required=True,
         )
+            TrainingModule.objects.create(
+                course=course6,
+                title='Troubleshooting Common Scenarios',
+                description='How to handle lost documents, difficult situations, and emergency procedures.',
+                content_type='text',
+                order=2,
+                text_content='''\
+    Troubleshooting Tips:\n- Lost documents: Report immediately and follow protocol\n- Difficult situations: Stay calm, seek help if needed\n- Emergencies: Know your emergency contacts and procedures\n''',
+                duration_minutes=12,
+                is_required=True,
+            )
 
         self.stdout.write(self.style.SUCCESS(f'✓ Created 28 training modules across 6 courses'))
 
