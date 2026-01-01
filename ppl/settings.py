@@ -79,41 +79,25 @@ WSGI_APPLICATION = 'ppl.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Use PostgreSQL in production (DEBUG=False), SQLite in development (DEBUG=True)
-if DEBUG:
-    # Development: SQLite
+# Use PostgreSQL for both development and production
+DATABASE_URL = os.getenv('DATABASE_URL', '')
+
+if DATABASE_URL:
+    # Parse the database URL
+    db_config = urlparse(DATABASE_URL)
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': db_config.path[1:],  # Remove leading slash
+            'USER': db_config.username,
+            'PASSWORD': db_config.password,
+            'HOST': db_config.hostname,
+            'PORT': db_config.port or 5432,
+            'CONN_MAX_AGE': 600,
         }
     }
 else:
-    # Production: PostgreSQL
-    DATABASE_URL = os.getenv('DATABASE_URL', '')
-    
-    if DATABASE_URL:
-        # Parse the database URL
-        db_config = urlparse(DATABASE_URL)
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': db_config.path[1:],  # Remove leading slash
-                'USER': db_config.username,
-                'PASSWORD': db_config.password,
-                'HOST': db_config.hostname,
-                'PORT': db_config.port or 5432,
-                'CONN_MAX_AGE': 600,
-            }
-        }
-    else:
-        # Fallback to SQLite if no DATABASE_URL provided
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
+    raise ImproperlyConfigured('DATABASE_URL environment variable is required')
 
 
 # Password validation
