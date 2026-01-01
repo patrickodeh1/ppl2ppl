@@ -2,3 +2,4 @@ penv/
 req.txt
 r.txt
 training_manual.txt
+.env
