@@ -146,7 +146,7 @@ STATICFILES_DIRS = [
 ]
 
 # WhiteNoise Configuration for static file serving in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 WHITENOISE_AUTOREFRESH = DEBUG
 WHITENOISE_USE_FINDERS = not DEBUG
 
