@@ -72,7 +72,7 @@ class RegisterView(FormView):
     def _send_verification_email(user, token):
         """Send email verification link to user."""
         # In production, use reverse() with request to get full URL
-        verification_link = f"https://yourdomain.com/auth/verify-email/{token}/"
+        verification_link = f"https://app.ppl2pplsolutions.com/auth/verify-email/{token}/"
         
         subject = 'Verify Your Email Address'
         message = f"""
