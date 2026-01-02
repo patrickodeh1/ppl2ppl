@@ -151,8 +151,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# WhiteNoise Configuration for static file serving in production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# WhiteNoise Configuration
 WHITENOISE_AUTOREFRESH = DEBUG
 WHITENOISE_USE_FINDERS = not DEBUG
 
@@ -166,8 +165,9 @@ AUTH_USER_MODEL = 'authentication.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Railway S3-compatible Storage Configuration
+# Storage Configuration (Django 4.2+ uses STORAGES dict)
 if os.getenv('AWS_S3_ENDPOINT_URL'):
+    # Railway S3-compatible Storage Configuration
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
     AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
     AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'auto')
@@ -178,10 +178,19 @@ if os.getenv('AWS_S3_ENDPOINT_URL'):
     AWS_QUERYSTRING_AUTH = True  # Use signed URLs (required for Railway)
     AWS_QUERYSTRING_EXPIRE = 3600  # URLs expire in 1 hour
     
-    # Django 4.2+ uses STORAGES instead of DEFAULT_FILE_STORAGE
     STORAGES = {
         "default": {
             "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+else:
+    # Local storage (development without S3)
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
         },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

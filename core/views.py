@@ -5,8 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.db.models import Q, F, Count, Avg, Case, When, IntegerField
 from django.utils import timezone
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponse, FileResponse
 from django.core.paginator import Paginator
+from django.core.files.storage import default_storage
 from decimal import Decimal
 import random
 
@@ -20,6 +21,30 @@ from .forms import (
     AssessmentOptionForm, QuizForm, OfficeForm, OfficeHoursForm, EmployeeDirectoryForm
 )
 from authentication.models import CustomUser
+
+
+# ============================================================================
+# PDF PROXY VIEW (for CORS bypass)
+# ============================================================================
+
+@login_required
+def serve_pdf(request, module_id):
+    """Proxy view to serve PDFs from S3 storage with proper headers"""
+    module = get_object_or_404(TrainingModule, id=module_id)
+    
+    if not module.pdf_file:
+        return HttpResponse("No PDF file", status=404)
+    
+    try:
+        # Open the file from storage (works with both local and S3)
+        pdf_file = default_storage.open(module.pdf_file.name, 'rb')
+        response = FileResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = f'inline; filename="{module.title}.pdf"'
+        # Add CORS headers
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
+    except Exception as e:
+        return HttpResponse(f"Error loading PDF: {str(e)}", status=500)
 
 
 # ============================================================================
@@ -203,14 +228,9 @@ def module_view(request, module_id):
     
     # Determine content URL based on content type
     if module.content_type == 'pdf' and module.pdf_file:
-        # Get the file URL - works for both Cloudinary and local storage
-        pdf_name = module.pdf_file.name
-        if pdf_name.startswith('http'):
-            # Already a full Cloudinary URL
-            content_url = pdf_name
-        else:
-            # Use .url to get proper path (will be Cloudinary URL if using MediaCloudinaryStorage)
-            content_url = module.pdf_file.url
+        # Use proxy URL to serve PDF (avoids CORS issues with S3)
+        from django.urls import reverse
+        content_url = reverse('core:serve-pdf', kwargs={'module_id': module.id})
     else:
         content_url = module.video_url
     

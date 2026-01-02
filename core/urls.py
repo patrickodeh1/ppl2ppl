@@ -10,6 +10,7 @@ urlpatterns = [
     path('training/course/<int:course_id>/', views.course_detail, name='course-detail'),
     path('training/module/<int:module_id>/', views.module_view, name='module-view'),
     path('training/module/<int:module_id>/complete/', views.mark_module_complete, name='mark-module-complete'),
+    path('training/module/<int:module_id>/pdf/', views.serve_pdf, name='serve-pdf'),
     
     # Assessment Module
     path('assessment/', views.assessment_list, name='assessment-list'),
