@@ -317,14 +317,14 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="id_first_name" class="form-label">First Name *</label>
-                            <input type="text" name="first_name" id="id_first_name" class="form-input" required>
+                            <input type="text" name="first_name" id="id_first_name" class="form-input" value="{{ form.first_name.value|default:'' }}" required>
                             {% if form.first_name.errors %}
                                 {% for error in form.first_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
                             {% endif %}
                         </div>
                         <div class="form-group">
                             <label for="id_last_name" class="form-label">Last Name *</label>
-                            <input type="text" name="last_name" id="id_last_name" class="form-input" required>
+                            <input type="text" name="last_name" id="id_last_name" class="form-input" value="{{ form.last_name.value|default:'' }}" required>
                             {% if form.last_name.errors %}
                                 {% for error in form.last_name.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
                             {% endif %}
@@ -333,7 +333,7 @@
                     
                     <div class="form-group">
                         <label for="id_email" class="form-label">Email Address *</label>
-                        <input type="email" name="email" id="id_email" class="form-input" required>
+                        <input type="email" name="email" id="id_email" class="form-input" value="{{ form.email.value|default:'' }}" required>
                         {% if form.email.errors %}
                             {% for error in form.email.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
                         {% endif %}
@@ -341,7 +341,7 @@
                     
                     <div class="form-group">
                         <label for="id_date_of_birth" class="form-label">Date of Birth *</label>
-                        <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input" required>
+                        <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-input" value="{{ form.date_of_birth.value|default:'' }}" required>
                         <span class="form-help">You must be 18 years or older</span>
                         {% if form.date_of_birth.errors %}
                             {% for error in form.date_of_birth.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
@@ -355,7 +355,7 @@
                     
                     <div class="form-group">
                         <label for="id_phone_number" class="form-label">Phone Number *</label>
-                        <input type="tel" name="phone_number" id="id_phone_number" class="form-input" placeholder="+12025551234" required>
+                        <input type="tel" name="phone_number" id="id_phone_number" class="form-input" placeholder="+12025551234" value="{{ form.phone_number.value|default:'' }}" required>
                         <span class="form-help">Include country code (e.g., +1 for US)</span>
                         {% if form.phone_number.errors %}
                             {% for error in form.phone_number.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
@@ -369,7 +369,7 @@
                     
                     <div class="form-group">
                         <label for="id_city" class="form-label">City *</label>
-                        <input type="text" name="city" id="id_city" class="form-input" required>
+                        <input type="text" name="city" id="id_city" class="form-input" value="{{ form.city.value|default:'' }}" required>
                         {% if form.city.errors %}
                             {% for error in form.city.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
                         {% endif %}
@@ -378,14 +378,14 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="id_state_region" class="form-label">State/Region *</label>
-                            <input type="text" name="state_region" id="id_state_region" class="form-input" required>
+                            <input type="text" name="state_region" id="id_state_region" class="form-input" value="{{ form.state_region.value|default:'' }}" required>
                             {% if form.state_region.errors %}
                                 {% for error in form.state_region.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
                             {% endif %}
                         </div>
                         <div class="form-group">
                             <label for="id_zip_postal_code" class="form-label">Zip/Postal Code</label>
-                            <input type="text" name="zip_postal_code" id="id_zip_postal_code" class="form-input">
+                            <input type="text" name="zip_postal_code" id="id_zip_postal_code" class="form-input" value="{{ form.zip_postal_code.value|default:'' }}">
                             {% if form.zip_postal_code.errors %}
                                 {% for error in form.zip_postal_code.errors %}<span class="form-error">{{ error }}</span>{% endfor %}
                             {% endif %}
@@ -395,13 +395,13 @@
                     <div class="form-row">
                         <div class="form-group form-row-full">
                             <label for="id_address_line_1" class="form-label">Address Line 1</label>
-                            <input type="text" name="address_line_1" id="id_address_line_1" class="form-input">
+                            <input type="text" name="address_line_1" id="id_address_line_1" class="form-input" value="{{ form.address_line_1.value|default:'' }}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group form-row-full">
                             <label for="id_address_line_2" class="form-label">Address Line 2</label>
-                            <input type="text" name="address_line_2" id="id_address_line_2" class="form-input">
+                            <input type="text" name="address_line_2" id="id_address_line_2" class="form-input" value="{{ form.address_line_2.value|default:'' }}">
                         </div>
                     </div>
                 </div>
@@ -453,7 +453,7 @@
                 <!-- Terms and Conditions -->
                 <div class="form-section-box">
                     <div class="checkbox-group">
-                        <input type="checkbox" name="terms_accepted" id="id_terms_accepted" required>
+                        <input type="checkbox" name="terms_accepted" id="id_terms_accepted" {% if form.terms_accepted.value %}checked{% endif %} required>
                         <label for="id_terms_accepted">
                             I accept the <a href="#">Terms & Conditions</a> and understand that my data will be processed in accordance with our privacy policy.
                         </label>
