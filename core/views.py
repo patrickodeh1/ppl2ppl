@@ -203,7 +203,13 @@ def module_view(request, module_id):
     
     # Determine content URL based on content type
     if module.content_type == 'pdf' and module.pdf_file:
-        content_url = module.pdf_file.url
+        # Use .name for Cloudinary URLs (which are stored as full URLs in the database)
+        # Use .url for local files (which would be /media/ paths)
+        pdf_name = module.pdf_file.name
+        if pdf_name.startswith('http'):
+            content_url = pdf_name  # Full Cloudinary URL
+        else:
+            content_url = module.pdf_file.url  # Local media URL
     else:
         content_url = module.video_url
     
