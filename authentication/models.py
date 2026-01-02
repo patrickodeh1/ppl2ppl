@@ -121,13 +121,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         super().clean()
         
         # Validate date of birth (must be 18+)
-        from datetime import date
-        today = date.today()
-        age = today.year - self.date_of_birth.year - (
-            (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
-        )
-        if age < 18:
-            raise ValidationError({'date_of_birth': 'You must be at least 18 years old to register.'})
+        if self.date_of_birth:
+            from datetime import date
+            today = date.today()
+            age = today.year - self.date_of_birth.year - (
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+            )
+            if age < 18:
+                raise ValidationError({'date_of_birth': 'You must be at least 18 years old to register.'})
     
     def is_account_locked(self):
         """Check if account is locked due to failed login attempts."""

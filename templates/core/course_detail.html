@@ -352,7 +352,7 @@
             
             <div class="module-info">
                 <div class="module-title">{{ module.title }}</div>
-                <div class="module-description">{{ module.description|truncatewords:20 }}</div>
+                <div class="module-description">{{ module.description|striptags|truncatewords:20 }}</div>
                 <div class="module-duration">
                     <strong>Content:</strong> {{ module.content_type }} | 
                     <strong>Duration:</strong> ~{{ module.estimated_time }} minutes
