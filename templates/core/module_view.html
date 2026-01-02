@@ -612,7 +612,7 @@
             </div>
         
         {% elif content_type == 'text' %}
-            <h2>{{ title }}</h2>
+            <h2>{{ title|striptags }}</h2>
             <div class="alert alert-info">
                 ⚠️ Please scroll to the bottom of the content to mark this module as complete.
             </div>
