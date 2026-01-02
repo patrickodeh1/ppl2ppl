@@ -3,72 +3,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from ckeditor.fields import RichTextField
 from authentication.models import CustomUser
-import os
-from dotenv import load_dotenv
-from cloudinary.uploader import upload as cloudinary_upload
-from django.core.files.storage import Storage
-from cloudinary.api import delete_resources
-import cloudinary
-
-# Load environment variables
-load_dotenv()
-
-
-# ============================================================================
-# CLOUDINARY STORAGE CLASS
-# ============================================================================
-
-class CloudinaryPDFStorage(Storage):
-    """Custom storage that uploads PDFs directly to Cloudinary"""
-    
-    def _open(self, name, mode='rb'):
-        raise NotImplementedError('Opening files from Cloudinary is not implemented')
-    
-    def _save(self, name, content):
-        """Upload file directly to Cloudinary"""
-        # Configure cloudinary
-        cloudinary.config(
-            cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
-            api_key=os.getenv('CLOUDINARY_API_KEY'),
-            api_secret=os.getenv('CLOUDINARY_API_SECRET'),
-        )
-        
-        # Remove leading slash and file extension to create public_id
-        public_id = name.rsplit('.', 1)[0]
-        
-        # Upload to Cloudinary
-        result = cloudinary_upload(
-            content.read(),
-            public_id=public_id,
-            resource_type='raw',
-            overwrite=True
-        )
-        
-        # Return the secure URL
-        return result['secure_url']
-    
-    def exists(self, name):
-        # Assume it exists if it's a URL
-        return name.startswith('http')
-    
-    def delete(self, name):
-        # Delete from Cloudinary if needed
-        if name.startswith('http'):
-            # Extract public_id from URL
-            try:
-                public_id = name.split('/upload/')[-1].rsplit('.', 1)[0]
-                delete_resources([public_id], resource_type='raw')
-            except:
-                pass
-    
-    def url(self, name):
-        # If it's already a URL, return it as-is
-        if name.startswith('http'):
-            return name
-        # Otherwise construct the URL
-        return name
-
-
 
 
 class TrainingCourse(models.Model):
@@ -138,7 +72,7 @@ class TrainingModule(models.Model):
     pdf_file = models.FileField(
         upload_to='training/pdfs/%Y/%m/',
         blank=True,
-        help_text="PDF file - uploads directly to Cloudinary"
+        help_text="PDF file - uploads to Railway S3 storage"
     )
     text_content = RichTextField(blank=True, help_text="Text content with rich text formatting (colors, paragraphs, styles)")
     
@@ -155,33 +89,6 @@ class TrainingModule(models.Model):
         unique_together = ('course', 'order')
         verbose_name = "Training Module"
         verbose_name_plural = "Training Modules"
-    
-    def save(self, *args, **kwargs):
-        """Override save to upload PDFs directly to Cloudinary"""
-        # Check if pdf_file is a new file being uploaded (not already a Cloudinary URL)
-        if self.pdf_file and not self.pdf_file.name.startswith('http'):
-            # This is a local file, upload it to Cloudinary
-            if hasattr(self.pdf_file, 'file') or hasattr(self.pdf_file, 'read'):
-                try:
-                    cloudinary.config(
-                        cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
-                        api_key=os.getenv('CLOUDINARY_API_KEY'),
-                        api_secret=os.getenv('CLOUDINARY_API_SECRET'),
-                    )
-                    file_path = self.pdf_file.name
-                    public_id = file_path.rsplit('.', 1)[0]
-                    result = cloudinary_upload(
-                        self.pdf_file.file.read(),
-                        public_id=public_id,
-                        resource_type='raw',
-                        overwrite=True
-                    )
-                    # Store the Cloudinary URL
-                    self.pdf_file.name = result['secure_url']
-                except Exception as e:
-                    print(f"Error uploading to Cloudinary: {e}")
-        
-        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.course.title} - {self.title}"

@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
-import cloudinary
 from pathlib import Path
 from urllib.parse import urlparse
 from django.core.exceptions import ImproperlyConfigured
@@ -22,20 +21,6 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Cloudinary Configuration
-cloudinary.config(
-    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.getenv('CLOUDINARY_API_KEY'),
-    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
-)
-
-# Cloudinary Storage Configuration for django-cloudinary-storage
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-}
 
 
 # Quick-start development settings - unsuitable for production
@@ -63,8 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary_storage',
-    'cloudinary',
+    'storages',
     'corsheaders',
     'ckeditor',
     'authentication',
@@ -182,9 +166,18 @@ AUTH_USER_MODEL = 'authentication.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Use Cloudinary for file storage if configured (works in both dev and production)
-if os.getenv('CLOUDINARY_CLOUD_NAME'):
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Railway S3-compatible Storage Configuration
+if os.getenv('AWS_S3_ENDPOINT_URL'):
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL')
+    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'auto')
+    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+    AWS_S3_ADDRESSING_STYLE = 'virtual'
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_QUERYSTRING_AUTH = False  # Make files publicly accessible
+    AWS_DEFAULT_ACL = 'public-read'
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [
