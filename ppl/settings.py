@@ -31,7 +31,6 @@ SECRET_KEY = 'django-insecure-_=5l90f4^(t@qis9b^aspr9(tc%(20jmumrqrx#y&6mfr=s$&6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
-
 # Allowed hosts - fetch from environment or default to localhost
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
@@ -160,6 +159,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
 AUTH_USER_MODEL = 'authentication.CustomUser'
+
+# Login/Logout URLs
+LOGIN_URL = 'authentication:login'
+LOGIN_REDIRECT_URL = 'core:training-dashboard'
+LOGOUT_REDIRECT_URL = 'authentication:login'
 
 # Media Files Configuration
 MEDIA_URL = '/media/'
@@ -301,5 +305,35 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# Logging Configuration - captures errors even when DEBUG=False
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
 
 
