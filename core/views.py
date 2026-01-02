@@ -135,6 +135,7 @@ def course_detail(request, course_id):
     # Add status and lock info to modules
     module_list = []
     previous_completed = True
+    first_incomplete_module = None
     
     for module in modules:
         is_completed = module.id in completed_module_ids
@@ -150,6 +151,10 @@ def course_detail(request, course_id):
             'is_locked': is_locked,
         })
         
+        # Track first incomplete module for smart navigation
+        if not is_completed and first_incomplete_module is None and not is_locked:
+            first_incomplete_module = module
+        
         # Only first module or after completed modules are unlocked
         if not is_completed:
             previous_completed = False
@@ -163,6 +168,7 @@ def course_detail(request, course_id):
         'completed_modules': completed_modules,
         'total_modules': total_modules,
         'total_duration': sum(m.duration_minutes or 0 for m in modules),
+        'first_incomplete_module': first_incomplete_module,
     }
     return render(request, 'core/course_detail.html', context)
 
@@ -272,7 +278,13 @@ def mark_module_complete(request, module_id):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({'success': True, 'message': 'Module marked as complete'})
     
-    return redirect('core:module-view', module_id=module_id)
+    # Redirect to next module if it exists
+    next_module = course.modules.filter(order__gt=module.order).order_by('order').first()
+    if next_module:
+        return redirect('core:module-view', module_id=next_module.id)
+    
+    # If no next module, go back to training dashboard
+    return redirect('core:training-dashboard')
 
 
 # ============================================================================

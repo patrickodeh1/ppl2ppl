@@ -11,11 +11,25 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+import cloudinary
 from pathlib import Path
 from urllib.parse import urlparse
+from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cloudinary Configuration
+if os.getenv('CLOUDINARY_URL'):
+    cloudinary.config(
+        cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', 'dji8fh0vu'),
+        api_key=os.getenv('CLOUDINARY_API_KEY'),
+        api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+    )
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'corsheaders',
     'ckeditor',
     'authentication',
@@ -84,7 +100,7 @@ WSGI_APPLICATION = 'ppl.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# Use PostgreSQL for both development and production
+# Use PostgreSQL for both development and production (unified database)
 DATABASE_URL = os.getenv('DATABASE_URL', '')
 
 if DATABASE_URL:
@@ -159,6 +175,10 @@ AUTH_USER_MODEL = 'authentication.CustomUser'
 # Media Files Configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Use Cloudinary for file storage if configured (works in both dev and production)
+if os.getenv('CLOUDINARY_URL'):
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [

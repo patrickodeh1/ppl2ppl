@@ -74,7 +74,7 @@ class TrainingModule(models.Model):
     # Content storage
     video_url = models.URLField(blank=True, help_text="URL for video content (e.g., YouTube, Vimeo)")
     pdf_file = models.FileField(upload_to='training/pdfs/%Y/%m/', blank=True)
-    text_content = models.TextField(blank=True)
+    text_content = RichTextField(blank=True, help_text="Text content with rich text formatting (colors, paragraphs, styles)")
     
     # Metadata
     duration_minutes = models.PositiveIntegerField(default=0, help_text="Duration in minutes for video")

@@ -41,9 +41,21 @@
     
     .navbar-brand {
         color: white;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
         text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .navbar-brand img {
+        height: 35px;
+        width: 35px;
+        padding: 4px;
+        background-color: white;
+        border-radius: 50%;
+        box-sizing: content-box;
     }
     
     .navbar-menu {
@@ -494,7 +506,10 @@
 <!-- Navigation Bar -->
 <div class="navbar">
     <div class="navbar-content">
-        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">P2P Solutions</a>
+        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">
+            <img src="{% static 'images/logo.png' %}" alt="P2P Logo">
+            P2P Solutions
+        </a>
         <ul class="navbar-menu">
             <li><a href="{% url 'core:training-dashboard' %}" class="active">Training</a></li>
 
