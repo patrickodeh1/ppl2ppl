@@ -90,13 +90,19 @@ class RegisterView(FormView):
         The Team
         """
         
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            # Log the error but don't fail registration
+            print(f"Failed to send verification email: {e}")
+            # In production, you might want to log this properly
+            pass
 
 
 class EmailVerificationView(TemplateView):
