@@ -22,30 +22,26 @@ def send_email_verification(request, user, token):
     Raises:
         Exception: If email sending fails
     """
-    # Build verification link
-    verification_link = request.build_absolute_uri(
-        reverse('authentication:verify-email', kwargs={'token': token})
-    )
-    
-    logger.debug(f"Building verification link for {user.email}: {verification_link}")
-    
-    context = {
-        'user': user,
-        'verification_link': verification_link,
-        'expiration_hours': 24,
-    }
-    
-    # Email subject and message
-    subject = 'Verify Your Email Address'
-    html_message = render_to_string(
-        'authentication/emails/email_verification.html',
-        context
-    )
-    plain_message = strip_tags(html_message)
-    
-    logger.debug(f"Sending verification email to {user.email} from {settings.DEFAULT_FROM_EMAIL}")
-    
     try:
+        # Build verification link
+        verification_link = request.build_absolute_uri(
+            reverse('authentication:verify-email', kwargs={'token': token})
+        )
+        
+        context = {
+            'user': user,
+            'verification_link': verification_link,
+            'expiration_hours': 24,
+        }
+        
+        # Email subject and message
+        subject = 'Verify Your Email Address'
+        html_message = render_to_string(
+            'authentication/emails/email_verification.html',
+            context
+        )
+        plain_message = strip_tags(html_message)
+        
         result = send_mail(
             subject,
             plain_message,
@@ -54,10 +50,10 @@ def send_email_verification(request, user, token):
             html_message=html_message,
             fail_silently=False,
         )
-        logger.info(f"Verification email sent successfully to {user.email} (result: {result})")
+        logger.info(f"[EMAIL_SENT] Verification email - Status: Success")
         return result
     except Exception as e:
-        logger.error(f"FAILED to send verification email to {user.email}: {type(e).__name__}: {str(e)}")
+        logger.error(f"[EMAIL_FAILED] Verification email - Error: {type(e).__name__}: {str(e)}")
         raise
 
 
@@ -73,30 +69,26 @@ def send_password_reset_email(request, user, token):
     Raises:
         Exception: If email sending fails
     """
-    # Build reset link
-    reset_link = request.build_absolute_uri(
-        reverse('authentication:reset-password', kwargs={'token': token})
-    )
-    
-    logger.debug(f"Building reset link for {user.email}: {reset_link}")
-    
-    context = {
-        'user': user,
-        'reset_link': reset_link,
-        'expiration_hours': 1,
-    }
-    
-    # Email subject and message
-    subject = 'Reset Your Password'
-    html_message = render_to_string(
-        'authentication/emails/password_reset.html',
-        context
-    )
-    plain_message = strip_tags(html_message)
-    
-    logger.debug(f"Sending password reset email to {user.email} from {settings.DEFAULT_FROM_EMAIL}")
-    
     try:
+        # Build reset link
+        reset_link = request.build_absolute_uri(
+            reverse('authentication:reset-password', kwargs={'token': token})
+        )
+        
+        context = {
+            'user': user,
+            'reset_link': reset_link,
+            'expiration_hours': 1,
+        }
+        
+        # Email subject and message
+        subject = 'Reset Your Password'
+        html_message = render_to_string(
+            'authentication/emails/password_reset.html',
+            context
+        )
+        plain_message = strip_tags(html_message)
+        
         result = send_mail(
             subject,
             plain_message,
@@ -105,10 +97,10 @@ def send_password_reset_email(request, user, token):
             html_message=html_message,
             fail_silently=False,
         )
-        logger.info(f"Password reset email sent successfully to {user.email} (result: {result})")
+        logger.info(f"[EMAIL_SENT] Password reset email - Status: Success")
         return result
     except Exception as e:
-        logger.error(f"FAILED to send password reset email to {user.email}: {type(e).__name__}: {str(e)}")
+        logger.error(f"[EMAIL_FAILED] Password reset email - Error: {type(e).__name__}: {str(e)}")
         raise
 
 
