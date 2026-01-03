@@ -34,6 +34,11 @@ class RegisterView(FormView):
     form_class = UserRegistrationForm
     success_url = reverse_lazy('authentication:email-verification')
     
+    def post(self, request, *args, **kwargs):
+        """Log POST request received."""
+        logger.info(f"[USER_REGISTERED] POST request received - Starting registration")
+        return super().post(request, *args, **kwargs)
+    
     def form_valid(self, form):
         """Process valid registration form."""
         with transaction.atomic():
@@ -341,26 +346,40 @@ class ResendVerificationEmailView(View):
     def post(self, request):
         """Resend verification email."""
         email = request.POST.get('email')
+        logger.info(f"[VERIFY_EMAIL] Resend request received for: {email}")
         
         try:
             user = CustomUser.objects.get(email=email, is_email_verified=False)
+            logger.info(f"[VERIFY_EMAIL] User found (ID: {user.id}) - Status: Unverified")
             
             # Delete old token if exists
+            old_tokens = EmailVerificationToken.objects.filter(user=user).count()
             EmailVerificationToken.objects.filter(user=user).delete()
+            logger.info(f"[VERIFY_EMAIL] Deleted {old_tokens} old token(s)")
             
             # Generate new token
+            logger.info(f"[VERIFY_EMAIL] Generating new token for resend")
             token = self._generate_token()
             EmailVerificationToken.objects.create(
                 user=user,
                 token=token
             )
+            logger.info(f"[VERIFY_EMAIL] New token created: {token[:8]}...")
             
             # Send verification email
-            send_email_verification(request, user, token)
-            
-            messages.success(request, 'Verification email sent! Please check your inbox.')
+            logger.info(f"[VERIFY_EMAIL] Attempting to resend verification email")
+            try:
+                send_email_verification(request, user, token)
+                logger.info(f"[VERIFY_EMAIL] Resend completed successfully")
+                messages.success(request, 'Verification email sent! Please check your inbox.')
+            except Exception as e:
+                import traceback
+                logger.error(f"[EMAIL_FAILED] Resend verification - Error: {type(e).__name__}: {str(e)}")
+                logger.error(f"[EMAIL_FAILED] Traceback: {traceback.format_exc()}")
+                messages.error(request, 'Failed to send verification email. Please try again.')
         
         except CustomUser.DoesNotExist:
+            logger.warning(f"[VERIFY_EMAIL] Resend failed - Email not found or already verified: {email}")
             messages.error(request, 'Invalid email address.')
         
         return redirect('authentication:email-verification')
