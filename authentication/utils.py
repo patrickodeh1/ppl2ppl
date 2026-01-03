@@ -23,10 +23,14 @@ def send_email_verification(request, user, token):
         Exception: If email sending fails
     """
     try:
+        logger.info(f"[VERIFY_EMAIL] Starting verification email for user: {user.email}")
+        
         # Build verification link
+        logger.info(f"[VERIFY_EMAIL] Building verification link with token: {token[:8]}...")
         verification_link = request.build_absolute_uri(
             reverse('authentication:verify-email', kwargs={'token': token})
         )
+        logger.info(f"[VERIFY_EMAIL] Built verification link successfully")
         
         context = {
             'user': user,
@@ -35,13 +39,16 @@ def send_email_verification(request, user, token):
         }
         
         # Email subject and message
+        logger.info(f"[VERIFY_EMAIL] Rendering email template")
         subject = 'Verify Your Email Address'
         html_message = render_to_string(
             'authentication/emails/email_verification.html',
             context
         )
+        logger.info(f"[VERIFY_EMAIL] Template rendered successfully ({len(html_message)} bytes)")
         plain_message = strip_tags(html_message)
         
+        logger.info(f"[VERIFY_EMAIL] Sending email via SMTP to {user.email}")
         result = send_mail(
             subject,
             plain_message,
@@ -50,10 +57,12 @@ def send_email_verification(request, user, token):
             html_message=html_message,
             fail_silently=False,
         )
-        logger.info(f"[EMAIL_SENT] Verification email - Status: Success")
+        logger.info(f"[EMAIL_SENT] Verification email - Status: Success - Result: {result}")
         return result
     except Exception as e:
         logger.error(f"[EMAIL_FAILED] Verification email - Error: {type(e).__name__}: {str(e)}")
+        import traceback
+        logger.error(f"[EMAIL_FAILED] Traceback: {traceback.format_exc()}")
         raise
 
 
@@ -70,10 +79,14 @@ def send_password_reset_email(request, user, token):
         Exception: If email sending fails
     """
     try:
+        logger.info(f"[PASSWORD_RESET] Starting password reset email for user: {user.email}")
+        
         # Build reset link
+        logger.info(f"[PASSWORD_RESET] Building reset link with token: {token[:8]}...")
         reset_link = request.build_absolute_uri(
             reverse('authentication:reset-password', kwargs={'token': token})
         )
+        logger.info(f"[PASSWORD_RESET] Built reset link successfully")
         
         context = {
             'user': user,
@@ -82,13 +95,16 @@ def send_password_reset_email(request, user, token):
         }
         
         # Email subject and message
+        logger.info(f"[PASSWORD_RESET] Rendering email template")
         subject = 'Reset Your Password'
         html_message = render_to_string(
             'authentication/emails/password_reset.html',
             context
         )
+        logger.info(f"[PASSWORD_RESET] Template rendered successfully ({len(html_message)} bytes)")
         plain_message = strip_tags(html_message)
         
+        logger.info(f"[PASSWORD_RESET] Sending email via SMTP to {user.email}")
         result = send_mail(
             subject,
             plain_message,
@@ -97,8 +113,13 @@ def send_password_reset_email(request, user, token):
             html_message=html_message,
             fail_silently=False,
         )
-        logger.info(f"[EMAIL_SENT] Password reset email - Status: Success")
+        logger.info(f"[EMAIL_SENT] Password reset email - Status: Success - Result: {result}")
         return result
+    except Exception as e:
+        logger.error(f"[EMAIL_FAILED] Password reset - Error: {type(e).__name__}: {str(e)}")
+        import traceback
+        logger.error(f"[EMAIL_FAILED] Traceback: {traceback.format_exc()}")
+        raise
     except Exception as e:
         logger.error(f"[EMAIL_FAILED] Password reset email - Error: {type(e).__name__}: {str(e)}")
         raise

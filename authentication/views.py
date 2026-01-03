@@ -44,15 +44,19 @@ class RegisterView(FormView):
             logger.info(f"[USER_REGISTERED] Status: Created")
             
             # Generate and save email verification token
+            logger.info(f"[VERIFY_EMAIL] Generating token for user {user.id}")
             token = self._generate_token()
             EmailVerificationToken.objects.create(
                 user=user,
                 token=token
             )
+            logger.info(f"[VERIFY_EMAIL] Token created: {token[:8]}...")
             
             # Send verification email
+            logger.info(f"[VERIFY_EMAIL] Attempting to send verification email")
             try:
                 send_email_verification(self.request, user, token)
+                logger.info(f"[VERIFY_EMAIL] Email sending completed successfully")
             except Exception as e:
                 import traceback
                 logger.error(f"[EMAIL_FAILED] Verification - Error: {type(e).__name__}: {str(e)}")
@@ -61,6 +65,7 @@ class RegisterView(FormView):
             # Store user id in session for verification page
             self.request.session['verification_user_id'] = user.id
             self.request.session['verification_email'] = user.email
+            logger.info(f"[VERIFY_EMAIL] Session data stored for user {user.id}")
         
         messages.success(self.request, 'Registration successful! Please check your email to verify your account.')
         return super().form_valid(form)
