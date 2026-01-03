@@ -321,7 +321,7 @@ LOGGING = {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         'file': {
             'class': 'logging.FileHandler',
@@ -346,18 +346,18 @@ LOGGING = {
             'propagate': False,
         },
         'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
+            'handlers': [],
+            'level': 'ERROR',
             'propagate': False,
         },
         'authentication': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
         'core': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
     },
