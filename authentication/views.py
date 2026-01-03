@@ -14,6 +14,7 @@ from django.core.exceptions import ValidationError
 
 import secrets
 import string
+import logging
 from datetime import timedelta
 
 from .models import CustomUser, EmailVerificationToken, PasswordResetToken, LoginSession
@@ -22,6 +23,8 @@ from .forms import (
     ResetPasswordForm
 )
 from .utils import send_email_verification, send_password_reset_email
+
+logger = logging.getLogger(__name__)
 
 
 class RegisterView(FormView):
@@ -38,6 +41,7 @@ class RegisterView(FormView):
             user = form.save(commit=False)
             user.status = 'registered'
             user.save()
+            logger.info(f"New user registered: {user.email}")
             
             # Generate and save email verification token
             token = self._generate_token()
@@ -47,7 +51,11 @@ class RegisterView(FormView):
             )
             
             # Send verification email
-            send_email_verification(self.request, user, token)
+            try:
+                send_email_verification(self.request, user, token)
+                logger.info(f"Verification email sent to {user.email}")
+            except Exception as e:
+                logger.error(f"Failed to send verification email to {user.email}: {e}")
             
             # Store user id in session for verification page
             self.request.session['verification_user_id'] = user.id
@@ -104,6 +112,7 @@ class VerifyEmailView(View):
             user.is_email_verified = True
             user.status = 'email_verified'
             user.save()
+            logger.info(f"Email verified for user: {user.email}")
             
             # Clear session
             if 'verification_user_id' in request.session:
@@ -115,6 +124,7 @@ class VerifyEmailView(View):
             return redirect('authentication:login')
         
         except EmailVerificationToken.DoesNotExist:
+            logger.warning(f"Invalid email verification token attempted: {token}")
             messages.error(request, 'Invalid verification link.')
             return redirect('authentication:register')
 
@@ -136,6 +146,7 @@ class LoginView(FormView):
         
         # Check if email is verified
         if not user.is_email_verified:
+            logger.warning(f"Login attempt with unverified email: {email}")
             messages.error(
                 self.request,
                 'Please verify your email address before logging in. Check your inbox for the verification email.'
@@ -150,6 +161,7 @@ class LoginView(FormView):
         user = authenticate(self.request, username=email, password=password)
         if user is not None:
             login(self.request, user)
+            logger.info(f"User logged in: {email}")
             
             # Create login session
             self._create_login_session(user, remember_me)
@@ -230,12 +242,17 @@ class ForgotPasswordView(FormView):
             )
             
             # Send reset email
-            send_password_reset_email(self.request, user, token)
+            try:
+                send_password_reset_email(self.request, user, token)
+                logger.info(f"Password reset email sent to {user.email}")
+            except Exception as e:
+                logger.error(f"Failed to send password reset email to {user.email}: {e}")
             
             # Store email in session for confirmation page
             self.request.session['reset_password_email'] = email
         
         except CustomUser.DoesNotExist:
+            logger.warning(f"Password reset requested for non-existent email: {email}")
             # Don't reveal if email exists in system
             pass
         

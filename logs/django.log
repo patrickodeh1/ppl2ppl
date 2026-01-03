@@ -1,0 +1,3 @@
+[INFO] 2026-01-03 16:48:45 django ✓ Test INFO log message
+[WARNING] 2026-01-03 16:48:45 django ✓ Test WARNING log message
+[ERROR] 2026-01-03 16:48:45 django ✓ Test ERROR log message

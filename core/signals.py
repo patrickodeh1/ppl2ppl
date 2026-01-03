@@ -7,9 +7,12 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils.html import strip_tags
+import logging
 from .models import (
     UserTrainingProgress, AssessmentAttempt, UserCertification, ModuleCompletion
 )
+
+logger = logging.getLogger(__name__)
 
 
 @receiver(post_save, sender=UserTrainingProgress)
@@ -39,8 +42,9 @@ def send_course_completion_email(sender, instance, created, **kwargs):
                 html_message=html_message,
                 fail_silently=True,
             )
+            logger.info(f"Course completion email sent to {user.email} for course: {course.title}")
         except Exception as e:
-            print(f'Error sending course completion email: {e}')
+            logger.error(f'Error sending course completion email: {e}')
 
 
 @receiver(post_save, sender=AssessmentAttempt)
@@ -55,10 +59,12 @@ def send_assessment_email(sender, instance, created, **kwargs):
                 subject = f'Assessment Passed: {assessment.title}'
                 template = 'emails/assessment_passed.html'
                 message_type = 'passed'
+                logger.info(f"Assessment passed - {assessment.title}: {user.email}")
             else:
                 subject = f'Assessment Failed: {assessment.title}'
                 template = 'emails/assessment_failed.html'
                 message_type = 'failed'
+                logger.warning(f"Assessment failed - {assessment.title}: {user.email}")
             
             context = {
                 'user_name': user.first_name or user.email,
@@ -80,7 +86,7 @@ def send_assessment_email(sender, instance, created, **kwargs):
                 fail_silently=True,
             )
         except Exception as e:
-            print(f'Error sending assessment email: {e}')
+            logger.error(f'Error sending assessment email: {e}')
 
 
 @receiver(post_save, sender=UserCertification)
@@ -109,8 +115,9 @@ def send_certification_email(sender, instance, created, **kwargs):
                 html_message=html_message,
                 fail_silently=True,
             )
+            logger.info(f"Certification email sent to {user.email}")
         except Exception as e:
-            print(f'Error sending certification email: {e}')
+            logger.error(f'Error sending certification email: {e}')
 
 
 @receiver(post_save, sender=ModuleCompletion)
@@ -161,5 +168,6 @@ def send_module_completion_notification(sender, instance, created, **kwargs):
                     html_message=html_message,
                     fail_silently=True,
                 )
+                logger.info(f"Module progress notification sent to {user.email}: {completed_modules}/{course_modules.count()}")
         except Exception as e:
-            print(f'Error sending module completion notification: {e}')
+            logger.error(f'Error sending module completion notification: {e}')
