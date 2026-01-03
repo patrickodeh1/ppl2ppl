@@ -1,3 +1,13 @@
 [INFO] 2026-01-03 16:48:45 django ✓ Test INFO log message
 [WARNING] 2026-01-03 16:48:45 django ✓ Test WARNING log message
 [ERROR] 2026-01-03 16:48:45 django ✓ Test ERROR log message
+[INFO] 2026-01-03 17:10:26 authentication.apps Authentication app initialized
+[INFO] 2026-01-03 17:10:26 authentication.apps Email Backend: django.core.mail.backends.smtp.EmailBackend
+[INFO] 2026-01-03 17:10:26 authentication.apps Email Host: ppl2pplsolutions.com:465
+[INFO] 2026-01-03 17:10:26 authentication.apps Email Host User: support@ppl2pplsolutions.com
+[INFO] 2026-01-03 17:10:26 authentication.apps Default From Email: support@ppl2pplsolutions.com
+[INFO] 2026-01-03 17:10:26 authentication.apps Email Use SSL: True
+[INFO] 2026-01-03 17:10:26 authentication.apps Email Use TLS: False
+[INFO] 2026-01-03 17:10:26 authentication ✓ This info log SHOULD appear
+[WARNING] 2026-01-03 17:10:26 authentication ✓ This warning log SHOULD appear
+[ERROR] 2026-01-03 17:10:26 authentication ✓ This error log SHOULD appear
