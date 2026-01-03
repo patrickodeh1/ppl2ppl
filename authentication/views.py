@@ -94,6 +94,14 @@ class EmailVerificationView(TemplateView):
     
     template_name = 'authentication/email-verification.html'
     
+    def get(self, request, *args, **kwargs):
+        """Redirect to login if no email in session."""
+        if not request.session.get('verification_email'):
+            logger.info(f"[VERIFY_EMAIL] No email in session - Redirecting to login")
+            messages.info(request, 'Please log in to resend verification email.')
+            return redirect('authentication:login')
+        return super().get(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         email = self.request.session.get('verification_email', '')
@@ -158,11 +166,12 @@ class LoginView(FormView):
         # Check if email is verified
         if not user.is_email_verified:
             logger.warning(f"[LOGIN_FAILED] Email unverified - Status: Blocked")
+            # Store email in session for resend functionality
+            self.request.session['verification_email'] = email
             messages.error(
                 self.request,
                 'Please verify your email address before logging in. Check your inbox for the verification email.'
             )
-            self.request.session['unverified_email'] = email
             return redirect('authentication:email-verification')
         
         # Reset failed login attempts on successful login

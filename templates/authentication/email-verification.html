@@ -309,8 +309,7 @@
             <!-- Resend Form -->
             <form method="post" action="{% url 'authentication:resend-verification' %}">
                 {% csrf_token %}
-                <input type="email" name="email" placeholder="Enter your email" value="{{ email }}" required
-                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px; font-size: 14px;">
+                <input type="hidden" name="email" value="{{ email }}">
                 <button type="submit" class="btn-resend">
                     Resend Verification Email
                 </button>
