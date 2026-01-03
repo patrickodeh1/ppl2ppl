@@ -59,6 +59,11 @@ def send_email_verification(request, user, token):
         )
         logger.info(f"[EMAIL_SENT] Verification email - Status: Success - Result: {result}")
         return result
+    except TimeoutError as e:
+        logger.error(f"[EMAIL_FAILED] Verification email - Error: SMTP Timeout - Check EMAIL_HOST setting")
+        import traceback
+        logger.error(f"[EMAIL_FAILED] Traceback: {traceback.format_exc()}")
+        raise
     except Exception as e:
         logger.error(f"[EMAIL_FAILED] Verification email - Error: {type(e).__name__}: {str(e)}")
         import traceback
@@ -115,8 +120,13 @@ def send_password_reset_email(request, user, token):
         )
         logger.info(f"[EMAIL_SENT] Password reset email - Status: Success - Result: {result}")
         return result
+    except TimeoutError as e:
+        logger.error(f"[EMAIL_FAILED] Password reset email - Error: SMTP Timeout - Check EMAIL_HOST setting")
+        import traceback
+        logger.error(f"[EMAIL_FAILED] Traceback: {traceback.format_exc()}")
+        raise
     except Exception as e:
-        logger.error(f"[EMAIL_FAILED] Password reset - Error: {type(e).__name__}: {str(e)}")
+        logger.error(f"[EMAIL_FAILED] Password reset email - Error: {type(e).__name__}: {str(e)}")
         import traceback
         logger.error(f"[EMAIL_FAILED] Traceback: {traceback.format_exc()}")
         raise
