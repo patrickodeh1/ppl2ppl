@@ -21,6 +21,7 @@ from .forms import (
     UserRegistrationForm, UserLoginForm, ForgotPasswordForm,
     ResetPasswordForm
 )
+from .utils import send_email_verification, send_password_reset_email
 
 
 class RegisterView(FormView):
@@ -46,7 +47,7 @@ class RegisterView(FormView):
             )
             
             # Send verification email
-            self._send_verification_email(user, token)
+            send_email_verification(self.request, user, token)
             
             # Store user id in session for verification page
             self.request.session['verification_user_id'] = user.id
@@ -67,42 +68,6 @@ class RegisterView(FormView):
         """Generate a secure random token."""
         alphabet = string.ascii_letters + string.digits
         return ''.join(secrets.choice(alphabet) for i in range(32))
-    
-    @staticmethod
-    def _send_verification_email(user, token):
-        """Send email verification link to user."""
-        # In production, use reverse() with request to get full URL
-        verification_link = f"https://app.ppl2pplsolutions.com/auth/verify-email/{token}/"
-        
-        subject = 'Verify Your Email Address'
-        message = f"""
-        Hello {user.first_name},
-        
-        Thank you for registering with us. Please verify your email address by clicking the link below:
-        
-        {verification_link}
-        
-        This link will expire in 24 hours.
-        
-        If you did not create this account, please ignore this email.
-        
-        Best regards,
-        The Team
-        """
-        
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-        except Exception as e:
-            # Log the error but don't fail registration
-            print(f"Failed to send verification email: {e}")
-            # In production, you might want to log this properly
-            pass
 
 
 class EmailVerificationView(TemplateView):
@@ -265,7 +230,7 @@ class ForgotPasswordView(FormView):
             )
             
             # Send reset email
-            self._send_reset_email(user, token)
+            send_password_reset_email(self.request, user, token)
             
             # Store email in session for confirmation page
             self.request.session['reset_password_email'] = email
@@ -281,35 +246,6 @@ class ForgotPasswordView(FormView):
         """Generate a secure random token."""
         alphabet = string.ascii_letters + string.digits
         return ''.join(secrets.choice(alphabet) for i in range(32))
-    
-    @staticmethod
-    def _send_reset_email(user, token):
-        """Send password reset link to user."""
-        reset_link = f"https://yourdomain.com/auth/reset-password/{token}/"
-        
-        subject = 'Reset Your Password'
-        message = f"""
-        Hello {user.first_name},
-        
-        You requested to reset your password. Please click the link below to reset it:
-        
-        {reset_link}
-        
-        This link will expire in 1 hour.
-        
-        If you did not request a password reset, please ignore this email.
-        
-        Best regards,
-        The Team
-        """
-        
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-        )
 
 
 class ResetPasswordSentView(TemplateView):
@@ -395,7 +331,7 @@ class ResendVerificationEmailView(View):
             )
             
             # Send verification email
-            RegisterView._send_verification_email(user, token)
+            send_email_verification(request, user, token)
             
             messages.success(request, 'Verification email sent! Please check your inbox.')
         
