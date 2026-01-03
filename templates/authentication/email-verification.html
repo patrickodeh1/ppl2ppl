@@ -307,15 +307,14 @@
             </p>
             
             <!-- Resend Form -->
-            {% if email %}
-                <form method="post" action="{% url 'authentication:resend-verification' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="email" value="{{ email }}">
-                    <button type="submit" class="btn-resend">
-                        Resend Verification Email
-                    </button>
-                </form>
-            {% endif %}
+            <form method="post" action="{% url 'authentication:resend-verification' %}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Enter your email" value="{{ email }}" required
+                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px; font-size: 14px;">
+                <button type="submit" class="btn-resend">
+                    Resend Verification Email
+                </button>
+            </form>
             
             <!-- Back Link -->
             <div class="back-link">
