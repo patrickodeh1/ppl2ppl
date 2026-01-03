@@ -42,7 +42,7 @@ def send_email_verification(request, user, token):
         logger.info(f"[VERIFY_EMAIL] Rendering email template")
         subject = 'Verify Your Email Address'
         html_message = render_to_string(
-            'authentication/emails/email_verification.html',
+            'emails/email_verification.html',
             context
         )
         logger.info(f"[VERIFY_EMAIL] Template rendered successfully ({len(html_message)} bytes)")
@@ -98,7 +98,7 @@ def send_password_reset_email(request, user, token):
         logger.info(f"[PASSWORD_RESET] Rendering email template")
         subject = 'Reset Your Password'
         html_message = render_to_string(
-            'authentication/emails/password_reset.html',
+            'emails/password_reset.html',
             context
         )
         logger.info(f"[PASSWORD_RESET] Template rendered successfully ({len(html_message)} bytes)")
