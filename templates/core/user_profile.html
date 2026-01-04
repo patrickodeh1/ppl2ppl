@@ -29,6 +29,7 @@
         background-color: var(--navy);
         padding: 15px 30px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
     }
     
     .navbar-content {
@@ -47,6 +48,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        z-index: 1001;
     }
 
     .navbar-brand img {
@@ -56,6 +58,40 @@
         background-color: white;
         border-radius: 50%;
         box-sizing: content-box;
+    }
+    
+    /* Mobile menu toggle */
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 24px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1001;
+        padding: 0;
+    }
+    
+    .menu-toggle span {
+        width: 100%;
+        height: 3px;
+        background-color: white;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
     }
     
     .navbar-menu {
@@ -77,6 +113,17 @@
         color: var(--red);
     }
     
+    .navbar-user {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .navbar-user .user-name {
+        color: white;
+        font-size: 14px;
+    }
+    
     .navbar-logout {
         background-color: var(--red);
         color: white;
@@ -93,6 +140,84 @@
     
     .navbar-logout:hover {
         background-color: #a01729;
+    }
+    
+    /* Mobile sidebar overlay */
+    .mobile-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    
+    .mobile-overlay.active {
+        display: block;
+    }
+    
+    /* Mobile sidebar */
+    .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        right: -280px;
+        width: 280px;
+        height: 100%;
+        background-color: var(--navy);
+        z-index: 1000;
+        transition: right 0.3s ease;
+        padding: 80px 20px 20px;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .mobile-sidebar.active {
+        right: 0;
+    }
+    
+    .mobile-sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .mobile-sidebar ul li {
+        margin-bottom: 10px;
+    }
+    
+    .mobile-sidebar ul li a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 15px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .mobile-sidebar ul li a:hover,
+    .mobile-sidebar ul li a.active {
+        background-color: var(--red);
+    }
+    
+    .mobile-sidebar .mobile-user-info {
+        padding: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 20px;
+    }
+    
+    .mobile-sidebar .mobile-user-info .user-name {
+        color: white;
+        font-size: 14px;
+        margin-bottom: 15px;
+        display: block;
+    }
+    
+    .mobile-sidebar .navbar-logout {
+        width: 100%;
+        text-align: center;
     }
     
     .container {
@@ -361,6 +486,19 @@
     }
     
     @media (max-width: 768px) {
+        .navbar {
+            padding: 15px 20px;
+        }
+        
+        .menu-toggle {
+            display: flex;
+        }
+        
+        .navbar-menu,
+        .navbar-user {
+            display: none;
+        }
+        
         .profile-header {
             flex-direction: column;
             text-align: center;
@@ -368,6 +506,7 @@
         
         .profile-status {
             justify-content: center;
+            flex-wrap: wrap;
         }
         
         .tab-navigation {
@@ -395,11 +534,37 @@
             width: 100%;
             text-align: center;
         }
+        
+        .container {
+            padding: 20px 15px;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Mobile Overlay -->
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+<!-- Mobile Sidebar -->
+<div class="mobile-sidebar" id="mobileSidebar">
+    <ul>
+        <li><a href="{% url 'core:training-dashboard' %}">Training</a></li>
+        {% if user.is_certified %}
+            <li><a href="{% url 'core:office-schedule' %}">Schedule</a></li>
+            <li><a href="{% url 'core:employee-directory' %}">Directory</a></li>
+        {% endif %}
+        <li><a href="{% url 'core:user-profile' %}" class="active">Profile</a></li>
+    </ul>
+    <div class="mobile-user-info">
+        <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+        <form method="post" action="{% url 'authentication:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="navbar-logout">Logout</button>
+        </form>
+    </div>
+</div>
+
 <!-- Navigation Bar -->
 <div class="navbar">
     <div class="navbar-content">
@@ -409,7 +574,7 @@
         </a>
         <ul class="navbar-menu">
             <li><a href="{% url 'core:training-dashboard' %}">Training</a></li>
-            {% if user.certification_status %}
+            {% if user.is_certified %}
                 <li><a href="{% url 'core:office-schedule' %}">Schedule</a></li>
                 <li><a href="{% url 'core:employee-directory' %}">Directory</a></li>
             {% endif %}
@@ -422,6 +587,12 @@
                 <button type="submit" class="navbar-logout">Logout</button>
             </form>
         </div>
+        <!-- Mobile Menu Toggle -->
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </div>
 
@@ -436,12 +607,12 @@
             <h1>{{ user.first_name }} {{ user.last_name }}</h1>
             <div class="profile-status">
                 <div class="status-item">
-                    <span class="certification-badge {% if user.certification_status %}badge-certified{% else %}badge-pending{% endif %}">
-                        {% if user.certification_status %}✓ Certified{% else %}⏳ Not Certified{% endif %}
+                    <span class="certification-badge {% if user.is_certified %}badge-certified{% else %}badge-pending{% endif %}">
+                        {% if user.is_certified %}✓ Certified{% else %}⏳ Not Certified{% endif %}
                     </span>
                 </div>
                 <div class="status-item">
-                    Member since {{ user.date_joined|date:"M Y" }}
+                    Member since {{ user.created_at|date:"M Y" }}
                 </div>
             </div>
         </div>
@@ -477,9 +648,9 @@
         
         <div class="info-section">
             <h3>Certification Status</h3>
-            {% if user.certification_status %}
+            {% if user.is_certified %}
             <div class="status-box" style="background-color: rgba(34, 197, 94, 0.1); border: 1px solid #22c55e; color: #22c55e;">
-                ✓ You are certified! Certified on {{ user.certified_at|date:"F d, Y" }}
+                ✓ You are certified!{% if certification and certification.certification_date %} Certified on {{ certification.certification_date|date:"F d, Y" }}{% endif %}
             </div>
             {% else %}
             <div class="status-box" style="background-color: rgba(196, 30, 58, 0.1); border: 1px solid var(--red); color: var(--red);">
@@ -599,11 +770,11 @@
             <h3>Account Activity</h3>
             <div class="progress-item">
                 <span class="progress-name">Last Login</span>
-                <span class="info-value">Today at 10:30 AM</span>
+                <span class="info-value">{% if user.last_login %}{{ user.last_login|date:"M d, Y \a\t g:i A" }}{% else %}Never{% endif %}</span>
             </div>
             <div class="progress-item">
                 <span class="progress-name">Account Created</span>
-                <span class="info-value">{{ user.date_joined|date:"M d, Y" }}</span>
+                <span class="info-value">{{ user.created_at|date:"M d, Y" }}</span>
             </div>
             <div class="progress-item">
                 <span class="progress-name">Account Status</span>
@@ -614,6 +785,23 @@
 </div>
 
 <script>
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('mobileSidebar');
+        const overlay = document.getElementById('mobileOverlay');
+        const toggle = document.getElementById('menuToggle');
+        
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+        toggle.classList.toggle('active');
+        
+        // Prevent body scroll when menu is open
+        if (sidebar.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+    
     function switchTab(tabName) {
         // Hide all tabs
         const tabs = document.querySelectorAll('.tab-content');

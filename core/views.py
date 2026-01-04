@@ -66,6 +66,7 @@ def training_dashboard(request):
         certification = request.user.certification
         is_certified = certification.is_certified
     except UserCertification.DoesNotExist:
+        certification = None
         is_certified = False
     
     # Count total and completed modules
@@ -141,6 +142,7 @@ def training_dashboard(request):
         'completed_modules': completed_modules,
         'overall_progress': overall_progress,
         'all_modules_completed': completed_modules == total_modules and total_modules > 0,
+        'certification': certification,
     }
     return render(request, 'core/training_dashboard.html', context)
 

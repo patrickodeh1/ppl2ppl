@@ -440,3 +440,33 @@ tz
 [INFO] 2026-01-04 04:47:02 django.utils.autoreload Watching for file changes with StatReloader
 [INFO] 2026-01-04 04:48:40 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/ppl/settings.py changed, reloading.
 [INFO] 2026-01-04 04:48:41 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 19:43:56 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 19:44:23 django.server "GET / HTTP/1.1" 302 0
+[INFO] 2026-01-04 19:44:24 django.server "GET /auth/login/ HTTP/1.1" 200 9166
+[INFO] 2026-01-04 19:44:26 django.server "GET /static/images/favicon.ico HTTP/1.1" 200 15406
+[INFO] 2026-01-04 19:44:38 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 19:44:39 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 19:44:50 django.server "GET /core/training/ HTTP/1.1" 200 32349
+[INFO] 2026-01-04 19:44:50 django.server "GET /static/images/logo.png HTTP/1.1" 200 74375
+[INFO] 2026-01-04 19:45:07 django.server "GET /core/profile/ HTTP/1.1" 200 23079
+[WARNING] 2026-01-04 19:45:15 django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[WARNING] 2026-01-04 19:45:15 django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3076
+[INFO] 2026-01-04 19:45:42 django.server "GET /core/training/ HTTP/1.1" 200 32198
+[WARNING] 2026-01-04 19:45:42 django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[WARNING] 2026-01-04 19:45:42 django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3076
+[INFO] 2026-01-04 19:45:49 django.server "POST /auth/logout/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 19:45:49 django.server "GET /auth/login/ HTTP/1.1" 200 9384
+[WARNING] 2026-01-04 19:45:49 django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[WARNING] 2026-01-04 19:45:49 django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3076
+[INFO] 2026-01-04 19:46:18 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 19:46:19 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 19:46:29 django.server "GET /core/schedule/ HTTP/1.1" 200 20026
+[WARNING] 2026-01-04 19:47:11 django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[WARNING] 2026-01-04 19:47:11 django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3076
+[INFO] 2026-01-04 19:47:19 django.server "GET /core/directory/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 19:47:59 django.server "GET /core/training/ HTTP/1.1" 200 33057
+[INFO] 2026-01-04 19:48:03 django.server "GET /core/profile/ HTTP/1.1" 200 23304
+[WARNING] 2026-01-04 19:48:10 django.request Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[WARNING] 2026-01-04 19:48:10 django.server "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 3076
+[INFO] 2026-01-04 19:48:23 django.server "GET /core/directory/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 19:49:01 django.server "GET /core/training/ HTTP/1.1" 200 32920
