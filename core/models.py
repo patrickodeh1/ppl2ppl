@@ -261,6 +261,10 @@ class AssessmentQuestion(models.Model):
     
     def __str__(self):
         return f"{self.assessment.title} - Q{self.order}"
+    
+    def get_options(self):
+        """Return all options for this question"""
+        return self.options.all()
 
 
 class AssessmentOption(models.Model):

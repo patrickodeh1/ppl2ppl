@@ -1,12 +1,8 @@
 """
-Django signals for email notifications and other async tasks
+Django signals for async tasks
 """
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
-from django.utils.html import strip_tags
 import logging
 from .models import (
     UserTrainingProgress, AssessmentAttempt, UserCertification, ModuleCompletion
@@ -15,114 +11,49 @@ from .models import (
 logger = logging.getLogger(__name__)
 
 
+
 @receiver(post_save, sender=UserTrainingProgress)
-def send_course_completion_email(sender, instance, created, **kwargs):
-    """Send email when user completes a course"""
+def log_course_completion(sender, instance, created, **kwargs):
+    """Log when user completes a course"""
     if instance.status == 'completed' and instance.completed_at:
         try:
             user = instance.user
             course = instance.course
-            
-            subject = f'Course Completed: {course.title}'
-            
-            context = {
-                'user_name': user.first_name or user.email,
-                'course_title': course.title,
-                'completion_date': instance.completed_at.strftime('%B %d, %Y'),
-            }
-            
-            html_message = render_to_string('emails/course_completed.html', context)
-            plain_message = strip_tags(html_message)
-            
-            send_mail(
-                subject,
-                plain_message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                html_message=html_message,
-                fail_silently=True,
-            )
-            logger.info(f"[EMAIL_SENT] Course completion - Status: Success")
+            logger.info(f"[COURSE_COMPLETED] User {user.email} - Course: {course.title}")
         except Exception as e:
-            logger.error(f'[EMAIL_FAILED] Course completion - Error: {type(e).__name__}')
+            logger.error(f'[COURSE_COMPLETION] Error: {type(e).__name__}')
 
 
 @receiver(post_save, sender=AssessmentAttempt)
-def send_assessment_email(sender, instance, created, **kwargs):
-    """Send email based on assessment attempt results"""
+def log_assessment_result(sender, instance, created, **kwargs):
+    """Log assessment attempt results"""
     if instance.status == 'graded':
         try:
             user = instance.user
             assessment = instance.assessment
             
             if instance.passed:
-                subject = f'Assessment Passed: {assessment.title}'
-                template = 'emails/assessment_passed.html'
-                message_type = 'passed'
-                logger.info(f"[ASSESSMENT] Passed - Status: Success")
+                logger.info(f"[ASSESSMENT_PASSED] User {user.email} - Assessment: {assessment.title} - Score: {instance.score_percentage}%")
             else:
-                subject = f'Assessment Failed: {assessment.title}'
-                template = 'emails/assessment_failed.html'
-                message_type = 'failed'
-                logger.info(f"[ASSESSMENT] Failed - Status: Recorded")
-            
-            context = {
-                'user_name': user.first_name or user.email,
-                'assessment_title': assessment.title,
-                'score': instance.score_percentage,
-                'passing_score': assessment.passing_score,
-                'message_type': message_type,
-            }
-            
-            html_message = render_to_string(template, context)
-            plain_message = strip_tags(html_message)
-            
-            send_mail(
-                subject,
-                plain_message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                html_message=html_message,
-                fail_silently=True,
-            )
+                logger.info(f"[ASSESSMENT_FAILED] User {user.email} - Assessment: {assessment.title} - Score: {instance.score_percentage}%")
         except Exception as e:
-            logger.error(f'[EMAIL_FAILED] Assessment - Error: {type(e).__name__}')
+            logger.error(f'[ASSESSMENT] Error: {type(e).__name__}')
 
 
 @receiver(post_save, sender=UserCertification)
-def send_certification_email(sender, instance, created, **kwargs):
-    """Send email when user becomes certified"""
+def log_certification_earned(sender, instance, created, **kwargs):
+    """Log when user becomes certified"""
     if instance.is_certified and instance.certification_date:
         try:
             user = instance.user
-            
-            subject = 'Certification Achieved - P2P Solutions'
-            
-            context = {
-                'user_name': user.first_name or user.email,
-                'certification_date': instance.certification_date.strftime('%B %d, %Y'),
-                'expiration_date': instance.expires_at.strftime('%B %d, %Y') if instance.expires_at else None,
-            }
-            
-            html_message = render_to_string('emails/certification_earned.html', context)
-            plain_message = strip_tags(html_message)
-            
-            send_mail(
-                subject,
-                plain_message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                html_message=html_message,
-                fail_silently=True,
-            )
-            logger.info(f"[EMAIL_SENT] Certification - Status: Success")
+            logger.info(f"[CERTIFICATION_EARNED] User {user.email} - Certification Date: {instance.certification_date}")
         except Exception as e:
-            logger.error(f'[EMAIL_FAILED] Certification - Error: {type(e).__name__}')
+            logger.error(f'[CERTIFICATION] Error: {type(e).__name__}')
 
 
 @receiver(post_save, sender=ModuleCompletion)
-def send_module_completion_notification(sender, instance, created, **kwargs):
-    """Send notification when user completes a module"""
+def log_module_completion(sender, instance, created, **kwargs):
+    """Log when user completes a module"""
     if instance.is_completed and instance.completed_at:
         try:
             user = instance.user
@@ -137,37 +68,6 @@ def send_module_completion_notification(sender, instance, created, **kwargs):
                 is_completed=True
             ).count()
             
-            # Only send notification for significant milestones
-            if completed_modules % 5 == 0 or completed_modules == course_modules.count():
-                subject = f'Progress Update: {course.title}'
-                
-                if completed_modules == course_modules.count():
-                    template = 'emails/course_progress_milestone.html'
-                    milestone = 'COMPLETE'
-                else:
-                    template = 'emails/course_progress_milestone.html'
-                    milestone = f'{completed_modules}/{course_modules.count()} modules'
-                
-                context = {
-                    'user_name': user.first_name or user.email,
-                    'course_title': course.title,
-                    'modules_completed': completed_modules,
-                    'total_modules': course_modules.count(),
-                    'progress_percentage': int((completed_modules / course_modules.count() * 100)),
-                    'milestone': milestone,
-                }
-                
-                html_message = render_to_string(template, context)
-                plain_message = strip_tags(html_message)
-                
-                send_mail(
-                    subject,
-                    plain_message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [user.email],
-                    html_message=html_message,
-                    fail_silently=True,
-                )
-                logger.info(f"[EMAIL_SENT] Module progress - Status: Success")
+            logger.info(f"[MODULE_COMPLETED] User {user.email} - Module: {module.title} - Course: {course.title} - Progress: {completed_modules}/{course_modules.count()}")
         except Exception as e:
-            logger.error(f'[EMAIL_FAILED] Module progress - Error: {type(e).__name__}')
+            logger.error(f'[MODULE_COMPLETION] Error: {type(e).__name__}')

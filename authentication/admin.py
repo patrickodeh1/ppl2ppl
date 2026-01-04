@@ -1,14 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import CustomUser, EmailVerificationToken, PasswordResetToken, LoginSession
+from .models import CustomUser, LoginSession
 
 
 @admin.register(CustomUser)
 class CustomUserAdmin(BaseUserAdmin):
     """Custom admin for CustomUser model."""
     
-    list_display = ('email', 'full_name', 'is_active', 'is_email_verified', 'is_certified', 'status', 'created_at')
-    list_filter = ('is_active', 'is_email_verified', 'is_certified', 'status', 'created_at')
+    list_display = ('email', 'full_name', 'is_active', 'is_certified', 'created_at')
+    list_filter = ('is_active', 'is_certified', 'created_at')
     search_fields = ('email', 'first_name', 'last_name', 'phone_number')
     ordering = ('-created_at',)
     readonly_fields = ('created_at', 'updated_at', 'last_login')
@@ -27,7 +27,7 @@ class CustomUserAdmin(BaseUserAdmin):
             'fields': ('address_line_1', 'address_line_2', 'city', 'state_region', 'zip_postal_code')
         }),
         ('Account Status', {
-            'fields': ('is_active', 'status', 'is_email_verified', 'is_certified', 'is_staff', 'is_superuser')
+            'fields': ('is_active', 'is_certified', 'is_staff', 'is_superuser')
         }),
         ('Registration & Terms', {
             'fields': ('terms_accepted', 'terms_accepted_at')
@@ -50,50 +50,6 @@ class CustomUserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': ('email', 'first_name', 'last_name', 'password1', 'password2', 'phone_number', 'date_of_birth', 'city', 'state_region')
-        }),
-    )
-
-
-@admin.register(EmailVerificationToken)
-class EmailVerificationTokenAdmin(admin.ModelAdmin):
-    """Admin for EmailVerificationToken model."""
-    
-    list_display = ('user', 'is_valid', 'is_used', 'created_at', 'used_at')
-    list_filter = ('is_used', 'created_at')
-    search_fields = ('user__email', 'token')
-    readonly_fields = ('token', 'created_at', 'used_at')
-    
-    fieldsets = (
-        ('Token Information', {
-            'fields': ('user', 'token')
-        }),
-        ('Status', {
-            'fields': ('is_used',)
-        }),
-        ('Timestamps', {
-            'fields': ('created_at', 'used_at')
-        }),
-    )
-
-
-@admin.register(PasswordResetToken)
-class PasswordResetTokenAdmin(admin.ModelAdmin):
-    """Admin for PasswordResetToken model."""
-    
-    list_display = ('user', 'is_valid', 'is_used', 'created_at', 'used_at')
-    list_filter = ('is_used', 'created_at')
-    search_fields = ('user__email', 'token')
-    readonly_fields = ('token', 'created_at', 'used_at')
-    
-    fieldsets = (
-        ('Token Information', {
-            'fields': ('user', 'token')
-        }),
-        ('Status', {
-            'fields': ('is_used',)
-        }),
-        ('Timestamps', {
-            'fields': ('created_at', 'used_at')
         }),
     )
 

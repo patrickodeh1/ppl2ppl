@@ -320,10 +320,10 @@
                         <input 
                             type="radio" 
                             name="question_{{ question.id }}" 
-                            value="{{ option }}"
-                            onchange="saveAnswer({{ question.id }}, '{{ option }}')"
+                            value="{{ option.id }}"
+                            onchange="saveAnswer({{ question.id }}, '{{ option.id }}')"
                         >
-                        <span class="option-text">{{ option }}</span>
+                        <span class="option-text">{{ option.option_text }}</span>
                     </label>
                     {% endfor %}
                 </div>

@@ -11,3 +11,430 @@
 [INFO] 2026-01-03 17:10:26 authentication ✓ This info log SHOULD appear
 [WARNING] 2026-01-03 17:10:26 authentication ✓ This warning log SHOULD appear
 [ERROR] 2026-01-03 17:10:26 authentication ✓ This error log SHOULD appear
+[INFO] 2026-01-04 02:16:43 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 02:17:01 django.server "GET / HTTP/1.1" 302 0
+[INFO] 2026-01-04 02:17:01 django.server "GET /auth/login/ HTTP/1.1" 200 9218
+[INFO] 2026-01-04 02:17:05 django.server "GET /static/images/favicon.f0650e493d51.ico HTTP/1.1" 200 9309
+[INFO] 2026-01-04 02:17:32 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 02:17:33 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 02:17:40 django.server "GET /core/training/ HTTP/1.1" 200 26661
+[INFO] 2026-01-04 02:17:40 django.server "GET /static/images/logo.9c79f281c733.png HTTP/1.1" 200 74375
+[INFO] 2026-01-04 02:17:50 django.server "GET /core/training/course/31/ HTTP/1.1" 200 11811
+[INFO] 2026-01-04 02:17:59 django.server "GET /core/training/module/98/ HTTP/1.1" 200 26085
+[INFO] 2026-01-04 02:18:05 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Understanding the Core Mission and Your Role - Course: Module 1: Foundations & The Legal Landscape - Progress: 1/4
+[INFO] 2026-01-04 02:18:07 django.server "POST /core/training/module/98/complete/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 02:18:10 django.server "GET /core/training/module/99/ HTTP/1.1" 200 25661
+[INFO] 2026-01-04 02:18:18 django.server "GET /core/training/module/99/pdf/ HTTP/1.1" 200 3392
+[INFO] 2026-01-04 02:18:22 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Understanding the Petition Document - Course: Module 1: Foundations & The Legal Landscape - Progress: 2/4
+[INFO] 2026-01-04 02:18:25 django.server "POST /core/training/module/99/complete/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 02:18:28 django.server "GET /core/training/module/100/ HTTP/1.1" 200 25664
+[INFO] 2026-01-04 02:18:30 django.server "GET /core/training/module/100/pdf/ HTTP/1.1" 200 3755
+[INFO] 2026-01-04 02:26:17 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 1: Foundations & The Legal Landscape
+[INFO] 2026-01-04 02:26:18 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 1: Foundations & The Legal Landscape
+[INFO] 2026-01-04 02:26:19 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 2: Compliance, Ethics, & Rules
+[INFO] 2026-01-04 02:26:20 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 2: Compliance, Ethics, & Rules
+[INFO] 2026-01-04 02:26:22 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 3: Field Operations & Logistics
+[INFO] 2026-01-04 02:26:23 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 3: Field Operations & Logistics
+[INFO] 2026-01-04 02:26:24 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 4: The Art of the Pitch & Persuasion
+[INFO] 2026-01-04 02:26:25 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 4: The Art of the Pitch & Persuasion
+[INFO] 2026-01-04 02:26:27 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 5: Quality Control & Submission
+[INFO] 2026-01-04 02:26:28 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 5: Quality Control & Submission
+[INFO] 2026-01-04 02:26:29 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 6: Team Management & Tech
+[INFO] 2026-01-04 02:26:30 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 6: Team Management & Tech
+[INFO] 2026-01-04 02:27:55 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 02:29:04 django.server "GET /core/training/ HTTP/1.1" 200 26544
+[INFO] 2026-01-04 02:35:07 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Who Can Sign? - Course: Module 1: Foundations & The Legal Landscape - Progress: 3/4
+[INFO] 2026-01-04 02:35:09 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Voter Validation Thresholds - Course: Module 1: Foundations & The Legal Landscape - Progress: 4/4
+[INFO] 2026-01-04 02:35:11 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Mission and Impact - Course: Module 1: Foundations & The Legal Landscape - Progress: 1/4
+[INFO] 2026-01-04 02:35:13 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Understanding the Petition Document - Course: Module 1: Foundations & The Legal Landscape - Progress: 2/4
+[INFO] 2026-01-04 02:35:15 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Who Can Sign? - Course: Module 1: Foundations & The Legal Landscape - Progress: 3/4
+[INFO] 2026-01-04 02:35:17 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Voter Validation Thresholds - Course: Module 1: Foundations & The Legal Landscape - Progress: 4/4
+[INFO] 2026-01-04 02:35:20 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Golden Rules of Compliance - Course: Module 2: Compliance, Ethics, & Rules - Progress: 1/5
+[INFO] 2026-01-04 02:35:22 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Golden Rules Summary - Course: Module 2: Compliance, Ethics, & Rules - Progress: 2/5
+[INFO] 2026-01-04 02:35:24 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Ethical Engagement - Course: Module 2: Compliance, Ethics, & Rules - Progress: 3/5
+[INFO] 2026-01-04 02:35:26 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Avoiding Invalid Signatures - Course: Module 2: Compliance, Ethics, & Rules - Progress: 4/5
+[INFO] 2026-01-04 02:35:28 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Signature Validation Checklist - Course: Module 2: Compliance, Ethics, & Rules - Progress: 5/5
+[INFO] 2026-01-04 02:35:30 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Golden Rules of Compliance - Course: Module 2: Compliance, Ethics, & Rules - Progress: 1/5
+[INFO] 2026-01-04 02:35:31 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Golden Rules Summary - Course: Module 2: Compliance, Ethics, & Rules - Progress: 2/5
+[INFO] 2026-01-04 02:35:34 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Ethical Engagement - Course: Module 2: Compliance, Ethics, & Rules - Progress: 3/5
+[INFO] 2026-01-04 02:35:36 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Avoiding Invalid Signatures - Course: Module 2: Compliance, Ethics, & Rules - Progress: 4/5
+[INFO] 2026-01-04 02:35:38 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Signature Validation Checklist - Course: Module 2: Compliance, Ethics, & Rules - Progress: 5/5
+[INFO] 2026-01-04 02:35:40 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Preparation - Gear and Paperwork - Course: Module 3: Field Operations & Logistics - Progress: 1/4
+[INFO] 2026-01-04 02:35:42 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Circulator Kit Checklist - Course: Module 3: Field Operations & Logistics - Progress: 2/4
+[INFO] 2026-01-04 02:35:45 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Safety and Professionalism - Course: Module 3: Field Operations & Logistics - Progress: 3/4
+[INFO] 2026-01-04 02:35:46 django.server "GET /core/training/ HTTP/1.1" 200 26583
+[INFO] 2026-01-04 02:35:47 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Setting Up Your Station - Course: Module 3: Field Operations & Logistics - Progress: 4/4
+[INFO] 2026-01-04 02:35:49 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Preparation - Gear and Paperwork - Course: Module 3: Field Operations & Logistics - Progress: 1/4
+[INFO] 2026-01-04 02:35:51 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Circulator Kit Checklist - Course: Module 3: Field Operations & Logistics - Progress: 2/4
+[INFO] 2026-01-04 02:35:53 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Safety and Professionalism - Course: Module 3: Field Operations & Logistics - Progress: 3/4
+[INFO] 2026-01-04 02:35:55 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Setting Up Your Station - Course: Module 3: Field Operations & Logistics - Progress: 4/4
+[INFO] 2026-01-04 02:35:57 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The 15-Second Hook - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 1/6
+[INFO] 2026-01-04 02:36:00 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Perfect Pitch - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 2/6
+[INFO] 2026-01-04 02:36:02 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Handling Objections - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 3/6
+[INFO] 2026-01-04 02:36:03 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Objection Handling Guide - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 4/6
+[INFO] 2026-01-04 02:36:05 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Maximizing Conversion - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 5/6
+[INFO] 2026-01-04 02:36:07 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Signature Psychology - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 6/6
+[INFO] 2026-01-04 02:36:09 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The 15-Second Hook - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 1/6
+[INFO] 2026-01-04 02:36:12 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Perfect Pitch - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 2/6
+[INFO] 2026-01-04 02:36:14 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Handling Objections - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 3/6
+[INFO] 2026-01-04 02:36:16 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Objection Handling Guide - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 4/6
+[INFO] 2026-01-04 02:36:18 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Maximizing Conversion - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 5/6
+[INFO] 2026-01-04 02:36:20 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Signature Psychology - Course: Module 4: The Art of the Pitch & Persuasion - Progress: 6/6
+[INFO] 2026-01-04 02:36:22 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Quality Check Process - Course: Module 5: Quality Control & Submission - Progress: 1/3
+[INFO] 2026-01-04 02:36:24 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Quality Control Procedures - Course: Module 5: Quality Control & Submission - Progress: 2/3
+[INFO] 2026-01-04 02:36:27 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: End-of-Day Wrap-Up - Course: Module 5: Quality Control & Submission - Progress: 3/3
+[INFO] 2026-01-04 02:36:29 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: The Quality Check Process - Course: Module 5: Quality Control & Submission - Progress: 1/3
+[INFO] 2026-01-04 02:36:31 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Quality Control Procedures - Course: Module 5: Quality Control & Submission - Progress: 2/3
+[INFO] 2026-01-04 02:36:33 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: End-of-Day Wrap-Up - Course: Module 5: Quality Control & Submission - Progress: 3/3
+[INFO] 2026-01-04 02:36:34 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Using Data and Mapping Technology - Course: Module 6: Team Management & Tech - Progress: 1/2
+[INFO] 2026-01-04 02:36:36 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Troubleshooting Common Scenarios - Course: Module 6: Team Management & Tech - Progress: 2/2
+[INFO] 2026-01-04 02:36:39 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Using Data and Mapping Technology - Course: Module 6: Team Management & Tech - Progress: 1/2
+[INFO] 2026-01-04 02:36:41 core.signals [MODULE_COMPLETED] User soarersavannah@gmail.com - Module: Troubleshooting Common Scenarios - Course: Module 6: Team Management & Tech - Progress: 2/2
+[INFO] 2026-01-04 02:36:43 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 1: Foundations & The Legal Landscape
+[INFO] 2026-01-04 02:36:44 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 1: Foundations & The Legal Landscape
+[INFO] 2026-01-04 02:36:45 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 2: Compliance, Ethics, & Rules
+[INFO] 2026-01-04 02:36:46 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 2: Compliance, Ethics, & Rules
+[INFO] 2026-01-04 02:36:47 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 3: Field Operations & Logistics
+[INFO] 2026-01-04 02:36:49 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 3: Field Operations & Logistics
+[INFO] 2026-01-04 02:36:50 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 4: The Art of the Pitch & Persuasion
+[INFO] 2026-01-04 02:36:51 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 4: The Art of the Pitch & Persuasion
+[INFO] 2026-01-04 02:36:52 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 5: Quality Control & Submission
+[INFO] 2026-01-04 02:36:54 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 5: Quality Control & Submission
+[INFO] 2026-01-04 02:36:55 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 6: Team Management & Tech
+[INFO] 2026-01-04 02:36:56 core.signals [COURSE_COMPLETED] User soarersavannah@gmail.com - Course: Module 6: Team Management & Tech
+[INFO] 2026-01-04 02:39:35 django.server "GET /core/training/ HTTP/1.1" 200 27231
+[INFO] 2026-01-04 02:40:24 django.server "GET /core/assessment/ HTTP/1.1" 200 11351
+[INFO] 2026-01-04 02:46:48 django.server "GET /core/assessment/ HTTP/1.1" 200 10257
+[WARNING] 2026-01-04 02:48:15 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:48:15 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 179
+[WARNING] 2026-01-04 02:48:15 django.request Not Found: /favicon.ico
+[WARNING] 2026-01-04 02:48:15 django.server "GET /favicon.ico HTTP/1.1" 404 179
+[WARNING] 2026-01-04 02:48:40 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:48:40 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 179
+[WARNING] 2026-01-04 02:48:45 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:48:45 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 179
+[INFO] 2026-01-04 02:49:36 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/ppl/settings.py changed, reloading.
+[INFO] 2026-01-04 02:49:37 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2026-01-04 02:49:45 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:49:45 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 5231
+[WARNING] 2026-01-04 02:51:06 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:51:06 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 5231
+[WARNING] 2026-01-04 02:51:10 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:51:10 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 5231
+[WARNING] 2026-01-04 02:53:29 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:53:29 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 5231
+[WARNING] 2026-01-04 02:53:57 django.request Not Found: /core/assessment/take/5/
+[WARNING] 2026-01-04 02:53:57 django.server "GET /core/assessment/take/5/ HTTP/1.1" 404 5231
+[INFO] 2026-01-04 02:54:50 django.server "GET /core/assessment/take/1/ HTTP/1.1" 200 11887
+[INFO] 2026-01-04 02:54:51 django.server "GET /static/images/logo.png HTTP/1.1" 200 74375
+[INFO] 2026-01-04 02:54:51 django.server "GET /static/images/favicon.ico HTTP/1.1" 200 15406
+[INFO] 2026-01-04 02:57:51 django.server "GET /core/assessment/take/1/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 02:57:51 django.server "GET /auth/login/?next=/core/assessment/take/1/ HTTP/1.1" 200 9166
+[INFO] 2026-01-04 03:01:46 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 03:01:48 django.server "POST /auth/login/?next=/core/assessment/take/1/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:02:22 django.server "GET /core/training/ HTTP/1.1" 200 27317
+[INFO] 2026-01-04 03:02:32 django.server "GET /core/assessment/ HTTP/1.1" 200 10193
+[INFO] 2026-01-04 03:02:42 django.server "GET /core/assessment/5/start/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:02:50 django.server "GET /core/assessment/take/2/ HTTP/1.1" 200 11887
+[INFO] 2026-01-04 03:03:34 django.server "GET /admin/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:03:35 django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 16767
+[INFO] 2026-01-04 03:03:35 django.server "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+[INFO] 2026-01-04 03:03:35 django.server "GET /static/admin/css/login.css HTTP/1.1" 200 951
+[INFO] 2026-01-04 03:03:35 django.server "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+[INFO] 2026-01-04 03:03:35 django.server "GET /static/admin/css/responsive.css HTTP/1.1" 200 16194
+[INFO] 2026-01-04 03:03:35 django.server "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+[INFO] 2026-01-04 03:03:45 django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:03:47 django.server "GET /admin/ HTTP/1.1" 200 31721
+[INFO] 2026-01-04 03:03:47 django.server "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+[INFO] 2026-01-04 03:03:47 django.server "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+[INFO] 2026-01-04 03:03:47 django.server "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 689
+[INFO] 2026-01-04 03:03:59 django.server "GET /admin/core/assessment/ HTTP/1.1" 200 32198
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/css/changelists.css HTTP/1.1" 200 7501
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/img/search.svg HTTP/1.1" 200 607
+[INFO] 2026-01-04 03:03:59 django.server "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+[INFO] 2026-01-04 03:04:00 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:04:00 django.server "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+[INFO] 2026-01-04 03:04:00 django.server "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 593
+[INFO] 2026-01-04 03:04:00 django.server "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 928
+[INFO] 2026-01-04 03:04:16 django.server "GET /admin/core/assessment/5/change/ HTTP/1.1" 200 74836
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/admin/css/forms.css HTTP/1.1" 200 8844
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/ckeditor/ckeditor-init.js HTTP/1.1" 200 1526
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/admin/css/widgets.css HTTP/1.1" 200 11811
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/ckeditor/ckeditor/ckeditor.js HTTP/1.1" 200 756028
+[INFO] 2026-01-04 03:04:16 django.server "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+[INFO] 2026-01-04 03:04:19 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/admin/img/inline-delete.svg HTTP/1.1" 200 651
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/config.js?t=M6K9 HTTP/1.1" 200 336
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/skins/moono-lisa/editor.css?t=M6K9 HTTP/1.1" 200 48309
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/lang/en.js?t=M6K9 HTTP/1.1" 200 17503
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/styles.js?t=M6K9 HTTP/1.1" 200 5577
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/plugins/tableselection/styles/tableselection.css?t=M6K9 HTTP/1.1" 200 1145
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/plugins/dialog/styles/dialog.css?t=M6K9 HTTP/1.1" 200 249
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/plugins/scayt/skins/moono-lisa/scayt.css?t=M6K9 HTTP/1.1" 200 381
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/plugins/scayt/dialogs/dialog.css?t=M6K9 HTTP/1.1" 200 419
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/plugins/copyformatting/styles/copyformatting.css?t=M6K9 HTTP/1.1" 200 1511
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/contents.css?t=M6K9 HTTP/1.1" 200 3092
+[INFO] 2026-01-04 03:04:20 django.server "GET /static/ckeditor/ckeditor/skins/moono-lisa/icons.png?t=445cf24ebd HTTP/1.1" 200 12237
+[INFO] 2026-01-04 03:06:21 django.server "GET /admin/core/assessmentquestion/ HTTP/1.1" 200 46193
+[INFO] 2026-01-04 03:06:22 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:06:22 django.server "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1761
+[INFO] 2026-01-04 03:06:35 django.server "GET /admin/core/assessmentoption/ HTTP/1.1" 200 80072
+[INFO] 2026-01-04 03:06:36 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:06:38 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:06:40 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:06:57 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/models.py changed, reloading.
+[INFO] 2026-01-04 03:06:58 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:07:12 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:07:13 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:07:37 django.server "POST /admin/logout/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:07:37 django.server "GET /auth/login/ HTTP/1.1" 200 9166
+[INFO] 2026-01-04 03:07:58 django.server "POST /auth/login/ HTTP/1.1" 200 9571
+[INFO] 2026-01-04 03:08:37 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 03:08:38 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[WARNING] 2026-01-04 03:09:00 django.security.csrf Forbidden (CSRF token from POST incorrect.): /auth/login/
+[WARNING] 2026-01-04 03:09:00 django.server "POST /auth/login/ HTTP/1.1" 403 2503
+[WARNING] 2026-01-04 03:09:22 django.security.csrf Forbidden (CSRF token from POST incorrect.): /auth/login/
+[WARNING] 2026-01-04 03:09:22 django.server "POST /auth/login/ HTTP/1.1" 403 2503
+[INFO] 2026-01-04 03:10:25 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/ppl/settings.py changed, reloading.
+[INFO] 2026-01-04 03:10:26 django.utils.autoreload Watching for file changes with StatReloader
+[WARNING] 2026-01-04 03:11:06 django.security.csrf Forbidden (CSRF token from POST incorrect.): /auth/login/
+[WARNING] 2026-01-04 03:11:06 django.server "POST /auth/login/ HTTP/1.1" 403 2503
+[INFO] 2026-01-04 03:11:08 django.server "GET /auth/login/ HTTP/1.1" 200 9365
+[INFO] 2026-01-04 03:11:20 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 03:11:22 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:11:33 django.server "GET /core/training/ HTTP/1.1" 200 26608
+[INFO] 2026-01-04 03:11:37 django.server "POST /auth/logout/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:11:38 django.server "GET /auth/login/ HTTP/1.1" 200 9384
+[INFO] 2026-01-04 03:11:59 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 03:12:00 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:12:42 django.server "GET /core/training/ HTTP/1.1" 200 27317
+[INFO] 2026-01-04 03:12:54 django.server "GET /core/assessment/ HTTP/1.1" 200 10193
+[INFO] 2026-01-04 03:13:09 django.server "GET /core/assessment/5/start/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:13:26 django.server "GET /core/assessment/take/3/ HTTP/1.1" 200 71557
+[INFO] 2026-01-04 03:13:52 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/ppl/settings.py changed, reloading.
+[INFO] 2026-01-04 03:13:53 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:14:30 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:14:31 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:14:57 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:14:58 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:15:21 django.server "GET /core/assessment/take/3/ HTTP/1.1" 200 71558
+[INFO] 2026-01-04 03:17:32 django.server "GET /core/assessment/take/3/ HTTP/1.1" 200 55847
+[INFO] 2026-01-04 03:27:07 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:27:36 django.server "POST /core/assessment/take/3/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:27:37 django.server "GET /core/assessment/result/3/ HTTP/1.1" 200 10323
+[INFO] 2026-01-04 03:35:20 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:35:22 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:36:46 django.server "GET /core/assessment/result/3/ HTTP/1.1" 200 10333
+[INFO] 2026-01-04 03:38:08 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:38:09 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:38:12 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:38:13 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:41:10 django.server "GET /core/assessment/result/3/ HTTP/1.1" 200 10330
+[INFO] 2026-01-04 03:48:01 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:48:02 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:48:39 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:48:40 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:49:10 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:49:11 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:54:01 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 03:54:02 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 03:54:09 django.server "GET /core/assessment/result/3/ HTTP/1.1" 200 10330
+[INFO] 2026-01-04 03:54:36 django.server "GET /core/assessment/result/3/ HTTP/1.1" 200 10330
+[INFO] 2026-01-04 03:54:43 django.server "GET /core/assessment/ HTTP/1.1" 200 10193
+[INFO] 2026-01-04 03:54:56 django.server "GET /admin/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:54:58 django.server "GET /admin/login/?next=/admin/ HTTP/1.1" 200 16767
+[INFO] 2026-01-04 03:55:08 django.server "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 03:55:09 django.server "GET /admin/ HTTP/1.1" 200 31721
+[INFO] 2026-01-04 03:55:16 django.server "GET /core/assessment/ HTTP/1.1" 200 10424
+[INFO] 2026-01-04 03:55:29 django.server "GET /admin/core/assessment/ HTTP/1.1" 200 32198
+[INFO] 2026-01-04 03:55:30 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:55:54 django.server "GET /admin/core/userresponse/ HTTP/1.1" 200 57034
+[INFO] 2026-01-04 03:55:54 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:56:52 django.server "GET /admin/core/userresponse/40/change/ HTTP/1.1" 200 40507
+[INFO] 2026-01-04 03:56:53 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:58:34 django.server "GET /admin/core/assessmentoption/321/change/?_to_field=id HTTP/1.1" 200 33107
+[INFO] 2026-01-04 03:58:35 django.server "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[INFO] 2026-01-04 03:59:26 django.server "GET /admin/core/userresponse/40/change/ HTTP/1.1" 200 40507
+[INFO] 2026-01-04 04:02:46 django.server "GET /admin/core/userresponse/ HTTP/1.1" 200 57072
+[INFO] 2026-01-04 04:03:27 django.server "POST /admin/logout/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 04:03:27 django.server "GET /auth/login/ HTTP/1.1" 200 9166
+[INFO] 2026-01-04 04:03:30 django.server "GET / HTTP/1.1" 302 0
+[INFO] 2026-01-04 04:03:31 django.server "GET /auth/login/ HTTP/1.1" 200 9166
+[INFO] 2026-01-04 04:03:41 authentication.views [USER_LOGIN] Status: Success
+[INFO] 2026-01-04 04:03:43 django.server "POST /auth/login/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 04:04:18 django.server "GET /core/training/ HTTP/1.1" 200 27317
+[INFO] 2026-01-04 04:06:42 django.server "GET /core/assessment/ HTTP/1.1" 200 10193
+[INFO] 2026-01-04 04:06:56 django.server "GET /core/assessment/result/3/ HTTP/1.1" 200 10079
+[INFO] 2026-01-04 04:07:11 django.server "GET /core/schedule/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 04:07:13 django.server "GET /core/assessment/ HTTP/1.1" 200 10193
+[INFO] 2026-01-04 04:07:25 django.server "GET /core/schedule/ HTTP/1.1" 302 0
+[INFO] 2026-01-04 04:07:27 django.server "GET /core/assessment/ HTTP/1.1" 200 10193
+[INFO] 2026-01-04 04:08:20 core.signals [CERTIFICATION_EARNED] User soarersavannah@gmail.com - Certification Date: 2026-01-04 04:08:19.897576+00:00
+[INFO] 2026-01-04 04:08:59 django.server "GET /core/schedule/ HTTP/1.1" 200 21251
+[WARNING] 2026-01-04 04:09:13 django.request Forbidden: /core/directory/
+[WARNING] 2026-01-04 04:09:13 django.server "GET /core/directory/ HTTP/1.1" 403 0
+[WARNING] 2026-01-04 04:09:18 django.request Forbidden: /core/directory/
+[WARNING] 2026-01-04 04:09:18 django.server "GET /core/directory/ HTTP/1.1" 403 0
+[ERROR] 2026-01-04 04:10:47 django.request Internal Server Error: /core/schedule/office/13/
+Traceback (most recent call last):
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/core/views.py", line 563, in office_detail
+    'open_time': hours.open_time if hours else None,
+                 ^^^^^^^^^^^^^^^
+AttributeError: 'OfficeHours' object has no attribute 'open_time'. Did you mean: 'opening_time'?
+[ERROR] 2026-01-04 04:10:47 django.server "GET /core/schedule/office/13/ HTTP/1.1" 500 82972
+[INFO] 2026-01-04 04:11:09 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/authentication/views.py changed, reloading.
+[INFO] 2026-01-04 04:11:10 django.utils.autoreload Watching for file changes with StatReloader
+[ERROR] 2026-01-04 04:12:38 django.request Internal Server Error: /core/schedule/office/16/
+Traceback (most recent call last):
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/core/views.py", line 563, in office_detail
+    'open_time': hours.open_time if hours else None,
+                 ^^^^^^^^^^^^^^^
+AttributeError: 'OfficeHours' object has no attribute 'open_time'. Did you mean: 'opening_time'?
+[ERROR] 2026-01-04 04:12:38 django.server "GET /core/schedule/office/16/ HTTP/1.1" 500 82972
+[INFO] 2026-01-04 04:13:39 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 04:13:40 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:13:44 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 04:13:45 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:13:50 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 04:13:50 django.utils.autoreload Watching for file changes with StatReloader
+[ERROR] 2026-01-04 04:16:35 django.request Internal Server Error: /core/schedule/office/16/
+Traceback (most recent call last):
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/core/views.py", line 572, in office_detail
+    'code': office.code,
+            ^^^^^^^^^^^
+AttributeError: 'Office' object has no attribute 'code'
+[ERROR] 2026-01-04 04:16:35 django.server "GET /core/schedule/office/16/ HTTP/1.1" 500 83943
+[INFO] 2026-01-04 04:18:01 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/views.py changed, reloading.
+[INFO] 2026-01-04 04:18:02 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:18:07 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/authentication/views.py changed, reloading.
+[INFO] 2026-01-04 04:18:08 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:22:28 django.server "GET /core/schedule/office/16/ HTTP/1.1" 200 14075
+[INFO] 2026-01-04 04:23:21 django.server "GET /core/schedule/ HTTP/1.1" 200 21251
+[INFO] 2026-01-04 04:23:29 django.server "GET /core/schedule/office/18/ HTTP/1.1" 200 14077
+[INFO] 2026-01-04 04:23:37 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/authentication/views.py changed, reloading.
+[INFO] 2026-01-04 04:23:38 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:24:56 django.server "GET /core/training/ HTTP/1.1" 200 27166
+[ERROR] 2026-01-04 04:28:34 django.request Internal Server Error: /core/training/
+Traceback (most recent call last):
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/defaulttags.py", line 1067, in find_library
+    return parser.libraries[name]
+           ~~~~~~~~~~~~~~~~^^^^^^
+KeyError: 'custom_tags'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/core/views.py", line 145, in training_dashboard
+    return render(request, 'core/training_dashboard.html', context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/backends/django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/loaders/cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/loaders/base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/base.py", line 585, in parse
+    raise self.error(token, e)
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/base.py", line 585, in parse
+    raise self.error(token, e)
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/defaulttags.py", line 1129, in load
+    lib = find_library(parser, name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/soarer/freelance/ppl/ppl2ppl/penv/lib/python3.12/site-packages/django/template/defaulttags.py", line 1069, in find_library
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Template: /home/soarer/freelance/ppl/ppl2ppl/templates/core/training_dashboard.html, 'custom_tags' is not a registered tag library. Must be one of:
+admin_list
+admin_modify
+admin_urls
+auth
+cache
+i18n
+l10n
+log
+static
+tz
+[ERROR] 2026-01-04 04:28:34 django.server "GET /core/training/ HTTP/1.1" 500 275078
+[INFO] 2026-01-04 04:42:05 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:44:39 django.server "GET /core/training/ HTTP/1.1" 200 27166
+[INFO] 2026-01-04 04:45:18 django.server "GET /core/schedule/ HTTP/1.1" 200 15649
+[INFO] 2026-01-04 04:47:01 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/templatetags/custom_tags.py changed, reloading.
+[INFO] 2026-01-04 04:47:02 django.utils.autoreload Watching for file changes with StatReloader

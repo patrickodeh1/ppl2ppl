@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block title %}Assessments - P2P Solutions{% endblock %}
 
@@ -320,7 +321,7 @@
 <!-- Navigation Bar -->
 <div class="navbar">
     <div class="navbar-content">
-        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">
+        <a href="{% get_home_url user %}" class="navbar-brand">
             <img src="{% static 'images/logo.png' %}" alt="P2P Logo">
             P2P Solutions
         </a>
@@ -404,7 +405,7 @@
                     {% endif %}
                     
                     {% if all_modules_completed %}
-                        <a href="{% url 'core:take-assessment' assessment.id %}" class="btn btn-primary">
+                        <a href="{% url 'core:start-assessment' assessment.id %}" class="btn btn-primary">
                             Start Assessment
                         </a>
                     {% else %}

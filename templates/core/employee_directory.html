@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 
 {% block title %}Employee Directory - P2P Solutions{% endblock %}
 
@@ -365,7 +366,7 @@
 <!-- Navigation Bar -->
 <div class="navbar">
     <div class="navbar-content">
-        <a href="{% url 'core:training-dashboard' %}" class="navbar-brand">
+        <a href="{% get_home_url user %}" class="navbar-brand">
             <img src="{% static 'images/logo.png' %}" alt="P2P Logo">
             P2P Solutions
         </a>

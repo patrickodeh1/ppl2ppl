@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
@@ -388,6 +389,12 @@ def take_assessment(request, attempt_id):
     attempt = get_object_or_404(AssessmentAttempt, id=attempt_id, user=request.user)
     
     if request.method == 'POST':
+        # Calculate time taken
+        time_elapsed = timezone.now() - attempt.started_at
+        # Get minutes, but round up if there are any remaining seconds
+        total_seconds = time_elapsed.total_seconds()
+        attempt.time_taken_minutes = max(1, int((total_seconds + 59) / 60))  # At least 1 minute
+        
         # Process responses
         for response in attempt.responses.all():
             option_id = request.POST.get(f'question_{response.question.id}')
@@ -401,8 +408,10 @@ def take_assessment(request, attempt_id):
                 if option.is_correct:
                     attempt.correct_answers += 1
         
-        # Calculate score
+        # Calculate score (this saves the attempt)
         attempt.calculate_score()
+        
+        # Submit (updates submitted_at)
         attempt.submit()
         
         # If passed, update certification
@@ -420,6 +429,11 @@ def take_assessment(request, attempt_id):
     # GET request - display form
     form = QuizForm(attempt.assessment)
     
+    # Get questions
+    questions = attempt.assessment.questions.all()
+    if attempt.assessment.randomize_questions:
+        questions = questions.order_by('?')
+    
     # Pre-fill with existing responses
     for response in attempt.responses.all():
         if response.selected_option:
@@ -429,6 +443,9 @@ def take_assessment(request, attempt_id):
         'attempt': attempt,
         'assessment': attempt.assessment,
         'form': form,
+        'questions': questions,
+        'total_questions': questions.count(),
+        'time_limit': attempt.assessment.time_limit_minutes or 0,
     }
     return render(request, 'core/take_assessment.html', context)
 
@@ -441,10 +458,28 @@ def assessment_result(request, attempt_id):
     # Get detailed response information
     responses = attempt.responses.all().select_related('question', 'selected_option')
     
+    # Format time taken
+    hours = attempt.time_taken_minutes // 60
+    minutes = attempt.time_taken_minutes % 60
+    if hours > 0:
+        time_taken = f"{hours}h {minutes}m"
+    else:
+        time_taken = f"{minutes}m"
+    
+    # Check if user can retake (for now, allow immediate retake)
+    can_retake = True
+    cooldown_time = None
+    
     context = {
         'attempt': attempt,
         'responses': responses,
         'passed': attempt.passed,
+        'score': int(attempt.score_percentage),
+        'correct_answers': attempt.correct_answers,
+        'total_questions': attempt.total_questions,
+        'time_taken': time_taken,
+        'can_retake': can_retake,
+        'cooldown_time': cooldown_time,
     }
     return render(request, 'core/assessment_result.html', context)
 
@@ -526,26 +561,22 @@ def office_detail(request, office_id):
         week_schedule.append({
             'day': day_names[day],
             'is_open': hours.is_open if hours else False,
-            'open_time': hours.open_time if hours else None,
-            'close_time': hours.close_time if hours else None,
-            'break_start': hours.break_start if hours else None,
-            'break_end': hours.break_end if hours else None,
+            'open_time': hours.opening_time if hours else None,
+            'close_time': hours.closing_time if hours else None,
         })
     
     context = {
         'office': {
             'id': office.id,
             'name': office.name,
-            'code': office.code,
-            'address_line_1': office.address_line_1,
-            'address_line_2': office.address_line_2,
+            'address': office.address,
             'city': office.city,
             'state': office.state,
-            'zip_code': office.zip_code,
+            'postal_code': office.postal_code,
+            'country': office.country,
             'timezone': office.timezone,
-            'phone_number': office.phone_number,
+            'phone': office.phone,
             'email': office.email,
-            'notes': office.notes,
             'get_weekly_schedule': week_schedule,
         }
     }
@@ -560,7 +591,8 @@ def office_detail(request, office_id):
 def employee_directory(request):
     """Employee directory view (admin only)"""
     if not request.user.is_staff:
-        return HttpResponseForbidden()
+        messages.error(request, 'You do not have permission to access the employee directory. Admin access required.')
+        return redirect('core:training-dashboard')
     
     # Get all employees (CustomUser)
     employees = CustomUser.objects.filter(is_active=True).exclude(is_staff=True).order_by('-created_at')

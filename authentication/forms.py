@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 import re
 
-from .models import CustomUser, EmailVerificationToken, PasswordResetToken
+from .models import CustomUser
 
 
 # ============================================================================
@@ -313,62 +313,5 @@ class UserLoginForm(forms.Form):
                 
             except CustomUser.DoesNotExist:
                 raise ValidationError('Invalid email or password.')
-        
-        return cleaned_data
-
-
-class ForgotPasswordForm(forms.Form):
-    """Form for requesting password reset."""
-    
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Email Address'
-        })
-    )
-    
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        try:
-            CustomUser.objects.get(email=email)
-        except CustomUser.DoesNotExist:
-            # Don't reveal if email exists in system
-            pass
-        return email
-
-
-class ResetPasswordForm(PasswordStrengthMixin, forms.Form):
-    """Form for resetting password with token."""
-    
-    new_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'New Password (min 8 chars, uppercase, lowercase, number)',
-        }),
-        help_text='Minimum 8 characters, must include uppercase, lowercase, and number'
-    )
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Confirm New Password'
-        })
-    )
-    
-    def clean_new_password(self):
-        new_password = self.cleaned_data.get('new_password')
-        if new_password:
-            errors = self.validate_password_strength(new_password)
-            if errors:
-                raise ValidationError(errors)
-        return new_password
-    
-    def clean(self):
-        cleaned_data = super().clean()
-        new_password = cleaned_data.get('new_password')
-        confirm_password = cleaned_data.get('confirm_password')
-        
-        if new_password and confirm_password:
-            if new_password != confirm_password:
-                raise ValidationError({'confirm_password': 'Passwords do not match.'})
         
         return cleaned_data

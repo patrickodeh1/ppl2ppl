@@ -314,7 +314,7 @@
         <ul>
             <li><a href="{% url 'authentication:login' %}" target="_blank">🔑 Login</a></li>
             <li><a href="{% url 'authentication:register' %}" target="_blank">📝 Register</a></li>
-            <li><a href="{% url 'authentication:forgot-password' %}" target="_blank">🔐 Reset Password</a></li>
+            <li><a href="{% url 'authentication:password-reset' %}" target="_blank">🔐 Reset Password Request</a></li>
         </ul>
     </div>
 </div>
@@ -322,7 +322,7 @@
 <script>
     // Fetch statistics via AJAX
     async function loadStats() {
-        try {
+        try:
             const response = await fetch('{% url "admin:admin-stats" %}');
             const data = await response.json();
             

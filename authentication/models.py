@@ -25,7 +25,6 @@ class CustomUserManager(BaseUserManager):
         """Create a superuser with email and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_email_verified', True)
         
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True')
@@ -73,7 +72,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     # Account Status
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_email_verified = models.BooleanField(default=False)
     is_certified = models.BooleanField(default=False)
     
     # Registration & Authentication
@@ -87,13 +85,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     account_locked_until = models.DateTimeField(null=True, blank=True)
     last_login = models.DateTimeField(null=True, blank=True)
     
-    # Registration Status
-    STATUS_CHOICES = [
-        ('registered', 'Registered'),
-        ('email_verified', 'Email Verified'),
-        ('active', 'Active'),
-    ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='registered')
+
     
     objects = CustomUserManager()
     
@@ -105,7 +97,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         indexes = [
             models.Index(fields=['email']),
             models.Index(fields=['is_active']),
-            models.Index(fields=['is_email_verified']),
         ]
     
     def __str__(self):
@@ -156,44 +147,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         self.account_locked_until = None
         self.last_login = timezone.now()
         self.save()
-
-
-class EmailVerificationToken(models.Model):
-    """Store email verification tokens."""
-    
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='email_verification_token')
-    token = models.CharField(max_length=100, unique=True, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_used = models.BooleanField(default=False)
-    used_at = models.DateTimeField(null=True, blank=True)
-    
-    def is_valid(self):
-        """Check if token is still valid (24 hours)."""
-        if self.is_used:
-            return False
-        return timezone.now() - self.created_at <= timedelta(hours=24)
-    
-    def __str__(self):
-        return f"Email verification token for {self.user.email}"
-
-
-class PasswordResetToken(models.Model):
-    """Store password reset tokens."""
-    
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='password_reset_token')
-    token = models.CharField(max_length=100, unique=True, db_index=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_used = models.BooleanField(default=False)
-    used_at = models.DateTimeField(null=True, blank=True)
-    
-    def is_valid(self):
-        """Check if token is still valid (1 hour)."""
-        if self.is_used:
-            return False
-        return timezone.now() - self.created_at <= timedelta(hours=1)
-    
-    def __str__(self):
-        return f"Password reset token for {self.user.email}"
 
 
 class LoginSession(models.Model):
