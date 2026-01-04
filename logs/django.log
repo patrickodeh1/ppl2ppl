@@ -438,3 +438,5 @@ tz
 [INFO] 2026-01-04 04:45:18 django.server "GET /core/schedule/ HTTP/1.1" 200 15649
 [INFO] 2026-01-04 04:47:01 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/core/templatetags/custom_tags.py changed, reloading.
 [INFO] 2026-01-04 04:47:02 django.utils.autoreload Watching for file changes with StatReloader
+[INFO] 2026-01-04 04:48:40 django.utils.autoreload /home/soarer/freelance/ppl/ppl2ppl/ppl/settings.py changed, reloading.
+[INFO] 2026-01-04 04:48:41 django.utils.autoreload Watching for file changes with StatReloader
